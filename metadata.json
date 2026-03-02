@@ -1,0 +1,5 @@
+{
+  "name": "E-geret: AI Correspondence Extractor",
+  "description": "A sophisticated tool for uploading HTML correspondence files and using AI to generate extraction templates for structured metadata extraction.",
+  "requestFramePermissions": []
+}
