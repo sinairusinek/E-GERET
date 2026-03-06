@@ -28,11 +28,12 @@ The dataset is available in two formats in the [`output/`](output/) directory:
 | Field | Description | Coverage |
 |---|---|---|
 | **Content** | Full body text of the letter | 100% |
+| **Sender** | Who wrote/signed the letter | 100% |
 | **Recipient** | Who the letter is addressed to (from salutation/header) | 92% |
 | **Date** | Date as written in the original text (any format/language) | 87% |
 | **DateISO** | Normalized ISO 8601 date (YYYY-MM-DD, YYYY-MM, or YYYY) | 86% |
 | **Location** | Where the letter was written from | 76% |
-| **Sender** | Who wrote/signed the letter (from closing/signature) | 56% |
+| **SenderSource** | How sender was determined: `extracted` or `csv-metadata` | 100% |
 | **Signature** | Closing/valediction block | -- |
 | **Footnotes** | Correlated footnote text from the source HTML | -- |
 
@@ -40,7 +41,7 @@ Each record also includes the original **CSV metadata** from the Ben Yehuda cata
 
 ### Coverage Notes
 
-- **Sender at 56%** reflects the source material -- many historical Hebrew letters lack explicit signatures; authorship is often identifiable only from the surrounding collection title or the CSV author metadata (which is included in every record).
+- **Sender at 100%**: 2,472 senders (56%) were extracted directly from the letter text (signatures, closings). The remaining 1,925 were backfilled from the CSV catalogue's `authorString` field -- these are typically single-author collections (e.g. "אגרות דוד ילין", "איגרות אחד העם") where the file author is the letter writer. The `SenderSource` field distinguishes `extracted` from `csv-metadata` provenance.
 - **144 files** referenced in the Ben Yehuda metadata CSV were not found in the HTML corpus dump. These are listed in the JSON output under `missingFiles`.
 
 ### Sample Record (JSON)
@@ -64,6 +65,7 @@ Each record also includes the original **CSV metadata** from the Ben Yehuda cata
     "Location": "לאמזשא",
     "Content": "אדון נכבד, זה כמעט ארבעים שנה ...",
     "Signature": "א. א. קוונער",
+    "SenderSource": "extracted",
     "Footnotes": ""
   }
 }
@@ -111,7 +113,8 @@ E-GERET/
 │   ├── e-geret-batch-export.json   # ← The dataset (JSON)
 │   └── e-geret-batch-export.tsv    # ← The dataset (TSV)
 ├── scripts/
-│   └── batch-extract.mjs           # Standalone Node.js batch extractor
+│   ├── batch-extract.mjs           # Standalone Node.js batch extractor
+│   └── backfill-sender.mjs         # Post-processing: sender backfill from CSV metadata
 ├── App.tsx                          # Browser UI (React + TypeScript)
 ├── components/                      # UI components
 ├── hooks/                           # React hooks (batch, extraction, upload)
