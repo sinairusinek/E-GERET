@@ -143,7 +143,7 @@ E-GERET/
 
 ### Project Credit
 
-This work was carried out by **[DHdev](https://www.dh-dev.com/)** as a **Pulmusim** (פולמוסים) pilot project, funded by the **[KKL Institute for the Study of Zionism and Settlement](https://www.kkl.org.il/research_institutes/zionism-settlement-institute/about/)**.
+This work was carried out by **[DHdev](https://www.dh-dev.com/)** as part of the **Pulmusim** pilot project, funded by the **[KKL Institute for the Study of Zionism and Settlement](https://www.kkl.org.il/research_institutes/zionism-settlement-institute/about/)**.
 
 ### Data Source
 
