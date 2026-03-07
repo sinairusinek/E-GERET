@@ -18,6 +18,7 @@ const CORPUS_ROOT = path.resolve(ROOT, '..', 'public_domain_dump', 'html');
 const OUTPUT_DIR = path.resolve(ROOT, 'output');
 const CHECKPOINT_FILE = path.join(OUTPUT_DIR, 'checkpoint.json');
 const CSV_FILE = path.join(ROOT, 'public', 'benyehuda-full-metadata.csv');
+const PSEUDO_CSV = path.resolve(ROOT, '..', 'public_domain_dump', 'pseudocatalogue.csv');
 
 const TIMEOUT_MS = 30_000;
 const CHECKPOINT_EVERY = 50;
@@ -26,6 +27,7 @@ const BATCH_DELAY_MS = 200;          // small pause between batches
 const MAX_RETRIES = 3;               // retry up to 3× per unit
 const CONSECUTIVE_FAIL_LIMIT = 10;  // pause after this many consecutive failures
 const CONSECUTIVE_FAIL_PAUSE_MS = 60_000; // pause duration (1 min) before resuming
+const SUPPLEMENT_MODE = process.argv.includes('--supplement'); // process only new files, merge into existing export
 
 // ── Load API key ─────────────────────────────────────────────────────────────
 
@@ -124,7 +126,26 @@ function parseCSVRow(line) {
   return fields;
 }
 
+/** Build id→path index from pseudocatalogue.csv for fallback path resolution. */
+function loadPseudoPaths() {
+  if (!fs.existsSync(PSEUDO_CSV)) return {};
+  const text = fs.readFileSync(PSEUDO_CSV, 'utf-8');
+  const lines = text.split('\n').filter(l => l.trim());
+  const headers = parseCSVRow(lines[0]);
+  const col = {};
+  headers.forEach((h, i) => col[h] = i);
+  const index = {};
+  for (let i = 1; i < lines.length; i++) {
+    const cols = parseCSVRow(lines[i]);
+    const id = cols[col['ID']];
+    const p = cols[col['path']]; // e.g. /p370/m1752
+    if (id && p) index[id] = path.join(CORPUS_ROOT, ...p.split('/').filter(Boolean)) + '.html';
+  }
+  return index;
+}
+
 function loadManifest() {
+  const pseudoPaths = loadPseudoPaths();
   const text = fs.readFileSync(CSV_FILE, 'utf-8');
   const lines = text.split('\n').filter(l => l.trim());
   const headers = parseCSVRow(lines[0]);
@@ -138,6 +159,11 @@ function loadManifest() {
     const authorIds = (cols[col['author_ids']] || '').match(/\d+/g)?.map(Number) || [];
     const firstAuthorId = authorIds[0];
     if (!firstAuthorId || isNaN(id)) continue;
+    let htmlPath = path.join(CORPUS_ROOT, `p${firstAuthorId}`, `m${id}.html`);
+    // Fallback to pseudocatalogue path if primary doesn't exist
+    if (!fs.existsSync(htmlPath) && pseudoPaths[String(id)]) {
+      htmlPath = pseudoPaths[String(id)];
+    }
     entries.push({
       csv: {
         id, title: cols[col['title']] || '',
@@ -147,8 +173,11 @@ function loadManifest() {
         period: cols[col['period']] || '',
         intellectualProperty: cols[col['intellectual_property']] || '',
         url: cols[col['url']] || '',
+        authorUris: cols[col['author_uris']] || '',
+        translatorUris: cols[col['translator_uris']] || '',
+        sourceEdition: cols[col['source_edition']] || '',
       },
-      htmlPath: path.join(CORPUS_ROOT, `p${firstAuthorId}`, `m${id}.html`),
+      htmlPath,
     });
   }
   return entries;
@@ -244,19 +273,42 @@ async function classifyWithRetry(text, footnotes) {
 
 // ── Export helpers ────────────────────────────────────────────────────────────
 
-function saveJSON(results, missing) {
+function saveJSON(results, missing, existingOutputResults = []) {
+  const newOutputResults = results.map(r => ({
+    id: r.id, letterIndex: r.letterIndex, sourceFile: r.sourceFile, csvMetadata: r.csv, extracted: r.data,
+  }));
+  const allOutputResults = [...existingOutputResults, ...newOutputResults];
   const out = {
-    summary: { totalLettersExtracted: results.length, totalFiles: new Set(results.map(r => r.sourceFile)).size, missingFiles: missing.length },
-    results: results.map(r => ({ id: r.id, letterIndex: r.letterIndex, sourceFile: r.sourceFile, csvMetadata: r.csv, extracted: r.data })),
+    summary: {
+      totalLettersExtracted: allOutputResults.length,
+      totalFiles: new Set(allOutputResults.map(r => r.sourceFile)).size,
+      missingFiles: missing.length,
+    },
+    results: allOutputResults,
     missingFiles: missing.map(m => ({ id: m.csv.id, title: m.csv.title, htmlPath: m.htmlPath })),
   };
   fs.writeFileSync(path.join(OUTPUT_DIR, 'e-geret-batch-export.json'), JSON.stringify(out, null, 2), 'utf-8');
 }
 
+/** TSV regeneration from output format (used in supplement mode and by backfill-sender). */
+function saveTSVFromOutput(outputResults) {
+  if (!outputResults.length) return;
+  const fieldNames = [...new Set(outputResults.flatMap(r => Object.keys(r.extracted)))];
+  const csvCols = ['id','title','authorString','period','origPublicationDate','origLang','intellectualProperty','url','authorUris','translatorUris','sourceEdition'];
+  const esc = v => (v || '').replace(/\t/g,' ').replace(/\n/g,' ').replace(/\r/g,'');
+  const header = [...csvCols, 'sourceFile','letterIndex','templateUsed', ...fieldNames].join('\t');
+  const rows = outputResults.map(r => [
+    ...csvCols.map(c => esc(String((r.csvMetadata || {})[c] ?? ''))),
+    esc(r.sourceFile), String(r.letterIndex), esc(r.templateName || ''),
+    ...fieldNames.map(f => esc(r.extracted[f] || '')),
+  ].join('\t'));
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'e-geret-batch-export.tsv'), '\uFEFF' + [header,...rows].join('\n'), 'utf-8');
+}
+
 function saveTSV(results) {
   if (!results.length) return;
   const fieldNames = [...new Set(results.flatMap(r => Object.keys(r.data)))];
-  const csvCols = ['id','title','authorString','period','origPublicationDate','origLang','intellectualProperty','url'];
+  const csvCols = ['id','title','authorString','period','origPublicationDate','origLang','intellectualProperty','url','authorUris','translatorUris','sourceEdition'];
   const esc = v => (v || '').replace(/\t/g,' ').replace(/\n/g,' ').replace(/\r/g,'');
   const header = [...csvCols, 'sourceFile','letterIndex','templateUsed', ...fieldNames].join('\t');
   const rows = results.map(r => [
@@ -285,8 +337,25 @@ async function main() {
   if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
   console.log('Loading manifest...');
-  const allEntries = loadManifest();
+  let allEntries = loadManifest();
   console.log(`Manifest: ${allEntries.length} letter files`);
+
+  // ── Supplement mode: load existing export and exclude already-processed files ──
+  let existingOutputResults = [];
+  if (SUPPLEMENT_MODE) {
+    const exportPath = path.join(OUTPUT_DIR, 'e-geret-batch-export.json');
+    if (!fs.existsSync(exportPath)) {
+      console.error('--supplement requires an existing output/e-geret-batch-export.json'); process.exit(1);
+    }
+    const existingData = JSON.parse(fs.readFileSync(exportPath, 'utf-8'));
+    existingOutputResults = existingData.results || [];
+    const processedFileIds = new Set(
+      existingOutputResults.map(r => { const m = r.sourceFile?.match(/m(\d+)/); return m?.[1]; }).filter(Boolean)
+    );
+    const before = allEntries.length;
+    allEntries = allEntries.filter(e => !processedFileIds.has(String(e.csv.id)));
+    console.log(`Supplement mode: ${processedFileIds.size} already processed, ${before - allEntries.length} excluded, ${allEntries.length} new to process`);
+  }
 
   // Filter to files that exist on disk
   const entries = allEntries.filter(e => fs.existsSync(e.htmlPath));
@@ -310,7 +379,7 @@ async function main() {
   let deferred = [];
   let startIndex = 0;
 
-  if (fs.existsSync(CHECKPOINT_FILE)) {
+  if (!SUPPLEMENT_MODE && fs.existsSync(CHECKPOINT_FILE)) {
     try {
       const ckpt = JSON.parse(fs.readFileSync(CHECKPOINT_FILE, 'utf-8'));
       const alreadyDone = new Set(ckpt.results?.map(r => r.id) || []);
@@ -398,12 +467,25 @@ async function main() {
 
   console.log('\n\nSaving final output...');
   saveCheckpoint(results, deferred, total);
-  saveJSON(results, missing);
-  saveTSV(results);
+  saveJSON(results, missing, existingOutputResults);
+  if (SUPPLEMENT_MODE) {
+    // Regenerate TSV from merged output format so all records have consistent columns
+    const allOutputResults = [
+      ...existingOutputResults,
+      ...results.map(r => ({ id: r.id, letterIndex: r.letterIndex, sourceFile: r.sourceFile, csvMetadata: r.csv, extracted: r.data })),
+    ];
+    saveTSVFromOutput(allOutputResults);
+  } else {
+    saveTSV(results);
+  }
   if (deferred.length > 0) saveDeferred(deferred);
 
   console.log(`\n✓ Done!`);
-  console.log(`  ${results.length} letters saved to output/e-geret-batch-export.json + .tsv`);
+  if (SUPPLEMENT_MODE) {
+    console.log(`  ${results.length} new letters added; total ${existingOutputResults.length + results.length} in export`);
+  } else {
+    console.log(`  ${results.length} letters saved to output/e-geret-batch-export.json + .tsv`);
+  }
   if (deferred.length > 0) console.log(`  ${deferred.length} deferred → output/e-geret-deferred-files.json`);
   if (missing.length > 0) console.log(`  ${missing.length} files not found on disk`);
 }

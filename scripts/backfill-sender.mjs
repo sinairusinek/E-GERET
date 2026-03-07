@@ -77,7 +77,7 @@ fs.writeFileSync(JSON_FILE, JSON.stringify(data, null, 2), 'utf-8');
 
 console.log('Saving TSV...');
 const fieldNames = [...new Set(data.results.flatMap(r => Object.keys(r.extracted)))];
-const csvCols = ['id', 'title', 'authorString', 'period', 'origPublicationDate', 'origLang', 'intellectualProperty', 'url'];
+const csvCols = ['id', 'title', 'authorString', 'period', 'origPublicationDate', 'origLang', 'intellectualProperty', 'url', 'authorUris', 'translatorUris', 'sourceEdition'];
 const esc = v => (v || '').replace(/\t/g, ' ').replace(/\n/g, ' ').replace(/\r/g, '');
 const header = [...csvCols, 'sourceFile', 'letterIndex', 'templateUsed', ...fieldNames].join('\t');
 const rows = data.results.map(r => [

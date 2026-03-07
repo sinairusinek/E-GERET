@@ -68,6 +68,7 @@ export async function exportTSV(results: BatchExtractedData[]): Promise<void> {
   const csvCols = [
     'id', 'title', 'authorString', 'period',
     'origPublicationDate', 'origLang', 'intellectualProperty', 'url',
+    'authorUris', 'translatorUris', 'sourceEdition',
   ];
 
   const headers = [

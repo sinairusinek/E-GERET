@@ -53,6 +53,9 @@ export interface CsvMetadata {
   period: string;
   intellectualProperty: string;
   url: string;
+  authorUris: string;
+  translatorUris: string;
+  sourceEdition: string;
 }
 
 export interface FileManifestEntry {
