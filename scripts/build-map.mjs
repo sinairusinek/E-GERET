@@ -217,8 +217,25 @@ const html = `<!doctype html>
   header .meta { font-size: 0.8em; opacity: 0.7; margin-top: 2px; }
   #map { width: 100%; height: 100%; }
   #controls { padding: 12px 16px; background: #f5f5f5; border-top: 1px solid #ddd; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
-  #yearLabel { font-weight: 600; min-width: 110px; }
-  #yearRange { flex: 1; min-width: 200px; }
+  #yearLabel { font-weight: 600; min-width: 140px; }
+  .range-wrap { position: relative; flex: 1; min-width: 240px; height: 28px; }
+  .range-wrap input[type=range] {
+    position: absolute; top: 0; left: 0; width: 100%; height: 28px;
+    background: transparent; pointer-events: none; -webkit-appearance: none; appearance: none;
+  }
+  .range-wrap input[type=range]::-webkit-slider-thumb {
+    pointer-events: auto; -webkit-appearance: none; appearance: none;
+    width: 16px; height: 16px; border-radius: 50%; background: #1a1a1a; cursor: pointer; border: 0;
+  }
+  .range-wrap input[type=range]::-moz-range-thumb {
+    pointer-events: auto; width: 16px; height: 16px; border-radius: 50%;
+    background: #1a1a1a; cursor: pointer; border: 0;
+  }
+  .range-wrap input[type=range]::-webkit-slider-runnable-track { background: transparent; }
+  .range-wrap input[type=range]::-moz-range-track { background: transparent; }
+  .range-wrap .track-bg, .range-wrap .track-fill { position: absolute; left: 0; right: 0; top: 12px; height: 4px; border-radius: 2px; pointer-events: none; }
+  .range-wrap .track-bg   { background: #d4d4d4; }
+  .range-wrap .track-fill { background: #1a1a1a; }
   button { padding: 4px 10px; font-size: 0.9em; cursor: pointer; }
   button.active { background: #1a1a1a; color: #fff; }
   .layer-toggles { display: flex; gap: 6px; }
@@ -251,7 +268,12 @@ const html = `<!doctype html>
     </div>
     <button id="allBtn" class="active">All years</button>
     <span id="yearLabel">All years</span>
-    <input type="range" id="yearRange" min="${yearMin}" max="${yearMax}" value="${yearMax}" step="1">
+    <div class="range-wrap">
+      <div class="track-bg"></div>
+      <div class="track-fill" id="trackFill"></div>
+      <input type="range" id="yearFrom" min="${yearMin}" max="${yearMax}" value="${yearMin}" step="1">
+      <input type="range" id="yearTo"   min="${yearMin}" max="${yearMax}" value="${yearMax}" step="1">
+    </div>
     <button id="playBtn">▶ Play decades</button>
   </div>
 </div>
@@ -315,8 +337,8 @@ function popupEdge(e, letters) {
   ].join('');
 }
 
-function filterLetters(letters, yMax, allYears) {
-  return allYears ? letters : letters.filter(l => l.year <= yMax);
+function filterLetters(letters, yFrom, yTo, allYears) {
+  return allYears ? letters : letters.filter(l => l.year >= yFrom && l.year <= yTo);
 }
 
 // Bezier curve between two points (gently arched)
@@ -341,12 +363,12 @@ function curvePoints(from, to) {
   return out;
 }
 
-function render(yMax, allYearsMode, show) {
+function render(yFrom, yTo, allYearsMode, show) {
   for (const l of Object.values(layers)) l.clearLayers();
 
   if (show.origins) {
     for (const p of ORIGINS) {
-      const ls = filterLetters(p.letters, yMax, allYearsMode);
+      const ls = filterLetters(p.letters, yFrom, yTo, allYearsMode);
       if (!ls.length) continue;
       const r = 4 + Math.sqrt(ls.length) * 1.5;
       const m = L.circleMarker([p.lat, p.lon], {
@@ -360,7 +382,7 @@ function render(yMax, allYearsMode, show) {
 
   if (show.mentions) {
     for (const p of MENTIONS) {
-      const ls = filterLetters(p.letters, yMax, allYearsMode);
+      const ls = filterLetters(p.letters, yFrom, yTo, allYearsMode);
       if (!ls.length) continue;
       const r = 3 + Math.sqrt(ls.length) * 1.2;
       // Tiny offset NE so mention dots aren't fully hidden under origin dots
@@ -375,7 +397,7 @@ function render(yMax, allYearsMode, show) {
 
   if (show.arrows) {
     for (const e of EDGES) {
-      const ls = filterLetters(e.letters, yMax, allYearsMode);
+      const ls = filterLetters(e.letters, yFrom, yTo, allYearsMode);
       if (!ls.length) continue;
       const w = Math.min(8, 1 + Math.log(ls.length + 1) * 1.4);
       const pts = curvePoints([e.from_coords.lat, e.from_coords.lon],
@@ -396,24 +418,42 @@ function render(yMax, allYearsMode, show) {
   }
 }
 
-const range   = document.getElementById('yearRange');
-const label   = document.getElementById('yearLabel');
-const allBtn  = document.getElementById('allBtn');
-const playBtn = document.getElementById('playBtn');
+const fromSlider = document.getElementById('yearFrom');
+const toSlider   = document.getElementById('yearTo');
+const fill       = document.getElementById('trackFill');
+const label      = document.getElementById('yearLabel');
+const allBtn     = document.getElementById('allBtn');
+const playBtn    = document.getElementById('playBtn');
 const cbO = document.getElementById('lO');
 const cbM = document.getElementById('lM');
 const cbA = document.getElementById('lA');
 function showState() { return { origins: cbO.checked, mentions: cbM.checked, arrows: cbA.checked }; }
 let allYearsMode = true;
+function paintFill() {
+  const lo = +fromSlider.value, hi = +toSlider.value;
+  const a = (lo - YEAR_MIN) / (YEAR_MAX - YEAR_MIN);
+  const b = (hi - YEAR_MIN) / (YEAR_MAX - YEAR_MIN);
+  fill.style.left  = (a * 100) + '%';
+  fill.style.right = ((1 - b) * 100) + '%';
+}
+function clampHandles(which) {
+  // Don't let the handles cross. If 'from' bumps past 'to', drag 'to' along.
+  let lo = +fromSlider.value, hi = +toSlider.value;
+  if (lo > hi) {
+    if (which === 'from') toSlider.value   = lo;
+    else                  fromSlider.value = hi;
+  }
+}
 function refresh() {
   const show = showState();
+  paintFill();
   if (allYearsMode) {
     label.textContent = 'All years';
-    render(0, true, show);
+    render(YEAR_MIN, YEAR_MAX, true, show);
   } else {
-    const y = +range.value;
-    label.textContent = 'Up to ' + y;
-    render(y, false, show);
+    const lo = +fromSlider.value, hi = +toSlider.value;
+    label.textContent = lo === hi ? String(lo) : (lo + ' – ' + hi);
+    render(lo, hi, false, show);
   }
 }
 for (const cb of [cbO, cbM, cbA]) {
@@ -422,18 +462,34 @@ for (const cb of [cbO, cbM, cbA]) {
     refresh();
   });
 }
-range.addEventListener('input', () => { allYearsMode = false; allBtn.classList.remove('active'); refresh(); });
-allBtn.addEventListener('click', () => { allYearsMode = true; allBtn.classList.add('active'); refresh(); });
+fromSlider.addEventListener('input', () => {
+  clampHandles('from'); allYearsMode = false; allBtn.classList.remove('active'); refresh();
+});
+toSlider.addEventListener('input', () => {
+  clampHandles('to');   allYearsMode = false; allBtn.classList.remove('active'); refresh();
+});
+allBtn.addEventListener('click', () => {
+  allYearsMode = true; allBtn.classList.add('active');
+  fromSlider.value = YEAR_MIN; toSlider.value = YEAR_MAX;
+  refresh();
+});
 let playing = false, playTimer = null;
 playBtn.addEventListener('click', () => {
   if (playing) { clearInterval(playTimer); playing = false; playBtn.textContent = '▶ Play decades'; return; }
   playing = true; playBtn.textContent = '⏸ Pause';
   allYearsMode = false; allBtn.classList.remove('active');
-  range.value = YEAR_MIN;
+  // Play sweeps a 10-year window from the corpus start to the end.
+  fromSlider.value = YEAR_MIN;
+  toSlider.value   = Math.min(YEAR_MAX, YEAR_MIN + 10);
+  refresh();
   playTimer = setInterval(() => {
-    const y = +range.value + 10;
-    if (y > YEAR_MAX) { clearInterval(playTimer); playing = false; playBtn.textContent = '▶ Play decades'; range.value = YEAR_MAX; refresh(); return; }
-    range.value = y;
+    const lo = +fromSlider.value + 10;
+    const hi = +toSlider.value   + 10;
+    if (lo > YEAR_MAX) {
+      clearInterval(playTimer); playing = false; playBtn.textContent = '▶ Play decades';
+      fromSlider.value = YEAR_MAX - 10; toSlider.value = YEAR_MAX; refresh(); return;
+    }
+    fromSlider.value = lo; toSlider.value = Math.min(YEAR_MAX, hi);
     refresh();
   }, 1200);
 });
