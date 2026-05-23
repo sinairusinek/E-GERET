@@ -24,7 +24,10 @@ const KIMATCH = path.resolve(REPO, '..', 'Kimatch');
 const BATCH    = path.join(REPO, 'output', 'e-geret-batch-export.json');
 const LOC      = path.join(REPO, 'output', 'location-links.json');
 const NER      = path.join(REPO, 'output', 'e-geret-ner-linked.json');
-const RECIP    = path.join(REPO, 'output', 'recipient-locations.json');
+const RECIP_EX = path.join(REPO, 'output', 'recipient-locations.json');
+const RECIP_INF = path.join(REPO, 'output', 'recipient-locations.inferred.json');
+// Prefer the inferred superset when available (carries extracted+inferred).
+const RECIP    = fs.existsSync(RECIP_INF) ? RECIP_INF : RECIP_EX;
 const KIMA_CSV = path.join(KIMATCH, '20250126KimaPlacesCSVx.csv');
 const OUTDIR   = path.join(REPO, 'output', 'map');
 const OUT      = path.join(OUTDIR, 'index.html');
@@ -128,14 +131,17 @@ for (const r of batch.results) {
     dropped.no_origin_link++;
   }
 
-  // 2. Edge (sender_loc → recipient_loc), only when both resolved AND distinct
+  // 2. Edge (sender_loc → recipient_loc), only when both resolved AND distinct.
+  //    Split into extracted vs inferred so the renderer can style each.
   const recipEntry = recip[r.id];
   const toKima = (recipEntry && recipEntry.kima_id && recipEntry.lat != null) ? Number(recipEntry.kima_id) : null;
   if (fromKima != null && toKima != null && fromKima !== toKima) {
-    const key = `${fromKima}→${toKima}`;
+    const via = recipEntry.via || 'extracted';
+    const key = `${via}:${fromKima}→${toKima}`;
     if (!edges.has(key)) {
       edges.set(key, {
         key,
+        via,
         from_kima_id: fromKima,
         to_kima_id:   toKima,
         from_coords:  coords.get(fromKima),
@@ -143,7 +149,11 @@ for (const r of batch.results) {
         letters:      [],
       });
     }
-    edges.get(key).letters.push(senderInfo);
+    edges.get(key).letters.push({
+      ...senderInfo,
+      anchor_before: recipEntry.anchor_before,
+      anchor_after:  recipEntry.anchor_after,
+    });
     used_edge++;
   } else if (recipEntry && !toKima) {
     dropped.no_recip_link++;
@@ -237,7 +247,7 @@ const html = `<!doctype html>
     <div class="layer-toggles">
       <label class="on"><input type="checkbox" id="lO" checked>🟠 Origins</label>
       <label class="on"><input type="checkbox" id="lM" checked>🔵 Mentions</label>
-      <label class="on"><input type="checkbox" id="lA" checked>🟣 Arrows</label>
+      <label class="on"><input type="checkbox" id="lA" checked>🟣 Arrows (solid = explicit · dashed = inferred)</label>
     </div>
     <button id="allBtn" class="active">All years</button>
     <span id="yearLabel">All years</span>
@@ -285,15 +295,22 @@ function popupPlace(p, letters, kind) {
 function popupEdge(e, letters) {
   const sample = letters.slice(0, 15);
   const more = letters.length > sample.length ? '<div class="meta">… ' + (letters.length - sample.length) + ' more</div>' : '';
+  const viaBadge = e.via === 'inferred'
+    ? '<span style="background:#fde;color:#83a;padding:2px 6px;border-radius:3px;font-size:0.78em;margin-left:6px">inferred (flanking anchors)</span>'
+    : '';
   return [
-    '<h3>' + (e.from_coords.rom || '?') + ' → ' + (e.to_coords.rom || '?') + '</h3>',
+    '<h3>' + (e.from_coords.rom || '?') + ' → ' + (e.to_coords.rom || '?') + viaBadge + '</h3>',
     '<div class="meta">' + letters.length + ' letter(s)</div>',
-    sample.map(l =>
-      '<div class="letter">'
-      + '<a href="' + l.url + '" target="_blank">' + (l.sender || '?') + ' → ' + (l.recipient || '?') + '</a>'
-      + '<div class="meta">' + l.year + (l.title ? ' · ' + l.title : '') + '</div>'
-      + '</div>'
-    ).join(''),
+    sample.map(l => {
+      const anchorNote = l.anchor_before && l.anchor_after
+        ? '<div class="meta">↳ inferred from ' + l.anchor_before.letter_id + ' (' + l.anchor_before.date + ', ' + l.anchor_before.role + ') and ' + l.anchor_after.letter_id + ' (' + l.anchor_after.date + ', ' + l.anchor_after.role + ')</div>'
+        : '';
+      return '<div class="letter">'
+        + '<a href="' + l.url + '" target="_blank">' + (l.sender || '?') + ' → ' + (l.recipient || '?') + '</a>'
+        + '<div class="meta">' + l.year + (l.title ? ' · ' + l.title : '') + '</div>'
+        + anchorNote
+        + '</div>';
+    }).join(''),
     more
   ].join('');
 }
@@ -363,11 +380,17 @@ function render(yMax, allYearsMode, show) {
       const w = Math.min(8, 1 + Math.log(ls.length + 1) * 1.4);
       const pts = curvePoints([e.from_coords.lat, e.from_coords.lon],
                               [e.to_coords.lat,   e.to_coords.lon]);
-      const line = L.polyline(pts, {
-        color: '#83a', weight: w, opacity: 0.55, lineCap: 'round'
-      });
-      line.bindPopup(() => popupEdge(e, ls), { maxWidth: 380 });
-      line.bindTooltip(e.from_coords.rom + ' → ' + e.to_coords.rom + ' (' + ls.length + ')');
+      // Inferred edges render lighter + dashed so they read as "derived".
+      const isInferred = e.via === 'inferred';
+      const lineOpts = isInferred
+        ? { color: '#a6c', weight: Math.max(2, w - 1), opacity: 0.45, lineCap: 'round', dashArray: '6,6' }
+        : { color: '#83a', weight: w, opacity: 0.55, lineCap: 'round' };
+      const line = L.polyline(pts, lineOpts);
+      line.bindPopup(() => popupEdge(e, ls), { maxWidth: 400 });
+      line.bindTooltip(
+        e.from_coords.rom + ' → ' + e.to_coords.rom + ' (' + ls.length + ')'
+        + (isInferred ? ' · inferred' : '')
+      );
       line.addTo(layers.arrows);
     }
   }
