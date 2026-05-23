@@ -1,73 +1,195 @@
 #!/usr/bin/env node
 /**
- * Build a self-contained Leaflet HTML map of E-GERET letter origins.
+ * Build a self-contained Leaflet HTML map of E-GERET correspondence.
  *
- * Joins:
- *   output/e-geret-batch-export.json  (letters + dateISO + Location)
- *   output/location-links.json        (Location string → kima place + lat/lon)
+ * Three toggleable layers, all driven by one year slider:
+ *   - Origins  (orange) — where each letter was written FROM
+ *   - Mentions (blue)   — Kima places named inside letter content (NER)
+ *   - Arrows   (purple) — sender-location → recipient-location, per edge
+ *                         (curved Bezier-style polylines weighted by count)
  *
- * Output: output/map/index.html — open in a browser, no server needed.
- * Each dot is one Kima place, sized by letter count. Year slider (decade
- * granularity, plus an "All years" toggle) filters letters by dateISO.
- * Hover/click a dot for a list of letters and senders.
+ * Inputs:
+ *   output/e-geret-batch-export.json
+ *   output/location-links.json        (Location string → Kima for origins)
+ *   output/e-geret-ner-linked.json    (per-letter places with kima_id)
+ *   output/recipient-locations.json   (letter_id → recipient Kima place)
+ *
+ * Output: output/map/index.html (no server needed, just open).
  */
 import fs from 'node:fs';
 import path from 'node:path';
 
 const REPO = path.resolve(new URL('.', import.meta.url).pathname, '..');
-const BATCH = path.join(REPO, 'output', 'e-geret-batch-export.json');
-const LINKS = path.join(REPO, 'output', 'location-links.json');
-const OUTDIR = path.join(REPO, 'output', 'map');
-const OUT = path.join(OUTDIR, 'index.html');
+const KIMATCH = path.resolve(REPO, '..', 'Kimatch');
+const BATCH    = path.join(REPO, 'output', 'e-geret-batch-export.json');
+const LOC      = path.join(REPO, 'output', 'location-links.json');
+const NER      = path.join(REPO, 'output', 'e-geret-ner-linked.json');
+const RECIP    = path.join(REPO, 'output', 'recipient-locations.json');
+const KIMA_CSV = path.join(KIMATCH, '20250126KimaPlacesCSVx.csv');
+const OUTDIR   = path.join(REPO, 'output', 'map');
+const OUT      = path.join(OUTDIR, 'index.html');
 
-const batch = JSON.parse(fs.readFileSync(BATCH, 'utf8'));
-const links = JSON.parse(fs.readFileSync(LINKS, 'utf8'));
+const batch  = JSON.parse(fs.readFileSync(BATCH, 'utf8'));
+const links  = JSON.parse(fs.readFileSync(LOC, 'utf8'));
+const ner    = JSON.parse(fs.readFileSync(NER, 'utf8'));
+const recip  = fs.existsSync(RECIP) ? JSON.parse(fs.readFileSync(RECIP, 'utf8')) : {};
 
-// Aggregate: per Kima place, list of letters with year + sender + recipient + title + url + raw Location
-const byKima = new Map();
-let used = 0, dropped_no_loc = 0, dropped_unlinked = 0, dropped_no_date = 0, dropped_no_coords = 0;
-for (const r of batch.results) {
-  const ex = r.extracted || {};
-  const loc = (ex.Location || '').trim();
-  const dateISO = (ex.DateISO || '').trim();
-  if (!loc) { dropped_no_loc++; continue; }
-  const link = links[loc];
-  if (!link || !link.kima_id) { dropped_unlinked++; continue; }
-  if (link.lat == null || link.lon == null) { dropped_no_coords++; continue; }
-  if (!dateISO) { dropped_no_date++; continue; }
-  const year = Number(dateISO.slice(0, 4));
-  // Reject obvious junk years (parsing errors, Hebrew-only date misreads).
-  // E-GERET corpus is ~1700-2025; outside that range is wrong.
-  if (!year || year < 1700 || year > 2030) { dropped_no_date++; continue; }
-  const k = link.kima_id;
-  if (!byKima.has(k)) {
-    byKima.set(k, {
-      kima_id:       k,
-      rom:           link.kima_name_rom,
-      heb:           link.kima_name_heb,
-      lat:           link.lat,
-      lon:           link.lon,
-      kima_url:      link.kima_url,
-      wikidata_id:   link.wikidata_id,
-      letters:       [],
+// ── Load lat/lon for every Kima place so mentioned-but-never-an-origin places
+//    can also be plotted (e-geret-ner-linked.json carries kima_id but no coords).
+const kimaCoords = new Map();   // kima_id → { lat, lon, rom, heb, kima_url, wikidata_id }
+{
+  const lines = fs.readFileSync(KIMA_CSV, 'utf8').split('\n');
+  const header = lines.shift().split(',');
+  const col = Object.fromEntries(header.map((h, i) => [h, i]));
+  for (const line of lines) {
+    if (!line) continue;
+    // Kima CSV is plain (no embedded commas in the fields we read) — split is fine.
+    const c = line.split(',');
+    const id = Number(c[col.id]);
+    const lat = Number(c[col.lat]);
+    const lon = Number(c[col.lon]);
+    if (!Number.isFinite(id) || !Number.isFinite(lat) || !Number.isFinite(lon)) continue;
+    kimaCoords.set(id, {
+      lat, lon,
+      rom:         c[col.primary_rom_full] || '',
+      heb:         c[col.primary_heb_full] || '',
+      kima_url:    `https://data.geo-kima.org/Places/Details/${id}`,
+      wikidata_id: (c[col.WikiData_Id] || '').replace(/^NULL$/, ''),
     });
   }
-  byKima.get(k).letters.push({
+}
+console.error(`Loaded ${kimaCoords.size} Kima places with coordinates.`);
+
+// ── Build a kima_id → coords lookup from all linked sources ─────────────────
+const coords = new Map();    // kima_id → { kima_id, rom, heb, lat, lon, kima_url, wikidata_id }
+function noteCoords(kima_id, info) {
+  if (kima_id == null || info?.lat == null || info?.lon == null) return;
+  if (coords.has(Number(kima_id))) return;
+  coords.set(Number(kima_id), {
+    kima_id:     Number(kima_id),
+    rom:         info.kima_name_rom || info.rom || '',
+    heb:         info.kima_name_heb || info.heb || '',
+    lat:         info.lat,
+    lon:         info.lon,
+    kima_url:    info.kima_url || `https://data.geo-kima.org/Places/Details/${kima_id}`,
+    wikidata_id: info.wikidata_id || '',
+  });
+}
+for (const v of Object.values(links)) noteCoords(v.kima_id, v);
+for (const v of Object.values(recip)) noteCoords(v.kima_id, v);
+// Backfill from KimaDB so all linked places (incl. those mentioned but never
+// an origin) get coordinates + canonical names.
+for (const [id, info] of kimaCoords) noteCoords(id, info);
+
+// ── Per-letter year helper ───────────────────────────────────────────────────
+function yearOf(letter) {
+  const iso = (letter.extracted?.DateISO || '').trim();
+  const y = Number(iso.slice(0, 4));
+  if (!y || y < 1700 || y > 2030) return null;
+  return y;
+}
+
+// ── Aggregate letters per Kima place: origin events + mention events ────────
+const origins  = new Map();   // kima_id → { ...coords, letters: [{id, year, sender, recipient, title, url, loc_raw}] }
+const mentions = new Map();   // kima_id → { ...coords, letters: [{id, year, sender, recipient, title, url, place_name_in_text}] }
+const edges    = new Map();   // "from→to" → { from_kima_id, to_kima_id, from_coords, to_coords, letters: [{id, year, sender, recipient, title, url}] }
+
+// Quick letter lookup by id (for NER → letter join, since NER export shares ids)
+const letterById = new Map();
+for (const r of batch.results) letterById.set(r.id, r);
+
+let used_origin = 0, used_mention = 0, used_edge = 0;
+let dropped = { no_year: 0, no_origin_link: 0, no_recip_link: 0 };
+
+for (const r of batch.results) {
+  const ex = r.extracted || {};
+  const year = yearOf(r);
+  if (!year) { dropped.no_year++; continue; }
+
+  const senderInfo  = {
     id:        r.id,
-    year:      year,
+    year,
     sender:    (ex.Sender || '').trim(),
     recipient: (ex.Recipient || '').trim(),
     title:     (r.csvMetadata?.title || '').trim(),
     url:       (r.csvMetadata?.url || '').trim(),
-    loc_raw:   loc,
-  });
-  used++;
+    loc_raw:   (ex.Location || '').trim(),
+  };
+
+  // 1. Origin
+  const locStr = senderInfo.loc_raw;
+  const origLink = locStr && links[locStr];
+  const fromKima = (origLink && origLink.kima_id && origLink.lat != null) ? Number(origLink.kima_id) : null;
+  if (fromKima != null) {
+    if (!origins.has(fromKima)) origins.set(fromKima, { ...coords.get(fromKima), letters: [] });
+    origins.get(fromKima).letters.push(senderInfo);
+    used_origin++;
+  } else {
+    dropped.no_origin_link++;
+  }
+
+  // 2. Edge (sender_loc → recipient_loc), only when both resolved AND distinct
+  const recipEntry = recip[r.id];
+  const toKima = (recipEntry && recipEntry.kima_id && recipEntry.lat != null) ? Number(recipEntry.kima_id) : null;
+  if (fromKima != null && toKima != null && fromKima !== toKima) {
+    const key = `${fromKima}→${toKima}`;
+    if (!edges.has(key)) {
+      edges.set(key, {
+        key,
+        from_kima_id: fromKima,
+        to_kima_id:   toKima,
+        from_coords:  coords.get(fromKima),
+        to_coords:    coords.get(toKima),
+        letters:      [],
+      });
+    }
+    edges.get(key).letters.push(senderInfo);
+    used_edge++;
+  } else if (recipEntry && !toKima) {
+    dropped.no_recip_link++;
+  }
 }
 
-const places = Array.from(byKima.values()).sort((a, b) => b.letters.length - a.letters.length);
-const years = places.flatMap(p => p.letters.map(l => l.year));
-const yearMin = Math.min(...years);
-const yearMax = Math.max(...years);
+// 3. Mentions — from ner-linked, per place mention per letter
+for (const r of ner.results) {
+  const letter = letterById.get(r.id);
+  if (!letter) continue;
+  const year = yearOf(letter);
+  if (!year) continue;
+  const places = r.entities?.places || [];
+  // de-dup multiple mentions of the same Kima id in the same letter
+  const seenKima = new Set();
+  for (const p of places) {
+    if (!p.kima_id) continue;
+    const kid = Number(p.kima_id);
+    if (seenKima.has(kid)) continue;
+    seenKima.add(kid);
+    const info = coords.get(kid);
+    if (!info) continue;   // unlikely now that we backfilled from KimaDB
+    if (!mentions.has(kid)) mentions.set(kid, { ...info, letters: [] });
+    mentions.get(kid).letters.push({
+      id:                r.id,
+      year,
+      sender:            (letter.extracted?.Sender || '').trim(),
+      recipient:         (letter.extracted?.Recipient || '').trim(),
+      title:             (letter.csvMetadata?.title || '').trim(),
+      url:               (letter.csvMetadata?.url || '').trim(),
+      place_name_in_text: p.name || p.nameNormalized || '',
+    });
+    used_mention++;
+  }
+}
+
+// ── Year range for the slider (driven by all events) ────────────────────────
+const allYears = [
+  ...origins.values(),  ...mentions.values(),
+].flatMap(p => p.letters.map(l => l.year));
+const yearMin = Math.min(...allYears);
+const yearMax = Math.max(...allYears);
+
+const originsArr  = Array.from(origins.values()).sort((a, b) => b.letters.length - a.letters.length);
+const mentionsArr = Array.from(mentions.values()).sort((a, b) => b.letters.length - a.letters.length);
+const edgesArr    = Array.from(edges.values()).sort((a, b) => b.letters.length - a.letters.length);
 
 fs.mkdirSync(OUTDIR, { recursive: true });
 
@@ -75,7 +197,7 @@ const html = `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>E-GERET — Letter Origins Map</title>
+<title>E-GERET — Correspondence Map</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
   html, body { margin: 0; padding: 0; height: 100%; font-family: system-ui, sans-serif; }
@@ -89,21 +211,34 @@ const html = `<!doctype html>
   #yearRange { flex: 1; min-width: 200px; }
   button { padding: 4px 10px; font-size: 0.9em; cursor: pointer; }
   button.active { background: #1a1a1a; color: #fff; }
-  .leaflet-popup-content { max-height: 260px; overflow-y: auto; max-width: 340px; }
+  .layer-toggles { display: flex; gap: 6px; }
+  .layer-toggles label { font-size: 0.9em; padding: 4px 10px; border: 1px solid #ccc; border-radius: 4px; cursor: pointer; user-select: none; }
+  .layer-toggles label.on { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .layer-toggles input { display: none; }
+  .leaflet-popup-content { max-height: 280px; overflow-y: auto; max-width: 360px; }
   .leaflet-popup-content h3 { margin: 0 0 6px; font-size: 1em; }
   .leaflet-popup-content .letter { padding: 4px 0; border-top: 1px solid #eee; font-size: 0.85em; }
   .leaflet-popup-content .letter:first-of-type { border-top: 0; }
-  .leaflet-popup-content .meta { color: #666; }
+  .leaflet-popup-content .meta { color: #666; font-size: 0.78em; }
 </style>
 </head>
 <body>
 <div id="app">
   <header>
-    <h1>E-GERET — Where Letters Were Written From</h1>
-    <div class="meta">${used} letters · ${places.length} places · ${yearMin}–${yearMax}</div>
+    <h1>E-GERET — Correspondence Map</h1>
+    <div class="meta">
+      ${used_origin} letter origins · ${used_mention} place mentions · ${used_edge} sender→recipient links
+      · ${originsArr.length} origin places · ${mentionsArr.length} mention places · ${edgesArr.length} edges
+      · ${yearMin}–${yearMax}
+    </div>
   </header>
   <div id="map"></div>
   <div id="controls">
+    <div class="layer-toggles">
+      <label class="on"><input type="checkbox" id="lO" checked>🟠 Origins</label>
+      <label class="on"><input type="checkbox" id="lM" checked>🔵 Mentions</label>
+      <label class="on"><input type="checkbox" id="lA" checked>🟣 Arrows</label>
+    </div>
     <button id="allBtn" class="active">All years</button>
     <span id="yearLabel">All years</span>
     <input type="range" id="yearRange" min="${yearMin}" max="${yearMax}" value="${yearMax}" step="1">
@@ -112,74 +247,165 @@ const html = `<!doctype html>
 </div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-const PLACES = ${JSON.stringify(places)};
+const ORIGINS  = ${JSON.stringify(originsArr)};
+const MENTIONS = ${JSON.stringify(mentionsArr)};
+const EDGES    = ${JSON.stringify(edgesArr)};
 const YEAR_MIN = ${yearMin}, YEAR_MAX = ${yearMax};
 
 const map = L.map('map').setView([45, 25], 4);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '© OpenStreetMap contributors',
-  maxZoom: 18,
+  attribution: '© OpenStreetMap contributors', maxZoom: 18,
 }).addTo(map);
 
-const layer = L.layerGroup().addTo(map);
+const layers = {
+  origins:  L.layerGroup().addTo(map),
+  mentions: L.layerGroup().addTo(map),
+  arrows:   L.layerGroup().addTo(map),
+};
 
-function popupHtml(p, letters) {
+function popupPlace(p, letters, kind) {
   const sample = letters.slice(0, 20);
   const more = letters.length > sample.length ? '<div class="meta">… ' + (letters.length - sample.length) + ' more</div>' : '';
+  const kindLabel = kind === 'origin' ? 'sent from here' : 'mentioned in';
   return [
-    '<h3>' + p.rom + (p.heb ? ' · ' + p.heb : '') + '</h3>',
+    '<h3>' + (p.rom || '?') + (p.heb ? ' · ' + p.heb : '') + '</h3>',
     '<div class="meta">Kima <a href="' + p.kima_url + '" target="_blank">#' + p.kima_id + '</a>',
     p.wikidata_id ? ' · <a href="https://www.wikidata.org/wiki/' + p.wikidata_id + '" target="_blank">' + p.wikidata_id + '</a>' : '',
-    ' · ' + letters.length + ' letter(s)</div>',
+    ' · ' + letters.length + ' letter(s) ' + kindLabel + '</div>',
     sample.map(l =>
       '<div class="letter">'
       + '<a href="' + l.url + '" target="_blank">' + (l.sender || '?') + ' → ' + (l.recipient || '?') + '</a>'
-      + '<div class="meta">' + l.year + ' · ' + l.loc_raw + (l.title ? ' · ' + l.title : '') + '</div>'
+      + '<div class="meta">' + l.year + (l.loc_raw ? ' · from ' + l.loc_raw : '') + (l.place_name_in_text ? ' · mentions "' + l.place_name_in_text + '"' : '') + (l.title ? ' · ' + l.title : '') + '</div>'
       + '</div>'
     ).join(''),
     more
   ].join('');
 }
 
-function render(yearMaxFilter, allYears) {
-  layer.clearLayers();
-  for (const p of PLACES) {
-    const letters = allYears ? p.letters : p.letters.filter(l => l.year <= yearMaxFilter);
-    if (!letters.length) continue;
-    const radius = 4 + Math.sqrt(letters.length) * 1.5;
-    const marker = L.circleMarker([p.lat, p.lon], {
-      radius, color: '#b53', fillColor: '#e85', fillOpacity: 0.7, weight: 1
-    });
-    marker.bindPopup(() => popupHtml(p, letters), { maxWidth: 360 });
-    marker.bindTooltip(p.rom + ' (' + letters.length + ')');
-    marker.addTo(layer);
+function popupEdge(e, letters) {
+  const sample = letters.slice(0, 15);
+  const more = letters.length > sample.length ? '<div class="meta">… ' + (letters.length - sample.length) + ' more</div>' : '';
+  return [
+    '<h3>' + (e.from_coords.rom || '?') + ' → ' + (e.to_coords.rom || '?') + '</h3>',
+    '<div class="meta">' + letters.length + ' letter(s)</div>',
+    sample.map(l =>
+      '<div class="letter">'
+      + '<a href="' + l.url + '" target="_blank">' + (l.sender || '?') + ' → ' + (l.recipient || '?') + '</a>'
+      + '<div class="meta">' + l.year + (l.title ? ' · ' + l.title : '') + '</div>'
+      + '</div>'
+    ).join(''),
+    more
+  ].join('');
+}
+
+function filterLetters(letters, yMax, allYears) {
+  return allYears ? letters : letters.filter(l => l.year <= yMax);
+}
+
+// Bezier curve between two points (gently arched)
+function curvePoints(from, to) {
+  const lat1 = from[0], lng1 = from[1], lat2 = to[0], lng2 = to[1];
+  const midLat = (lat1 + lat2) / 2;
+  const midLng = (lng1 + lng2) / 2;
+  // Offset perpendicular to the line, ~15% of the distance
+  const dx = lng2 - lng1, dy = lat2 - lat1;
+  const dist = Math.hypot(dx, dy);
+  const offset = dist * 0.18;
+  const offLat = midLat + (-dx / dist) * offset;
+  const offLng = midLng + ( dy / dist) * offset;
+  // Sample 16 points along the quadratic Bezier
+  const out = [];
+  for (let i = 0; i <= 16; i++) {
+    const t = i / 16;
+    const x = (1 - t) * (1 - t) * lng1 + 2 * (1 - t) * t * offLng + t * t * lng2;
+    const y = (1 - t) * (1 - t) * lat1 + 2 * (1 - t) * t * offLat + t * t * lat2;
+    out.push([y, x]);
+  }
+  return out;
+}
+
+function render(yMax, allYearsMode, show) {
+  for (const l of Object.values(layers)) l.clearLayers();
+
+  if (show.origins) {
+    for (const p of ORIGINS) {
+      const ls = filterLetters(p.letters, yMax, allYearsMode);
+      if (!ls.length) continue;
+      const r = 4 + Math.sqrt(ls.length) * 1.5;
+      const m = L.circleMarker([p.lat, p.lon], {
+        radius: r, color: '#b53', fillColor: '#e85', fillOpacity: 0.75, weight: 1
+      });
+      m.bindPopup(() => popupPlace(p, ls, 'origin'), { maxWidth: 380 });
+      m.bindTooltip(p.rom + ' (origin: ' + ls.length + ')');
+      m.addTo(layers.origins);
+    }
+  }
+
+  if (show.mentions) {
+    for (const p of MENTIONS) {
+      const ls = filterLetters(p.letters, yMax, allYearsMode);
+      if (!ls.length) continue;
+      const r = 3 + Math.sqrt(ls.length) * 1.2;
+      // Tiny offset NE so mention dots aren't fully hidden under origin dots
+      const m = L.circleMarker([p.lat + 0.15, p.lon + 0.15], {
+        radius: r, color: '#247', fillColor: '#69c', fillOpacity: 0.55, weight: 1
+      });
+      m.bindPopup(() => popupPlace(p, ls, 'mention'), { maxWidth: 380 });
+      m.bindTooltip(p.rom + ' (mentions: ' + ls.length + ')');
+      m.addTo(layers.mentions);
+    }
+  }
+
+  if (show.arrows) {
+    for (const e of EDGES) {
+      const ls = filterLetters(e.letters, yMax, allYearsMode);
+      if (!ls.length) continue;
+      const w = Math.min(8, 1 + Math.log(ls.length + 1) * 1.4);
+      const pts = curvePoints([e.from_coords.lat, e.from_coords.lon],
+                              [e.to_coords.lat,   e.to_coords.lon]);
+      const line = L.polyline(pts, {
+        color: '#83a', weight: w, opacity: 0.55, lineCap: 'round'
+      });
+      line.bindPopup(() => popupEdge(e, ls), { maxWidth: 380 });
+      line.bindTooltip(e.from_coords.rom + ' → ' + e.to_coords.rom + ' (' + ls.length + ')');
+      line.addTo(layers.arrows);
+    }
   }
 }
 
-const range = document.getElementById('yearRange');
-const label = document.getElementById('yearLabel');
-const allBtn = document.getElementById('allBtn');
+const range   = document.getElementById('yearRange');
+const label   = document.getElementById('yearLabel');
+const allBtn  = document.getElementById('allBtn');
 const playBtn = document.getElementById('playBtn');
-let allYears = true;
+const cbO = document.getElementById('lO');
+const cbM = document.getElementById('lM');
+const cbA = document.getElementById('lA');
+function showState() { return { origins: cbO.checked, mentions: cbM.checked, arrows: cbA.checked }; }
+let allYearsMode = true;
 function refresh() {
-  if (allYears) {
+  const show = showState();
+  if (allYearsMode) {
     label.textContent = 'All years';
-    render(0, true);
+    render(0, true, show);
   } else {
     const y = +range.value;
     label.textContent = 'Up to ' + y;
-    render(y, false);
+    render(y, false, show);
   }
 }
-range.addEventListener('input', () => { allYears = false; allBtn.classList.remove('active'); refresh(); });
-allBtn.addEventListener('click', () => { allYears = true; allBtn.classList.add('active'); refresh(); });
+for (const cb of [cbO, cbM, cbA]) {
+  cb.addEventListener('change', () => {
+    cb.parentElement.classList.toggle('on', cb.checked);
+    refresh();
+  });
+}
+range.addEventListener('input', () => { allYearsMode = false; allBtn.classList.remove('active'); refresh(); });
+allBtn.addEventListener('click', () => { allYearsMode = true; allBtn.classList.add('active'); refresh(); });
 let playing = false, playTimer = null;
 playBtn.addEventListener('click', () => {
-  if (playing) {
-    clearInterval(playTimer); playing = false; playBtn.textContent = '▶ Play decades'; return;
-  }
+  if (playing) { clearInterval(playTimer); playing = false; playBtn.textContent = '▶ Play decades'; return; }
   playing = true; playBtn.textContent = '⏸ Pause';
-  allYears = false; allBtn.classList.remove('active');
+  allYearsMode = false; allBtn.classList.remove('active');
   range.value = YEAR_MIN;
   playTimer = setInterval(() => {
     const y = +range.value + 10;
@@ -195,7 +421,10 @@ refresh();
 </html>`;
 
 fs.writeFileSync(OUT, html);
-const size = (fs.statSync(OUT).size / 1024).toFixed(0);
-console.log(`Wrote ${used} letters / ${places.length} places → ${path.relative(REPO, OUT)} (${size} KB)`);
-console.log(`  date range: ${yearMin}-${yearMax}`);
-console.log(`  dropped: no Location ${dropped_no_loc} · unlinked ${dropped_unlinked} · no coords ${dropped_no_coords} · no DateISO ${dropped_no_date}`);
+const sizeKB = (fs.statSync(OUT).size / 1024).toFixed(0);
+console.log(`Wrote ${OUT.replace(REPO + '/', '')} (${sizeKB} KB)`);
+console.log(`  origins  : ${used_origin} events across ${originsArr.length} places`);
+console.log(`  mentions : ${used_mention} events across ${mentionsArr.length} places`);
+console.log(`  arrows   : ${used_edge} events across ${edgesArr.length} edges`);
+console.log(`  year range: ${yearMin}-${yearMax}`);
+console.log(`  dropped (counts apply to origins pass):`, dropped);
