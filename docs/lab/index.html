@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מעבדת תיוג וסימון טקסט</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;800;900&family=Heebo:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:        #1a1a1a;
+    --ink-soft:   #3a3a3a;
+    --paper:      #f6f1e6;
+    --paper-2:    #efe7d4;
+    --paper-3:    #fbf7eb;
+    --rule:       #c9bfa6;
+    --rule-2:     #a89c7e;
+    --brick:      #8a2418;
+    --teal:       #2d5a5a;
+    --gold:       #a0780f;
+    --muted:      #6b6354;
+    --ok:         #3d6b35;
+    --err:        #a03020;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    padding: 32px 20px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  header.page {
+    max-width: 1200px;
+    width: 100%;
+    border-bottom: 2px solid var(--rule-2);
+    padding-bottom: 18px;
+    margin-bottom: 24px;
+  }
+  header.page .crumbs { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  header.page .crumbs a { color: var(--teal); text-decoration: none; }
+  header.page .crumbs a:hover { text-decoration: underline; }
+  h1 {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 800;
+    font-size: 36px;
+    margin: 0;
+    color: var(--brick);
+  }
+  .wrap { max-width: 1200px; width: 100%; }
+
+  /* ---- top tabs ---- */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 0;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    font-family: 'Heebo', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px 22px;
+    background: var(--paper-2);
+    border: 1.5px solid var(--rule);
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    color: var(--ink-soft);
+  }
+  .tab-btn .num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--gold);
+    margin-inline-end: 6px;
+  }
+  .tab-btn.active {
+    background: var(--paper-3);
+    color: var(--ink);
+    font-weight: 700;
+    position: relative;
+    top: 1.5px;
+  }
+  .tab-panel {
+    display: none;
+    background: var(--paper-3);
+    border: 1.5px solid var(--rule);
+    border-radius: 0 6px 6px 6px;
+    padding: 24px;
+  }
+  .tab-panel.active { display: block; }
+
+  /* ---- explainer strip ---- */
+  .explain {
+    background: var(--paper-2);
+    border-inline-start: 4px solid var(--gold);
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 15px;
+    color: var(--ink-soft);
+    border-radius: 3px;
+  }
+  .explain b { color: var(--ink); }
+  .explain code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    background: var(--paper);
+    padding: 1px 5px;
+    border-radius: 3px;
+    direction: ltr;
+    unicode-bidi: embed;
+  }
+
+  /* ---- toolbars & buttons ---- */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .btn {
+    font-family: 'Heebo', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 7px 16px;
+    border: 1.5px solid var(--rule-2);
+    border-radius: 4px;
+    background: var(--paper-3);
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color .12s, background .12s;
+  }
+  .btn:hover { border-color: var(--brick); }
+  .btn.primary { background: var(--brick); border-color: var(--brick); color: #fff; }
+  .btn.primary:hover { background: #6f1d13; }
+  .btn.small { font-size: 13px; padding: 4px 12px; }
+  .btn.tag { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; direction: ltr; }
+  .seg {
+    display: inline-flex;
+    border: 1.5px solid var(--rule-2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .seg button {
+    font-family: 'Heebo', sans-serif;
+    font-size: 14px;
+    padding: 6px 16px;
+    border: none;
+    background: var(--paper-3);
+    cursor: pointer;
+    color: var(--ink-soft);
+  }
+  .seg button + button { border-inline-start: 1px solid var(--rule); }
+  .seg button.active { background: var(--teal); color: #fff; font-weight: 600; }
+  label.upload { display: inline-block; }
+  label.upload input { display: none; }
+  .spacer { flex: 1; }
+  .hint { font-size: 13px; color: var(--muted); }
+  select {
+    font-family: 'Heebo', sans-serif;
+    font-size: 14px;
+    padding: 6px 10px;
+    border: 1.5px solid var(--rule-2);
+    border-radius: 4px;
+    background: var(--paper-3);
+    color: var(--ink);
+  }
+
+  /* ---- panes ---- */
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 900px) { .split { grid-template-columns: 1fr; } }
+  .pane {
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    min-height: 420px;
+  }
+  .pane-head {
+    background: var(--paper-2);
+    border-bottom: 1.5px solid var(--rule);
+    padding: 8px 14px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .pane-body { flex: 1; overflow: auto; position: relative; }
+  textarea.editor {
+    width: 100%;
+    height: 100%;
+    min-height: 380px;
+    border: none;
+    resize: vertical;
+    padding: 16px;
+    font-family: 'IBM Plex Mono', 'Heebo', monospace;
+    font-size: 14.5px;
+    line-height: 1.7;
+    background: #fffdf7;
+    color: var(--ink);
+    outline: none;
+  }
+  textarea.editor:focus { background: #fff; }
+  pre.code {
+    margin: 0;
+    padding: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    direction: ltr;
+    text-align: left;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: #2a2a2a;
+  }
+  pre.code .xtag  { color: var(--teal); }
+  pre.code .xattr { color: var(--gold); }
+  .plainview {
+    padding: 16px;
+    white-space: pre-wrap;
+    font-family: 'IBM Plex Mono', 'Heebo', monospace;
+    font-size: 14.5px;
+    line-height: 1.8;
+  }
+
+  /* ---- rendered markdown themes ---- */
+  .rendered { padding: 24px 28px; }
+  .rendered h1, .rendered h2, .rendered h3 { line-height: 1.3; }
+  .rendered blockquote {
+    margin: 1em 0;
+    padding: 4px 18px;
+    border-inline-start: 3px solid var(--rule-2);
+    color: var(--ink-soft);
+  }
+  .rendered a { color: var(--teal); }
+  .rendered hr { border: none; border-top: 1px solid var(--rule-2); margin: 1.5em 0; }
+  .rendered code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .85em;
+    background: var(--paper-2);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  .theme-book { font-family: 'Frank Ruhl Libre', serif; font-size: 18px; }
+  .theme-book h1, .theme-book h2 { color: var(--brick); font-weight: 800; }
+  .theme-news { font-family: 'Heebo', sans-serif; font-size: 15px; text-align: justify; }
+  .theme-news h1, .theme-news h2 { border-bottom: 3px double var(--ink); padding-bottom: 6px; }
+  .theme-type { font-family: 'IBM Plex Mono', 'Courier New', monospace; font-size: 14px; background: #f4f0e2; }
+  .theme-type h1, .theme-type h2 { font-weight: 500; text-decoration: underline; }
+
+  /* ---- html render of uploaded BY file ---- */
+  .byrender { padding: 20px 26px; font-family: 'Frank Ruhl Libre', serif; font-size: 17px; }
+  .byrender h2 { color: var(--brick); }
+  .byrender a { color: var(--teal); }
+
+  /* ---- status line ---- */
+  .status {
+    font-size: 14px;
+    padding: 8px 14px;
+    border-radius: 4px;
+    margin-top: 10px;
+    display: none;
+  }
+  .status.ok  { display: block; background: #e8efe4; color: var(--ok);  border: 1px solid #b9ccb0; }
+  .status.err { display: block; background: #f6e4e0; color: var(--err); border: 1px solid #ddb3aa; }
+  .status code { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; direction: ltr; unicode-bidi: embed; }
+
+  /* ---- conversion log ---- */
+  .convlog {
+    font-size: 14px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin: 14px 0;
+  }
+  .convlog table { border-collapse: collapse; width: 100%; }
+  .convlog td, .convlog th { padding: 4px 10px; text-align: right; font-size: 13.5px; }
+  .convlog th { color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--rule); }
+  .convlog code { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; direction: ltr; unicode-bidi: embed; color: var(--teal); }
+  .convlog .cnt { color: var(--gold); font-family: 'IBM Plex Mono', monospace; }
+
+  /* ---- xml tree ---- */
+  .tree { padding: 14px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; direction: ltr; text-align: left; line-height: 1.75; }
+  .tree .tnode { padding-left: 18px; border-left: 1px dotted var(--rule-2); margin-left: 4px; }
+  .tree .tname { color: var(--teal); font-weight: 600; }
+  .tree .tattr { color: var(--gold); }
+  .tree .ttext { color: var(--muted); font-family: 'Heebo', sans-serif; direction: rtl; unicode-bidi: embed; }
+
+  .stepline {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 21px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 26px 0 10px;
+    padding-top: 18px;
+    border-top: 1px dashed var(--rule-2);
+  }
+  .stepline:first-of-type { border-top: none; padding-top: 0; margin-top: 8px; }
+  .stepline .stepnum {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    background: var(--brick);
+    color: #fff;
+    border-radius: 50%;
+    width: 24px; height: 24px;
+    line-height: 24px;
+    text-align: center;
+    margin-inline-end: 8px;
+    vertical-align: 3px;
+  }
+
+  /* ---- TEI teaser ---- */
+  .tei-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px; }
+  @media (max-width: 900px) { .tei-cols { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+  <header class="page">
+    <div class="crumbs"><a href="../">→ חזרה לדף הסדנה</a></div>
+    <h1>מעבדת תיוג וסימון טקסט</h1>
+  </header>
+
+  <div class="wrap">
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="md"><span class="num">1</span>טקסט · Markdown · HTML</button>
+      <button class="tab-btn" data-tab="xml"><span class="num">2</span>מ־HTML ל־XML</button>
+      <button class="tab-btn" data-tab="tei"><span class="num">3</span>לקראת TEI</button>
+    </nav>
+
+    <!-- ============================================================ -->
+    <!-- TAB 1: plain text / markdown / html                          -->
+    <!-- ============================================================ -->
+    <section class="tab-panel active" id="panel-md">
+      <div class="explain">
+        <b>אותו טקסט, שלוש צורות.</b>
+        משמאל תראו את הטקסט כפי שהוא באמת — רצף של תווים. סימנים כמו <code>#</code> ו־<code>**</code> הם
+        <b>Markdown</b>: מוסכמות סימון קלות שבני אדם כותבים בקלות ומחשבים יודעים לפרש.
+        המחשב ממיר אותן ל־<b>HTML</b> — שפת סימון של תגיות — והדפדפן הופך את התגיות לעיצוב.
+        ערכו את הטקסט מימין וצפו בתוצאה מיד. החליפו "לבוש" (ערכת עיצוב) כדי לראות שהתוכן והמראה נפרדים זה מזה.
+      </div>
+
+      <div class="toolbar">
+        <label class="upload btn">
+          העלאת קובץ טקסט…
+          <input type="file" id="md-file" accept=".txt,.md,.markdown,text/plain">
+        </label>
+        <button class="btn small" id="md-reset">חזרה לדוגמה</button>
+        <span class="spacer"></span>
+        <span class="hint">אפשר גם פשוט להקליד — התצוגה מתעדכנת תוך כדי כתיבה</span>
+      </div>
+
+      <div class="split">
+        <div class="pane">
+          <div class="pane-head">מקור — מה שכותבים</div>
+          <div class="pane-body">
+            <textarea class="editor" id="md-src" dir="rtl" spellcheck="false"></textarea>
+          </div>
+        </div>
+        <div class="pane">
+          <div class="pane-head">
+            תצוגה — מה שרואים
+            <span class="spacer"></span>
+            <span class="seg" id="md-modes">
+              <button data-mode="plain">טקסט גולמי</button>
+              <button data-mode="render" class="active">Markdown מעובד</button>
+              <button data-mode="html">קוד ה־HTML</button>
+            </span>
+            <select id="md-theme" title="ערכת עיצוב">
+              <option value="theme-book">לבוש: ספר</option>
+              <option value="theme-news">לבוש: עיתון</option>
+              <option value="theme-type">לבוש: מכונת כתיבה</option>
+            </select>
+          </div>
+          <div class="pane-body" id="md-out"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- TAB 2: HTML -> XML                                           -->
+    <!-- ============================================================ -->
+    <section class="tab-panel" id="panel-xml">
+      <div class="explain">
+        <b>מסימון מעצב לסימון מתאר.</b>
+        קובצי ה־HTML של פרויקט בן־יהודה אומרים לדפדפן <i>איך להציג</i>: <code>&lt;strong&gt;</code> = הדגש,
+        <code>&lt;h2&gt;</code> = כותרת גדולה. XML מתאר <i>מה הדבר הוא</i>: <code>&lt;emph&gt;</code> = מילה מוטעמת,
+        <code>&lt;div type="section"&gt;</code> = יחידת טקסט מסוג מסוים, <code>&lt;note&gt;</code> = הערת שוליים.
+        נמיר קובץ אמיתי, נראה בדיוק אילו החלטות ההמרה קיבלה — ואז תוסיפו תיוג משלכם: שמות אנשים, מקומות ותאריכים.
+      </div>
+
+      <div class="stepline"><span class="stepnum">1</span>בחרו קובץ HTML מפרויקט בן־יהודה</div>
+      <div class="toolbar">
+        <label class="upload btn">
+          העלאת קובץ HTML…
+          <input type="file" id="by-file" accept=".html,.htm,text/html">
+        </label>
+        <button class="btn small" id="by-sample">טעינת קובץ הדוגמה (מכתב מא״א קובנר)</button>
+        <span class="spacer"></span>
+        <span class="hint" id="by-name"></span>
+      </div>
+      <div class="split">
+        <div class="pane">
+          <div class="pane-head">כך זה נראה בדפדפן (סימון מעצב בפעולה)</div>
+          <div class="pane-body byrender" id="by-render"><div class="plainview" style="color:var(--muted)">טרם נטען קובץ.</div></div>
+        </div>
+        <div class="pane">
+          <div class="pane-head">קוד המקור — HTML</div>
+          <div class="pane-body"><pre class="code" id="by-source">טרם נטען קובץ.</pre></div>
+        </div>
+      </div>
+
+      <div class="stepline"><span class="stepnum">2</span>המרה ל־XML מתאר</div>
+      <div class="toolbar">
+        <button class="btn primary" id="by-convert" disabled>המרה ל־XML ←</button>
+        <span class="hint">ההמרה מפרקת את הרצף לפי כותרות ל־<span style="direction:ltr;unicode-bidi:embed;font-family:'IBM Plex Mono',monospace;font-size:12.5px">&lt;div type="…"&gt;</span>, וממפה כל תגית מעצבת לתגית מתארת</span>
+      </div>
+      <div class="convlog" id="conv-log" style="display:none"></div>
+
+      <div class="stepline" id="step-annotate"><span class="stepnum">3</span>הוסיפו תיוג משלכם</div>
+      <div class="toolbar">
+        <span class="hint">סמנו קטע טקסט בעורך ולחצו על תגית:</span>
+        <button class="btn small tag" data-wrap="persName">&lt;persName&gt;</button>
+        <button class="btn small tag" data-wrap="placeName">&lt;placeName&gt;</button>
+        <button class="btn small tag" data-wrap="date" data-attrs=' when=""'>&lt;date when=""&gt;</button>
+        <button class="btn small tag" data-wrap="orgName">&lt;orgName&gt;</button>
+        <button class="btn small tag" data-wrap="title">&lt;title&gt;</button>
+        <span class="spacer"></span>
+        <button class="btn small" id="xml-dir">כיוון עורך ⇄</button>
+        <button class="btn small" id="xml-check">בדיקת תקינות ✓</button>
+        <button class="btn small" id="xml-download">הורדת ה־XML ⤓</button>
+      </div>
+      <div class="split">
+        <div class="pane">
+          <div class="pane-head">עורך ה־XML</div>
+          <div class="pane-body">
+            <textarea class="editor" id="xml-editor" dir="ltr" style="text-align:left" spellcheck="false" placeholder="כאן יופיע ה-XML אחרי ההמרה בשלב 2"></textarea>
+          </div>
+        </div>
+        <div class="pane">
+          <div class="pane-head">מבנה המסמך — כפי שמנתח אותו המחשב</div>
+          <div class="pane-body"><div class="tree" id="xml-tree"><span style="color:var(--muted);font-family:'Heebo',sans-serif;direction:rtl;display:block">העץ ייבנה אחרי ההמרה, ויתעדכן בכל בדיקת תקינות.</span></div></div>
+        </div>
+      </div>
+      <div class="status" id="xml-status"></div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- TAB 3: TEI teaser                                            -->
+    <!-- ============================================================ -->
+    <section class="tab-panel" id="panel-tei">
+      <div class="explain">
+        <b>ומה הלאה?</b>
+        ה־XML שכתבנו בשלב הקודם הוא פרטי — התגיות שהמצאנו מובנות לנו, אבל לא לשום פרויקט אחר.
+        <b>TEI</b> (Text Encoding Initiative) היא הסכמה המשותפת של קהילת מדעי הרוח הדיגיטליים מאז 1987:
+        אוצר מילים מוסכם של מאות תגיות מתועדות, כך שמכתב שסומן בירושלים יהיה קריא למכונה גם בברלין.
+        שימו לב כמה מהתגיות שכבר הכרתם — <code>&lt;persName&gt;</code>, <code>&lt;date&gt;</code>,
+        <code>&lt;note&gt;</code>, <code>&lt;div type="…"&gt;</code> — הן פשוט TEI. כבר התחלתם.
+      </div>
+
+      <div class="tei-cols">
+        <div class="pane">
+          <div class="pane-head">אותו מכתב, בקידוד TEI</div>
+          <div class="pane-body"><pre class="code" id="tei-example"></pre></div>
+        </div>
+        <div class="pane">
+          <div class="pane-head">מה TEI נותנת לנו</div>
+          <div class="pane-body" style="padding:20px 26px; font-size:15.5px;">
+            <ul style="margin:0; padding-inline-start:20px; display:flex; flex-direction:column; gap:12px;">
+              <li><b>כותרת עשירה (teiHeader)</b> — מי כתב, מתי, איפה, מי קידד ולפי איזו מהדורה: המטא־נתונים נוסעים יחד עם הטקסט.</li>
+              <li><b>אוצר תגיות מוסכם</b> — <code style="font-family:'IBM Plex Mono',monospace;font-size:13px;direction:ltr;unicode-bidi:embed">&lt;opener&gt;, &lt;salute&gt;, &lt;dateline&gt;, &lt;signed&gt;</code> — מבנה של מכתב, לא סתם פסקאות.</li>
+              <li><b>קישוריות</b> — <code style="font-family:'IBM Plex Mono',monospace;font-size:13px;direction:ltr;unicode-bidi:embed">ref="…"</code> מחבר שם אדם לרשומת ויקינתונים, שם מקום לגזטיר היסטורי.</li>
+              <li><b>שיתוף ואגרגציה</b> — מכתב מקודד TEI יכול להצטרף ל־correspSearch, המנוע המאגד עשרות אלפי התכתבויות היסטוריות.</li>
+            </ul>
+            <p style="margin-top:20px; color:var(--muted); font-size:14px;">בזה נעסוק במפגש השני — כולל התבוננות ב־4,721 המכתבים שכבר חולצו ותויגו בפרויקט אגרת.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+<!-- built-in sample: a shortened, real Ben Yehuda file (Kovner to Brainin, 1904) -->
+<script type="text/plain" id="sample-by-html"><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="he" lang="he" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>א. קובנר לר. בריינין</title>
+<meta name="author" content="אברהם אורי קובנר"/>
+</head><body dir='rtl'><div dir="rtl" align="right">
+
+<h2 id="i">I</h2>
+
+<p>דען 27 טען פעברואר, יאהר 1904, לאמזשא.</p>
+
+<p>אדון נכבד,</p>
+
+<p>זה כמעט ארבעים שנה (משנת 1868) עברו וחלפו, אשר לא קראתי
+ולא כתבתי מאומה בשפת עבר. אולם זה ימים אחדים, אשר אחד מאחי שלח לי ארבעה
+גליונות ממה&quot;ע &#8220;הצופה&#8221;, אשר בהם נדפס המאמר: &#8220;א. א. קובנר&#8221; (לתולדות הבקורת
+בספרותנו החדשה), וישאלני, אם באמת ובתמים ידבר המחבר ה' בריינין?<a href="#fn:1" id="fnref:1" title="see footnote" class="footnote">[1]</a></p>
+
+<p>אמת הוא, כי בספרי &#8220;חקר־דבר&#8221; ו&quot;צרור־פרחים&quot; אין השקפות
+חדשות, אולם להגיד ברור ומפורש, כי אין במאמרי &#8220;דעות ומחשבות <strong>כל עיקר</strong>&#8221;,
+הוא חטא נגד האמת.</p>
+
+<h2 id="ii">II</h2>
+
+<p>אודה ולא אבוש, כי קשה לי מאד לכתוב בשפת עבר צחה וברורה,
+כי זה יותר מארבעים שנה, אשר אכתוב את ספרי ומאמרי אך בשפת רוסיה.<a href="#fn:2" id="fnref:2" title="see footnote" class="footnote">[2]</a></p>
+
+<p><em>וזה החלי!</em></p>
+
+<div class="footnotes">
+<hr />
+<ol>
+
+<li id="fn:1">
+<p>ראובן בריינין פרסם את מאמרו על קובנר בעיתון &#8220;הצופה&#8221; בשנת 1904. <a href="#fnref:1" title="return to body" class="reversefootnote">&#160;&#8617;&#xfe0e;</a></p>
+</li>
+
+<li id="fn:2">
+<p>קובנר עבר לכתיבה ברוסית לאחר פרשת משפטו בשנות השבעים של המאה התשע־עשרה. <a href="#fnref:2" title="return to body" class="reversefootnote">&#160;&#8617;&#xfe0e;</a></p>
+</li>
+
+</ol>
+</div>
+
+<p><a href="https://benyehuda.org/">פרויקט בן־יהודה</a> · <a href="https://benyehuda.org/read/40830">לדף היצירה</a></p>
+
+</div></body></html></script>
+
+<script>
+'use strict';
+
+/* ================= tabs ================= */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ================= helpers ================= */
+function escapeHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+}
+function escapeXml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+/* colorize escaped xml/html source for display */
+function colorizeCode(escaped) {
+  return escaped.replace(/(&lt;\/?)([a-zA-Z][\w:-]*)((?:\s+[\w:-]+(?:=&quot;[^&]*&quot;)?)*)(\s*\/?&gt;)/g,
+    (m, open, name, attrs, close) => {
+      const attrsCol = attrs.replace(/([\w:-]+)(=&quot;[^&]*&quot;)?/g,
+        '<span class="xattr">$1$2</span>');
+      return open + '<span class="xtag">' + name + '</span>' + attrsCol + close;
+    });
+}
+
+/* ================= TAB 1: markdown ================= */
+const SAMPLE_MD = `# מכתב מא"א קובנר לראובן בריינין
+
+**לומז'ה**, 27 בפברואר 1904
+
+אדון נכבד,
+
+זה כמעט *ארבעים שנה* (משנת 1868) עברו וחלפו, אשר לא קראתי ולא כתבתי מאומה בשפת עבר. אולם זה ימים אחדים, אשר אחד מאחי שלח לי ארבעה גליונות ממכתב־העת "הצופה", אשר בהם נדפס המאמר: "א. א. קובנר", וישאלני, אם באמת ובתמים ידבר המחבר ה' בריינין?
+
+> כבר הודעתי בספרי "צרור פרחים", כי לא אשיב מאומה למתנגדי, ואת דברי שמרתי קודש עד הלום.
+
+בין ספריו של קובנר:
+
+- חקר דבר (1865)
+- צרור פרחים (1868)
+
+ומה בין \`Markdown\` לבין טקסט רגיל? נסו למחוק את הסולמית בשורה הראשונה, או את הכוכביות — וראו מה קורה.
+
+---
+
+מקור: [פרויקט בן־יהודה](https://benyehuda.org/read/40830)`;
+
+/* minimal markdown renderer: headings, hr, blockquote, lists, paragraphs;
+   inline: code, bold, italic, links */
+function renderInline(s) {
+  let t = escapeHtml(s);
+  t = t.replace(/`([^`]+)`/g, '<code>$1</code>');
+  t = t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  t = t.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  t = t.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  return t;
+}
+function renderMarkdown(src) {
+  const lines = src.replace(/\r\n?/g, '\n').split('\n');
+  const out = [];
+  let para = [], list = null, quote = [];
+
+  const flushPara = () => { if (para.length) { out.push('<p>' + renderInline(para.join(' ')) + '</p>'); para = []; } };
+  const flushList = () => { if (list) { out.push('<' + list.tag + '>' + list.items.map(i => '<li>' + renderInline(i) + '</li>').join('') + '</' + list.tag + '>'); list = null; } };
+  const flushQuote = () => { if (quote.length) { out.push('<blockquote><p>' + renderInline(quote.join(' ')) + '</p></blockquote>'); quote = []; } };
+  const flushAll = () => { flushPara(); flushList(); flushQuote(); };
+
+  for (const raw of lines) {
+    const line = raw.trimEnd();
+    const h = line.match(/^(#{1,6})\s+(.*)$/);
+    if (h) { flushAll(); out.push('<h' + h[1].length + '>' + renderInline(h[2]) + '</h' + h[1].length + '>'); continue; }
+    if (/^(-{3,}|\*{3,}|_{3,})$/.test(line.trim())) { flushAll(); out.push('<hr>'); continue; }
+    const q = line.match(/^>\s?(.*)$/);
+    if (q) { flushPara(); flushList(); quote.push(q[1]); continue; }
+    const ul = line.match(/^[-*]\s+(.*)$/);
+    if (ul) { flushPara(); flushQuote(); if (!list || list.tag !== 'ul') { flushList(); list = { tag: 'ul', items: [] }; } list.items.push(ul[1]); continue; }
+    const ol = line.match(/^\d+[.)]\s+(.*)$/);
+    if (ol) { flushPara(); flushQuote(); if (!list || list.tag !== 'ol') { flushList(); list = { tag: 'ol', items: [] }; } list.items.push(ol[1]); continue; }
+    if (line.trim() === '') { flushAll(); continue; }
+    flushList(); flushQuote(); para.push(line.trim());
+  }
+  flushAll();
+  return out.join('\n');
+}
+
+const mdSrc = document.getElementById('md-src');
+const mdOut = document.getElementById('md-out');
+const mdTheme = document.getElementById('md-theme');
+let mdMode = 'render';
+
+function updateMd() {
+  const src = mdSrc.value;
+  if (mdMode === 'plain') {
+    mdOut.innerHTML = '<div class="plainview" dir="rtl"></div>';
+    mdOut.firstChild.textContent = src;
+  } else if (mdMode === 'render') {
+    mdOut.innerHTML = '<div class="rendered ' + mdTheme.value + '" dir="rtl">' + renderMarkdown(src) + '</div>';
+  } else {
+    mdOut.innerHTML = '<pre class="code">' + colorizeCode(escapeHtml(renderMarkdown(src))) + '</pre>';
+  }
+}
+mdSrc.value = SAMPLE_MD;
+updateMd();
+mdSrc.addEventListener('input', updateMd);
+mdTheme.addEventListener('change', updateMd);
+document.getElementById('md-modes').querySelectorAll('button').forEach(b => {
+  b.addEventListener('click', () => {
+    document.getElementById('md-modes').querySelectorAll('button').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    mdMode = b.dataset.mode;
+    updateMd();
+  });
+});
+document.getElementById('md-reset').addEventListener('click', () => { mdSrc.value = SAMPLE_MD; updateMd(); });
+document.getElementById('md-file').addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => { mdSrc.value = r.result; updateMd(); };
+  r.readAsText(f);
+  e.target.value = '';
+});
+
+/* ================= TAB 2: HTML -> XML ================= */
+let byHtml = null;
+
+const byRender = document.getElementById('by-render');
+const bySource = document.getElementById('by-source');
+const byName = document.getElementById('by-name');
+const convertBtn = document.getElementById('by-convert');
+const xmlEditor = document.getElementById('xml-editor');
+const xmlStatus = document.getElementById('xml-status');
+const xmlTree = document.getElementById('xml-tree');
+const convLog = document.getElementById('conv-log');
+
+function loadByHtml(html, name) {
+  byHtml = html;
+  byName.textContent = name || '';
+  /* rendered view: body content only, scripts stripped */
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  doc.querySelectorAll('script, style, link').forEach(el => el.remove());
+  byRender.innerHTML = '';
+  const holder = document.createElement('div');
+  holder.setAttribute('dir', 'rtl');
+  holder.innerHTML = doc.body ? doc.body.innerHTML : html;
+  holder.querySelectorAll('a').forEach(a => { a.setAttribute('target', '_blank'); a.setAttribute('rel', 'noopener'); });
+  byRender.appendChild(holder);
+  bySource.innerHTML = colorizeCode(escapeHtml(html));
+  convertBtn.disabled = false;
+}
+
+document.getElementById('by-sample').addEventListener('click', () => {
+  loadByHtml(document.getElementById('sample-by-html').textContent, 'קובץ הדוגמה: א. קובנר לר. בריינין (m40830)');
+});
+document.getElementById('by-file').addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => loadByHtml(r.result, f.name);
+  r.readAsText(f);
+  e.target.value = '';
+});
+
+/* --- conversion --- */
+function serializeInline(node, counters) {
+  let out = '';
+  for (const child of node.childNodes) {
+    if (child.nodeType === Node.TEXT_NODE) {
+      out += escapeXml(child.textContent);
+    } else if (child.nodeType === Node.ELEMENT_NODE) {
+      const tag = child.tagName.toLowerCase();
+      if (tag === 'strong' || tag === 'b' || tag === 'em' || tag === 'i') {
+        counters.emph++;
+        out += '<emph>' + serializeInline(child, counters) + '</emph>';
+      } else if (tag === 'a' && child.classList.contains('footnote')) {
+        const target = (child.getAttribute('href') || '').replace('#', '').replace(':', '');
+        counters.ref++;
+        out += '<ref target="#' + target + '"/>';
+      } else if (tag === 'a' && child.classList.contains('reversefootnote')) {
+        counters.navDropped++; /* pure navigation — presentation, not content */
+      } else if (tag === 'a') {
+        counters.extRef++;
+        out += '<ref target="' + escapeXml(child.getAttribute('href') || '') + '">' + serializeInline(child, counters) + '</ref>';
+      } else if (tag === 'br') {
+        counters.lb++;
+        out += '<lb/>';
+      } else {
+        out += serializeInline(child, counters);
+      }
+    }
+  }
+  return out;
+}
+
+function convertToXml(html) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  const title = (doc.querySelector('title') || {}).textContent || '';
+  const authorMeta = doc.querySelector('meta[name="author"]');
+  const author = authorMeta ? (authorMeta.getAttribute('content') || '') : '';
+
+  const counters = { section: 0, head: 0, p: 0, emph: 0, ref: 0, extRef: 0, note: 0, lb: 0, navDropped: 0, creditDropped: 0 };
+  const I = '  ';
+  const lines = [];
+  lines.push('<?xml version="1.0" encoding="UTF-8"?>');
+  lines.push('<document>');
+  lines.push(I + '<header>');
+  lines.push(I + I + '<title>' + escapeXml(title.trim()) + '</title>');
+  if (author) lines.push(I + I + '<author>' + escapeXml(author.trim()) + '</author>');
+  lines.push(I + I + '<source>פרויקט בן־יהודה</source>');
+  lines.push(I + '</header>');
+  lines.push(I + '<body>');
+
+  const blocks = doc.body ? doc.body.querySelectorAll('h1, h2, h3, p') : [];
+  let openDiv = false;
+  const closeDiv = () => { if (openDiv) { lines.push(I + I + '</div>'); openDiv = false; } };
+
+  for (const el of blocks) {
+    if (el.closest('div.footnotes')) continue; /* handled below */
+    const text = el.textContent.trim();
+    if (!text) continue;
+    /* drop the Ben Yehuda credit block — boilerplate, not part of the text */
+    const links = el.querySelectorAll('a[href*="benyehuda.org"]');
+    if (links.length && text.replace(/[^א-ת]/g, '').length < 40 && /בן.?יהודה|לדף היצירה/.test(text)) {
+      counters.creditDropped++;
+      continue;
+    }
+    const tag = el.tagName.toLowerCase();
+    if (tag === 'h1' || tag === 'h2' || tag === 'h3') {
+      closeDiv();
+      counters.section++;
+      counters.head++;
+      lines.push(I + I + '<div type="section" n="' + counters.section + '">');
+      openDiv = true;
+      lines.push(I + I + I + '<head>' + serializeInline(el, counters) + '</head>');
+    } else {
+      if (!openDiv) {
+        counters.section++;
+        lines.push(I + I + '<div type="letter" n="' + counters.section + '">');
+        openDiv = true;
+      }
+      counters.p++;
+      lines.push(I + I + I + '<p>' + serializeInline(el, counters) + '</p>');
+    }
+  }
+  closeDiv();
+
+  /* footnotes -> <div type="notes"> */
+  const noteLis = doc.querySelectorAll('div.footnotes li[id]');
+  if (noteLis.length) {
+    lines.push(I + I + '<div type="notes">');
+    for (const li of noteLis) {
+      const id = li.id.replace(':', '');
+      const clone = li.cloneNode(true);
+      clone.querySelectorAll('a.reversefootnote').forEach(a => { counters.navDropped++; a.remove(); });
+      counters.note++;
+      lines.push(I + I + I + '<note xml:id="' + id + '">' + escapeXml(clone.textContent.trim()) + '</note>');
+    }
+    lines.push(I + I + '</div>');
+  }
+
+  lines.push(I + '</body>');
+  lines.push('</document>');
+  return { xml: lines.join('\n'), counters };
+}
+
+const LOG_ROWS = [
+  ['section', '<h2>כותרת</h2>', '<div type="section"> + <head>', 'כותרת חזותית הופכת לגבול של יחידת טקסט מוגדרת'],
+  ['p', '<p>', '<p>', 'פסקה נשארת פסקה — אבל עכשיו בתוך מבנה'],
+  ['emph', '<strong> / <em>', '<emph>', 'במקום "איך זה נראה" (מודגש/נטוי) — "מה זה" (מוטעם)'],
+  ['ref', '<a class="footnote">', '<ref target="#fn1"/>', 'קישור עיצובי הופך להצבעה מפורשת על הערה'],
+  ['note', '<li id="fn:1">', '<note xml:id="fn1">', 'פריט רשימה חזותי הופך להערה בעלת זהות'],
+  ['extRef', '<a href="…">', '<ref target="…">', 'קישור חיצוני נשמר כהפניה'],
+  ['lb', '<br>', '<lb/>', 'שבירת שורה נרשמת כאירוע במסמך'],
+  ['navDropped', 'חיצי חזרה (reversefootnote)', '— הוסרו —', 'ניווט הוא עניין של תצוגה, לא של תוכן'],
+  ['creditDropped', 'שורת הקרדיט של האתר', '— הוסרה —', 'מעטפת של האתר, לא חלק מן המכתב'],
+];
+
+function showLog(counters) {
+  let rows = '';
+  for (const [key, from, to, why] of LOG_ROWS) {
+    const n = counters[key];
+    if (!n) continue;
+    rows += '<tr><td><code>' + escapeHtml(from) + '</code></td><td>←</td><td><code>' + escapeHtml(to) + '</code></td>' +
+            '<td class="cnt">×' + n + '</td><td>' + why + '</td></tr>';
+  }
+  convLog.innerHTML = '<table><tr><th>ב־HTML היה</th><th></th><th>ב־XML נהיה</th><th></th><th>למה</th></tr>' + rows + '</table>';
+  convLog.style.display = 'block';
+}
+
+convertBtn.addEventListener('click', () => {
+  if (!byHtml) return;
+  const { xml, counters } = convertToXml(byHtml);
+  xmlEditor.value = xml;
+  showLog(counters);
+  checkXml(true);
+  document.getElementById('step-annotate').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+/* --- annotation buttons --- */
+document.querySelectorAll('[data-wrap]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tag = btn.dataset.wrap;
+    const attrs = btn.dataset.attrs || '';
+    const s = xmlEditor.selectionStart, e = xmlEditor.selectionEnd;
+    const sel = xmlEditor.value.slice(s, e);
+    const insert = '<' + tag + attrs + '>' + sel + '</' + tag + '>';
+    xmlEditor.setRangeText(insert, s, e, 'end');
+    xmlEditor.focus();
+    /* place cursor inside empty when="" if present */
+    if (attrs.includes('""')) {
+      const pos = s + ('<' + tag + attrs).indexOf('""') + 1;
+      xmlEditor.setSelectionRange(pos, pos);
+    }
+    checkXml(true);
+  });
+});
+
+/* --- well-formedness + tree --- */
+function checkXml(silentIfOk) {
+  const src = xmlEditor.value.trim();
+  if (!src) return;
+  const doc = new DOMParser().parseFromString(src, 'application/xml');
+  const err = doc.querySelector('parsererror');
+  if (err) {
+    const msg = err.textContent.replace(/\s+/g, ' ').trim();
+    xmlStatus.className = 'status err';
+    xmlStatus.innerHTML = '<b>ה־XML אינו תקין (not well-formed).</b> המחשב לא מצליח לפרש את המסמך — בדקו תגית שלא נסגרה או גרשיים חסרים.<br><code>' + escapeHtml(msg.slice(0, 300)) + '</code>';
+    xmlTree.innerHTML = '<span style="color:var(--err);font-family:Heebo,sans-serif;direction:rtl;display:block">אי אפשר לבנות עץ ממסמך שאינו תקין — תקנו את השגיאה משמאל.</span>';
+    return false;
+  }
+  xmlTree.innerHTML = '';
+  xmlTree.appendChild(buildTree(doc.documentElement));
+  if (!silentIfOk) {
+    xmlStatus.className = 'status ok';
+    xmlStatus.innerHTML = '<b>תקין!</b> המסמך well-formed — כל תגית נפתחת נסגרת, והמחשב מצליח לבנות ממנו עץ.';
+  } else {
+    xmlStatus.className = 'status';
+  }
+  return true;
+}
+function buildTree(el) {
+  const box = document.createElement('div');
+  box.className = 'tnode';
+  const line = document.createElement('div');
+  let html = '<span class="tname">&lt;' + el.tagName + '&gt;</span>';
+  for (const a of el.attributes) {
+    html += ' <span class="tattr">' + escapeHtml(a.name) + '="' + escapeHtml(a.value) + '"</span>';
+  }
+  line.innerHTML = html;
+  box.appendChild(line);
+  for (const child of el.childNodes) {
+    if (child.nodeType === Node.ELEMENT_NODE) {
+      box.appendChild(buildTree(child));
+    } else if (child.nodeType === Node.TEXT_NODE && child.textContent.trim()) {
+      const t = document.createElement('div');
+      t.className = 'tnode';
+      const txt = child.textContent.trim();
+      t.innerHTML = '<span class="ttext">' + escapeHtml(txt.length > 60 ? txt.slice(0, 60) + '…' : txt) + '</span>';
+      box.appendChild(t);
+    }
+  }
+  return box;
+}
+document.getElementById('xml-check').addEventListener('click', () => checkXml(false));
+xmlEditor.addEventListener('input', () => { xmlStatus.className = 'status'; });
+document.getElementById('xml-dir').addEventListener('click', () => {
+  const ltr = xmlEditor.dir !== 'rtl';
+  xmlEditor.dir = ltr ? 'rtl' : 'ltr';
+  xmlEditor.style.textAlign = ltr ? 'right' : 'left';
+});
+document.getElementById('xml-download').addEventListener('click', () => {
+  const blob = new Blob([xmlEditor.value], { type: 'application/xml;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'annotated.xml';
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+/* ================= TAB 3: TEI example ================= */
+const TEI_EXAMPLE = `<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>א. קובנר לר. בריינין, 27 בפברואר 1904</title>
+        <author ref="https://www.wikidata.org/wiki/Q2670243">אברהם אורי קובנר</author>
+      </titleStmt>
+      <sourceDesc>
+        <bibl>פרויקט בן־יהודה, https://benyehuda.org/read/40830</bibl>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <correspDesc>
+        <correspAction type="sent">
+          <persName ref="#kovner">א. א. קובנר</persName>
+          <placeName ref="http://kima.geo/lomza">לומז'ה</placeName>
+          <date when="1904-02-27"/>
+        </correspAction>
+        <correspAction type="received">
+          <persName ref="#brainin">ראובן בריינין</persName>
+        </correspAction>
+      </correspDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="letter">
+        <opener>
+          <dateline>
+            <placeName>לאמזשא</placeName>,
+            <date when="1904-02-27">דען 27 טען פעברואר, יאהר 1904</date>
+          </dateline>
+          <salute>אדון נכבד,</salute>
+        </opener>
+        <p>זה כמעט ארבעים שנה (משנת <date when="1868">1868</date>)
+           עברו וחלפו, אשר לא קראתי ולא כתבתי מאומה בשפת עבר...
+           וישאלני, אם באמת ובתמים ידבר המחבר
+           ה' <persName ref="#brainin">בריינין</persName>?<note>ראובן
+           בריינין פרסם את מאמרו בעיתון <title>הצופה</title> בשנת 1904.</note></p>
+      </div>
+    </body>
+  </text>
+</TEI>`;
+document.getElementById('tei-example').innerHTML = colorizeCode(escapeHtml(TEI_EXAMPLE));
+</script>
+</body>
+</html>
