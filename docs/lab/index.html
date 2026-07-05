@@ -172,6 +172,24 @@
     background: var(--paper-3);
     color: var(--ink);
   }
+  input.txt {
+    font-family: 'Heebo', sans-serif;
+    font-size: 14px;
+    padding: 6px 12px;
+    border: 1.5px solid var(--rule-2);
+    border-radius: 4px;
+    background: #fffdf7;
+    color: var(--ink);
+    min-width: 210px;
+  }
+  input.txt:focus { outline: none; border-color: var(--teal); background: #fff; }
+  #tag-chips { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+  .cmp-babel {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 18px;
+    margin: 18px 0 6px;
+  }
+  .cmp-babel b { color: var(--brick); }
 
   /* ---- panes ---- */
   .split {
@@ -402,7 +420,8 @@
         קובצי ה־HTML של פרויקט בן־יהודה אומרים לדפדפן <i>איך להציג</i>: <code>&lt;strong&gt;</code> = הדגש,
         <code>&lt;h2&gt;</code> = כותרת גדולה. XML מתאר <i>מה הדבר הוא</i>: <code>&lt;emph&gt;</code> = מילה מוטעמת,
         <code>&lt;div type="section"&gt;</code> = יחידת טקסט מסוג מסוים, <code>&lt;note&gt;</code> = הערת שוליים.
-        נמיר קובץ אמיתי, נראה בדיוק אילו החלטות ההמרה קיבלה — ואז תוסיפו תיוג משלכם: שמות אנשים, מקומות ותאריכים.
+        נמיר קובץ אמיתי, נראה בדיוק אילו החלטות ההמרה קיבלה — ואז <b>תמציאו תגיות משלכם</b> ותסמנו כל מה
+        שנראה לכם ראוי לסימון: אנשים, מקומות, תאריכים, רגשות, טענות. אין רשימה נכונה — השם בידיכם.
       </div>
 
       <div class="stepline"><span class="stepnum">1</span>בחרו קובץ HTML מפרויקט בן־יהודה</div>
@@ -433,17 +452,20 @@
       </div>
       <div class="convlog" id="conv-log" style="display:none"></div>
 
-      <div class="stepline" id="step-annotate"><span class="stepnum">3</span>הוסיפו תיוג משלכם</div>
+      <div class="stepline" id="step-annotate"><span class="stepnum">3</span>המציאו תגיות משלכם</div>
       <div class="toolbar">
-        <span class="hint">סמנו קטע טקסט בעורך ולחצו על תגית:</span>
-        <button class="btn small tag" data-wrap="persName">&lt;persName&gt;</button>
-        <button class="btn small tag" data-wrap="placeName">&lt;placeName&gt;</button>
-        <button class="btn small tag" data-wrap="date" data-attrs=' when=""'>&lt;date when=""&gt;</button>
-        <button class="btn small tag" data-wrap="orgName">&lt;orgName&gt;</button>
-        <button class="btn small tag" data-wrap="title">&lt;title&gt;</button>
+        <span class="hint">סמנו קטע טקסט בעורך, תנו שם לתגית —</span>
+        <input type="text" class="txt" id="tag-name" placeholder="שם התגית, למשל: שם_אדם" dir="rtl">
+        <button class="btn small" id="tag-wrap">עטפו את הבחירה</button>
+        <span id="tag-chips"></span>
         <span class="spacer"></span>
         <button class="btn small" id="xml-dir">כיוון עורך ⇄</button>
         <button class="btn small" id="xml-check">בדיקת תקינות ✓</button>
+      </div>
+      <div class="toolbar">
+        <span class="hint">מה לתייג? מה שחשוב <i>לכם</i>: אנשים, מקומות, תאריכים, ציטוטים, לעג, טרוניה… אפשר לתת שמות בעברית או באנגלית. התגיות שכבר השתמשתם בהן יופיעו כאן ככפתורים.</span>
+        <span class="spacer"></span>
+        <input type="text" class="txt" id="annotator-name" placeholder="שם המתייג/ת — ייכתב בקובץ">
         <button class="btn small" id="xml-download">הורדת ה־XML ⤓</button>
       </div>
       <div class="split">
@@ -459,6 +481,21 @@
         </div>
       </div>
       <div class="status" id="xml-status"></div>
+
+      <div class="stepline" id="step-compare"><span class="stepnum">4</span>אוספים ומשווים — האם כולנו תייגנו אותו דבר?</div>
+      <div class="explain">
+        כל אחד ואחת הורידו קובץ XML עם התגיות שהמציאו. שלחו את הקבצים למנחה (מייל, WhatsApp, AirDrop —
+        כל דרך טובה), והמנחה יעלה כאן את <b>כולם בבת אחת</b>. הטבלה שתתקבל מראה מי המציא אילו תגיות —
+        וכמה שמות שונים נולדו בחדר אחד לאותו רעיון בדיוק. זו בדיוק הבעיה שלשמה הומצא תקן משותף.
+      </div>
+      <div class="toolbar">
+        <label class="upload btn">
+          העלאת קובצי ה־XML של הקבוצה…
+          <input type="file" id="cmp-files" accept=".xml,text/xml,application/xml" multiple>
+        </label>
+        <span class="hint">אפשר (ורצוי) לבחור את כל הקבצים בבת אחת</span>
+      </div>
+      <div id="cmp-out"></div>
     </section>
 
     <!-- ============================================================ -->
@@ -468,10 +505,11 @@
       <div class="explain">
         <b>ומה הלאה?</b>
         ה־XML שכתבנו בשלב הקודם הוא פרטי — התגיות שהמצאנו מובנות לנו, אבל לא לשום פרויקט אחר.
-        <b>TEI</b> (Text Encoding Initiative) היא הסכמה המשותפת של קהילת מדעי הרוח הדיגיטליים מאז 1987:
-        אוצר מילים מוסכם של מאות תגיות מתועדות, כך שמכתב שסומן בירושלים יהיה קריא למכונה גם בברלין.
-        שימו לב כמה מהתגיות שכבר הכרתם — <code>&lt;persName&gt;</code>, <code>&lt;date&gt;</code>,
-        <code>&lt;note&gt;</code>, <code>&lt;div type="…"&gt;</code> — הן פשוט TEI. כבר התחלתם.
+        בשלב ההשוואה ראינו: חדר אחד, טקסט אחד — ועשרות שמות תגיות שונים לאותם רעיונות.
+        <b>TEI</b> (Text Encoding Initiative) היא התשובה של קהילת מדעי הרוח הדיגיטליים לבעיה הזו, מאז 1987:
+        אוצר מילים מוסכם ומתועד של מאות תגיות, כך שמכתב שסומן בירושלים יהיה קריא למכונה גם בברלין.
+        השוו את התגיות שהמצאתם למה שהקהילה קבעה: מי שכתב <code>שם_אדם</code> חשב בדיוק כמו מי שקבע
+        <code>&lt;persName&gt;</code> — ההבדל היחיד הוא ההסכמה.
       </div>
 
       <div class="tei-cols">
@@ -845,23 +883,42 @@ convertBtn.addEventListener('click', () => {
   document.getElementById('step-annotate').scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 
-/* --- annotation buttons --- */
-document.querySelectorAll('[data-wrap]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const tag = btn.dataset.wrap;
-    const attrs = btn.dataset.attrs || '';
-    const s = xmlEditor.selectionStart, e = xmlEditor.selectionEnd;
-    const sel = xmlEditor.value.slice(s, e);
-    const insert = '<' + tag + attrs + '>' + sel + '</' + tag + '>';
-    xmlEditor.setRangeText(insert, s, e, 'end');
-    xmlEditor.focus();
-    /* place cursor inside empty when="" if present */
-    if (attrs.includes('""')) {
-      const pos = s + ('<' + tag + attrs).indexOf('""') + 1;
-      xmlEditor.setSelectionRange(pos, pos);
-    }
-    checkXml(true);
-  });
+/* --- invent-your-own annotation tags --- */
+const tagNameInput = document.getElementById('tag-name');
+const tagChips = document.getElementById('tag-chips');
+const usedTags = [];
+
+/* XML Name: letters (incl. Hebrew), digits, underscore, hyphen, dot; no spaces, no colon */
+function isValidTagName(t) {
+  return /^[A-Za-z_À-˿Ͱ-῿][A-Za-z0-9._\-À-˿Ͱ-῿]*$/.test(t);
+}
+function wrapSelection(tag) {
+  const s = xmlEditor.selectionStart, e = xmlEditor.selectionEnd;
+  const sel = xmlEditor.value.slice(s, e);
+  xmlEditor.setRangeText('<' + tag + '>' + sel + '</' + tag + '>', s, e, 'end');
+  xmlEditor.focus();
+  if (!usedTags.includes(tag)) {
+    usedTags.push(tag);
+    const chip = document.createElement('button');
+    chip.className = 'btn small tag';
+    chip.textContent = '<' + tag + '>';
+    chip.addEventListener('click', () => wrapSelection(tag));
+    tagChips.appendChild(chip);
+  }
+  checkXml(true);
+}
+document.getElementById('tag-wrap').addEventListener('click', () => {
+  const tag = tagNameInput.value.trim();
+  if (!isValidTagName(tag)) {
+    xmlStatus.className = 'status err';
+    xmlStatus.innerHTML = '<b>שם תגית לא חוקי.</b> שם של תגית XML מתחיל באות (עברית או לטינית), בלי רווחים — אפשר לחבר מילים בקו תחתון: <code>שם_אדם</code>';
+    tagNameInput.focus();
+    return;
+  }
+  wrapSelection(tag);
+});
+tagNameInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); document.getElementById('tag-wrap').click(); }
 });
 
 /* --- well-formedness + tree --- */
@@ -918,12 +975,106 @@ document.getElementById('xml-dir').addEventListener('click', () => {
   xmlEditor.style.textAlign = ltr ? 'right' : 'left';
 });
 document.getElementById('xml-download').addEventListener('click', () => {
-  const blob = new Blob([xmlEditor.value], { type: 'application/xml;charset=utf-8' });
+  let xml = xmlEditor.value;
+  const who = document.getElementById('annotator-name').value.trim();
+  /* embed the annotator's name in the header, so the comparison step can label columns */
+  if (who && !xml.includes('<annotator>') && xml.includes('</header>')) {
+    xml = xml.replace('</header>', '  <annotator>' + escapeXml(who) + '</annotator>\n  </header>');
+    xmlEditor.value = xml;
+  }
+  const blob = new Blob([xml], { type: 'application/xml;charset=utf-8' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'annotated.xml';
+  a.download = who ? 'xml-' + who.replace(/\s+/g, '-') + '.xml' : 'annotated.xml';
   a.click();
   URL.revokeObjectURL(a.href);
+});
+
+/* --- step 4: collect everyone's files and show the tag Babel --- */
+const BASE_TAGS = new Set(['document', 'header', 'title', 'author', 'source', 'annotator', 'body', 'div', 'head', 'p', 'emph', 'ref', 'note', 'lb']);
+
+function analyzeComparison(files) { /* files: [{name, xml}] */
+  const students = [];
+  for (const f of files) {
+    const doc = new DOMParser().parseFromString(f.xml, 'application/xml');
+    const fallback = f.name.replace(/\.xml$/i, '').replace(/^xml-/, '');
+    if (doc.querySelector('parsererror')) {
+      students.push({ name: fallback, invalid: true, tags: new Map() });
+      continue;
+    }
+    const annEl = doc.querySelector('annotator');
+    const name = (annEl && annEl.textContent.trim()) || fallback;
+    const tags = new Map();
+    doc.querySelectorAll('*').forEach(el => {
+      const t = el.tagName;
+      if (BASE_TAGS.has(t)) return;
+      if (!tags.has(t)) tags.set(t, { count: 0, examples: [] });
+      const rec = tags.get(t);
+      rec.count++;
+      const txt = el.textContent.trim().replace(/\s+/g, ' ');
+      if (txt && rec.examples.length < 2) rec.examples.push(txt.length > 28 ? txt.slice(0, 28) + '…' : txt);
+    });
+    students.push({ name, tags });
+  }
+  renderComparison(students);
+}
+
+function renderComparison(students) {
+  const out = document.getElementById('cmp-out');
+  const valid = students.filter(s => !s.invalid);
+  const invalid = students.filter(s => s.invalid);
+
+  /* union of invented tags -> per-student counts */
+  const allTags = new Map(); /* tag -> {perStudent: Map, total, users, examples} */
+  for (const s of valid) {
+    for (const [t, rec] of s.tags) {
+      if (!allTags.has(t)) allTags.set(t, { perStudent: new Map(), total: 0, examples: [] });
+      const a = allTags.get(t);
+      a.perStudent.set(s.name, rec.count);
+      a.total += rec.count;
+      for (const ex of rec.examples) if (a.examples.length < 2) a.examples.push(ex);
+    }
+  }
+  const rows = [...allTags.entries()].sort((a, b) =>
+    (b[1].perStudent.size - a[1].perStudent.size) || (b[1].total - a[1].total));
+  const shared = rows.filter(([, a]) => a.perStudent.size > 1).length;
+  const solo = rows.length - shared;
+
+  let html = '';
+  html += '<p class="cmp-babel">' + valid.length + ' מתייגים · <b>' + rows.length + ' שמות תגיות שונים</b>' +
+          (rows.length ? ' · רק ' + shared + ' מהם משותפים ליותר ממתייג אחד, ו־' + solo + ' הומצאו על־ידי אדם אחד בלבד' : '') + '</p>';
+
+  if (rows.length) {
+    let thead = '<tr><th>התגית</th>';
+    for (const s of valid) thead += '<th>' + escapeHtml(s.name) + '</th>';
+    thead += '<th>דוגמאות למה שנעטף</th></tr>';
+    let tbody = '';
+    for (const [t, a] of rows) {
+      tbody += '<tr><td><code>&lt;' + escapeHtml(t) + '&gt;</code></td>';
+      for (const s of valid) {
+        const n = a.perStudent.get(s.name);
+        tbody += '<td class="cnt">' + (n ? '×' + n : '·') + '</td>';
+      }
+      tbody += '<td>' + a.examples.map(e => '«' + escapeHtml(e) + '»').join(' · ') + '</td></tr>';
+    }
+    html += '<div class="convlog"><table>' + thead + tbody + '</table></div>';
+    html += '<p style="font-size:15px;color:var(--ink-soft)">עכשיו דמיינו לא חדר אחד אלא אלף חוקרים במאה ארכיונים: בלי אוצר תגיות מוסכם, אף מחשב לא יוכל לחפש את כל "שמות האנשים" בכל הקבצים יחד. זה בדיוק הפער ש־TEI בא לסגור — עברו ללשונית 3.</p>';
+  } else if (valid.length) {
+    html += '<p class="hint">לא נמצאו תגיות שהומצאו — הקבצים מכילים רק את תגיות ההמרה האוטומטית.</p>';
+  }
+  if (invalid.length) {
+    html += '<p style="font-size:14px;color:var(--err)">קבצים שאינם well-formed ולא נכנסו להשוואה (גם זה שיעור!): ' +
+            invalid.map(s => escapeHtml(s.name)).join(', ') + '</p>';
+  }
+  out.innerHTML = html;
+}
+
+document.getElementById('cmp-files').addEventListener('change', e => {
+  const files = [...e.target.files];
+  if (!files.length) return;
+  Promise.all(files.map(f => f.text().then(xml => ({ name: f.name, xml }))))
+    .then(analyzeComparison);
+  e.target.value = '';
 });
 
 /* ================= TAB 3: TEI example ================= */
