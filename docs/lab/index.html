@@ -330,6 +330,47 @@
     border-top: 1px dashed var(--rule-2);
   }
   .stepline:first-of-type { border-top: none; padding-top: 0; margin-top: 8px; }
+
+  /* ---- tag anatomy box ---- */
+  .anatomy {
+    background: #fff;
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin-bottom: 20px;
+  }
+  .anatomy .an-title {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .anatomy .an-code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 17px;
+    direction: ltr;
+    text-align: center;
+    background: var(--paper-3);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .an-tag  { color: var(--teal); font-weight: 600; }
+  .an-attr { color: var(--gold); }
+  .an-val  { color: var(--brick); }
+  .an-cnt  { background: #f3ecd9; padding: 1px 4px; border-radius: 3px; }
+  .anatomy ul { margin: 0; padding-inline-start: 20px; font-size: 15px; color: var(--ink-soft); }
+  .anatomy li { margin-bottom: 4px; }
+  .anatomy li b:first-child { color: var(--ink); }
+  .anatomy .swatch {
+    display: inline-block; width: 11px; height: 11px; border-radius: 2px; margin-inline-end: 6px;
+  }
+  .anatomy code {
+    font-family: 'IBM Plex Mono', monospace; font-size: 13.5px;
+    direction: ltr; unicode-bidi: embed;
+    background: var(--paper-2); padding: 1px 5px; border-radius: 3px;
+  }
   .stepline .stepnum {
     display: inline-block;
     font-family: 'IBM Plex Mono', monospace;
@@ -344,9 +385,62 @@
     vertical-align: 3px;
   }
 
-  /* ---- TEI teaser ---- */
-  .tei-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px; }
-  @media (max-width: 900px) { .tei-cols { grid-template-columns: 1fr; } }
+  /* ---- TEI wizard chat ---- */
+  .chat-pane .pane-body { display: flex; flex-direction: column; }
+  .chat-log {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 520px;
+    min-height: 380px;
+  }
+  .msg {
+    max-width: 88%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+  .msg.bot {
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    align-self: flex-start;
+    border-start-start-radius: 2px;
+  }
+  .msg.user {
+    background: #e3ecec;
+    border: 1px solid #b8cccc;
+    align-self: flex-end;
+    border-start-end-radius: 2px;
+  }
+  .msg code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    background: #fff;
+    padding: 1px 5px;
+    border-radius: 3px;
+    direction: ltr;
+    unicode-bidi: embed;
+  }
+  .chat-quick {
+    padding: 8px 14px;
+    border-top: 1px dashed var(--rule);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    min-height: 24px;
+  }
+  .chat-inputrow {
+    display: flex;
+    gap: 8px;
+    padding: 10px 14px;
+    border-top: 1.5px solid var(--rule);
+    background: var(--paper-2);
+  }
+  .chat-inputrow input { flex: 1; min-width: 0; }
 </style>
 </head>
 <body>
@@ -424,6 +518,21 @@
         שנראה לכם ראוי לסימון: אנשים, מקומות, תאריכים, רגשות, טענות. אין רשימה נכונה — השם בידיכם.
       </div>
 
+      <div class="anatomy">
+        <div class="an-title">רגע של דקדוק: תגית, תכונה, ערך</div>
+        <div class="an-code">&lt;<span class="an-tag">ספר</span> <span class="an-attr">סוגה</span>=<span class="an-val">"מחזה"</span> <span class="an-attr">שפה</span>=<span class="an-val">"עברית"</span>&gt;<span class="an-cnt">בחוץ</span>&lt;/<span class="an-tag">ספר</span>&gt;</div>
+        <ul>
+          <li><span class="swatch" style="background:var(--teal)"></span><b>תגית (tag)</b> — אומרת <i>מה הדבר</i>: ספר. נפתחת ונסגרת, והסוגרת מקבלת לוכסן.</li>
+          <li><span class="swatch" style="background:var(--gold)"></span><b>תכונה (attribute)</b> — פרט נוסף <i>על</i> הדבר: סוגה, שפה. יושבת תמיד בתוך התגית הפותחת, ואפשר לצרף כמה שרוצים.</li>
+          <li><span class="swatch" style="background:var(--brick)"></span><b>ערך (value)</b> — התשובה של התכונה, תמיד בין מרכאות: "מחזה".</li>
+          <li><span class="swatch" style="background:#f3ecd9;border:1px solid var(--rule)"></span><b>תוכן</b> — הטקסט עצמו, בין הפותחת לסוגרת: בחוץ.</li>
+        </ul>
+        <p style="margin:10px 0 0; font-size:14.5px; color:var(--ink-soft)">
+          בשביל מה תכונות? כדי לדייק בלי להמציא תגית חדשה לכל מקרה: <code>&lt;תאריך לוח="עברי"&gt;ט״ו בשבט תרס״ד&lt;/תאריך&gt;</code>
+          ו־<code>&lt;תאריך לוח="כללי"&gt;1904&lt;/תאריך&gt;</code> — אותה תגית, הבחנה אחרת. שימו לב אליהן בהמרה שתיכף נריץ: <code>type="section"</code> היא בדיוק כזאת.
+        </p>
+      </div>
+
       <div class="stepline"><span class="stepnum">1</span>בחרו קובץ HTML מפרויקט בן־יהודה</div>
       <div class="toolbar">
         <label class="upload btn">
@@ -499,37 +608,56 @@
     </section>
 
     <!-- ============================================================ -->
-    <!-- TAB 3: TEI teaser                                            -->
+    <!-- TAB 3: TEI wizard                                            -->
     <!-- ============================================================ -->
     <section class="tab-panel" id="panel-tei">
       <div class="explain">
-        <b>ומה הלאה?</b>
-        ה־XML שכתבנו בשלב הקודם הוא פרטי — התגיות שהמצאנו מובנות לנו, אבל לא לשום פרויקט אחר.
+        <b>עכשיו באמת.</b>
         בשלב ההשוואה ראינו: חדר אחד, טקסט אחד — ועשרות שמות תגיות שונים לאותם רעיונות.
         <b>TEI</b> (Text Encoding Initiative) היא התשובה של קהילת מדעי הרוח הדיגיטליים לבעיה הזו, מאז 1987:
-        אוצר מילים מוסכם ומתועד של מאות תגיות, כך שמכתב שסומן בירושלים יהיה קריא למכונה גם בברלין.
-        השוו את התגיות שהמצאתם למה שהקהילה קבעה: מי שכתב <code>שם_אדם</code> חשב בדיוק כמו מי שקבע
+        אוצר מילים מוסכם ומתועד של מאות תגיות. מי שכתב <code>שם_אדם</code> חשב בדיוק כמו מי שקבע
         <code>&lt;persName&gt;</code> — ההבדל היחיד הוא ההסכמה.
+        כאן נקודד מסמך שלם לפי התקן, בליווי צמוד: המדריך בצ׳אט יוביל אתכם בשלושה שלבים —
+        מילוי תעודת הזהות (<code>teiHeader</code>), בניית המבנה, ותיוג לפי הפרק הרלוונטי בתקן:
+        <b>התכתבות</b> או <b>דרמה</b>.
       </div>
 
-      <div class="tei-cols">
-        <div class="pane">
-          <div class="pane-head">אותו מכתב, בקידוד TEI</div>
-          <div class="pane-body"><pre class="code" id="tei-example"></pre></div>
+      <div class="toolbar">
+        <label class="upload btn">
+          העלאת קובץ HTML מפרויקט בן־יהודה…
+          <input type="file" id="tei-file" accept=".html,.htm,text/html">
+        </label>
+        <span class="hint" id="tei-file-name"></span>
+        <span class="spacer"></span>
+        <button class="btn small" id="tei-restart">התחלה מחדש ↺</button>
+      </div>
+
+      <div class="split">
+        <div class="pane chat-pane">
+          <div class="pane-head">המדריך לקידוד TEI</div>
+          <div class="pane-body">
+            <div class="chat-log" id="chat-log"></div>
+            <div class="chat-quick" id="chat-quick"></div>
+            <div class="chat-inputrow">
+              <input type="text" class="txt" id="chat-input" placeholder="כתבו תשובה…" dir="rtl">
+              <button class="btn" id="chat-send">שליחה</button>
+            </div>
+          </div>
         </div>
         <div class="pane">
-          <div class="pane-head">מה TEI נותנת לנו</div>
-          <div class="pane-body" style="padding:20px 26px; font-size:15.5px;">
-            <ul style="margin:0; padding-inline-start:20px; display:flex; flex-direction:column; gap:12px;">
-              <li><b>כותרת עשירה (teiHeader)</b> — מי כתב, מתי, איפה, מי קידד ולפי איזו מהדורה: המטא־נתונים נוסעים יחד עם הטקסט.</li>
-              <li><b>אוצר תגיות מוסכם</b> — <code style="font-family:'IBM Plex Mono',monospace;font-size:13px;direction:ltr;unicode-bidi:embed">&lt;opener&gt;, &lt;salute&gt;, &lt;dateline&gt;, &lt;signed&gt;</code> — מבנה של מכתב, לא סתם פסקאות.</li>
-              <li><b>קישוריות</b> — <code style="font-family:'IBM Plex Mono',monospace;font-size:13px;direction:ltr;unicode-bidi:embed">ref="…"</code> מחבר שם אדם לרשומת ויקינתונים, שם מקום לגזטיר היסטורי.</li>
-              <li><b>שיתוף ואגרגציה</b> — מכתב מקודד TEI יכול להצטרף ל־correspSearch, המנוע המאגד עשרות אלפי התכתבויות היסטוריות.</li>
-            </ul>
-            <p style="margin-top:20px; color:var(--muted); font-size:14px;">בזה נעסוק במפגש השני — כולל התבוננות ב־4,721 המכתבים שכבר חולצו ותויגו בפרויקט אגרת.</p>
+          <div class="pane-head">
+            מסמך ה־TEI
+            <span class="spacer"></span>
+            <button class="btn small" id="tei-dirbtn">כיוון ⇄</button>
+            <button class="btn small" id="tei-check">בדיקת תקינות ✓</button>
+            <button class="btn small" id="tei-download">הורדה ⤓</button>
+          </div>
+          <div class="pane-body">
+            <textarea class="editor" id="tei-editor" dir="ltr" style="text-align:left" spellcheck="false" placeholder="המסמך ייבנה כאן תוך כדי השיחה עם המדריך"></textarea>
           </div>
         </div>
       </div>
+      <div class="status" id="tei-status"></div>
     </section>
   </div>
 
@@ -576,6 +704,59 @@
 </div>
 
 <p><a href="https://benyehuda.org/">פרויקט בן־יהודה</a> · <a href="https://benyehuda.org/read/40830">לדף היצירה</a></p>
+
+</div></body></html></script>
+
+<!-- built-in sample: a shortened, real Ben Yehuda drama (Peretz, "Outside") -->
+<script type="text/plain" id="sample-by-drama"><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="he" lang="he" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>בחוץ</title>
+<meta name="author" content="יצחק ליבוש פרץ"/>
+</head><body dir='rtl'><div dir="rtl" align="right">
+
+<h2 id="i">בחוץ</h2>
+
+<p>אברהם ( הולך )</p>
+
+<p>מלכה ( קוראת ): אברהם, אברהם!</p>
+
+<p>אברהם ( הופך פניו בנחת ): אַתּ, אַתּ קוראת, מלכה?</p>
+
+<p>אברהם: כן, אני!&#8230;</p>
+
+<p>אברהם ( קרב אליה ואוחז בידה ): היש לך דבר טוב?</p>
+
+<p>מלכה: כן, תפוח מטוגן! ( נותנת לו והוא אוכל ).</p>
+
+<p>אברהם: בעליך חיים חיי עונג! תפוחים מטוגנים!</p>
+
+<p>מלכה: ובכל זאת אוכל הוא <strong>אותה</strong> בכל פה!</p>
+
+<p>אברהם ( בצחוק ): והיא?</p>
+
+<p>מלכה ( ברחמים ): היא בוכיה&#8230;</p>
+
+<p>אברהם: אך מה לנו ולהם?!&#8230; במשך הימים האחרונים אספתי שלוש פעמים שלושה – כמה?</p>
+
+<p>מלכה: תשעה!</p>
+
+<p>אברהם: טוב מאד! ( תופס בלחיה ).</p>
+
+<p>מלכה ( משתמטת ): ואני אך חצי רובל אספתי.</p>
+
+<p>אברהם ( בדאגה ): מדוע?</p>
+
+<p>מלכה: קמצן הוא ומקלל אותה על כל אגורה, וצר לי עליה!&#8230;</p>
+
+<p>אברהם ( באנחה ): כן, אומללה! אבל, באופן כזה, מלכה, ימָשכו עוד הימים עד החופה!</p>
+
+<p>מלכה: וכמה חסרים אנחנו עוד?</p>
+
+<p>אברהם: עוד חמשה-עשׂר – – –</p>
+
+<p>מלכה ( בחשד קל ): ולפני ימים אמרת אך שנים-עשׂר –</p>
+
+<p>אברהם: <strong>הרב</strong> רוצה יותר&#8230;</p>
+
+<p><a href="https://benyehuda.org/">פרויקט בן־יהודה</a> · <a href="https://benyehuda.org/read/997">לדף היצירה</a></p>
 
 </div></body></html></script>
 
@@ -1077,52 +1258,361 @@ document.getElementById('cmp-files').addEventListener('change', e => {
   e.target.value = '';
 });
 
-/* ================= TAB 3: TEI example ================= */
-const TEI_EXAMPLE = `<?xml version="1.0" encoding="UTF-8"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0">
-  <teiHeader>
-    <fileDesc>
-      <titleStmt>
-        <title>א. קובנר לר. בריינין, 27 בפברואר 1904</title>
-        <author ref="https://www.wikidata.org/wiki/Q2670243">אברהם אורי קובנר</author>
-      </titleStmt>
-      <sourceDesc>
-        <bibl>פרויקט בן־יהודה, https://benyehuda.org/read/40830</bibl>
-      </sourceDesc>
-    </fileDesc>
-    <profileDesc>
-      <correspDesc>
-        <correspAction type="sent">
-          <persName ref="#kovner">א. א. קובנר</persName>
-          <placeName ref="http://kima.geo/lomza">לומז'ה</placeName>
-          <date when="1904-02-27"/>
-        </correspAction>
-        <correspAction type="received">
-          <persName ref="#brainin">ראובן בריינין</persName>
-        </correspAction>
-      </correspDesc>
-    </profileDesc>
-  </teiHeader>
-  <text>
-    <body>
-      <div type="letter">
-        <opener>
-          <dateline>
-            <placeName>לאמזשא</placeName>,
-            <date when="1904-02-27">דען 27 טען פעברואר, יאהר 1904</date>
-          </dateline>
-          <salute>אדון נכבד,</salute>
-        </opener>
-        <p>זה כמעט ארבעים שנה (משנת <date when="1868">1868</date>)
-           עברו וחלפו, אשר לא קראתי ולא כתבתי מאומה בשפת עבר...
-           וישאלני, אם באמת ובתמים ידבר המחבר
-           ה' <persName ref="#brainin">בריינין</persName>?<note>ראובן
-           בריינין פרסם את מאמרו בעיתון <title>הצופה</title> בשנת 1904.</note></p>
-      </div>
-    </body>
-  </text>
-</TEI>`;
-document.getElementById('tei-example').innerHTML = colorizeCode(escapeHtml(TEI_EXAMPLE));
+/* ================= TAB 3: TEI wizard ================= */
+const teiEditor = document.getElementById('tei-editor');
+const teiStatus = document.getElementById('tei-status');
+const chatLog = document.getElementById('chat-log');
+const chatQuick = document.getElementById('chat-quick');
+const chatInput = document.getElementById('chat-input');
+
+const W = { type: null, html: null, meta: {}, found: {}, qi: 0, onText: null };
+
+function bot(html) {
+  const m = document.createElement('div');
+  m.className = 'msg bot';
+  m.innerHTML = html;
+  chatLog.appendChild(m);
+  chatLog.scrollTop = chatLog.scrollHeight;
+}
+function userEcho(text) {
+  const m = document.createElement('div');
+  m.className = 'msg user';
+  m.textContent = text;
+  chatLog.appendChild(m);
+  chatLog.scrollTop = chatLog.scrollHeight;
+}
+function setQuick(buttons) {
+  chatQuick.innerHTML = '';
+  for (const b of buttons) {
+    const el = document.createElement('button');
+    el.className = 'btn small' + (b.mono ? ' tag' : '');
+    el.textContent = b.label;
+    el.addEventListener('click', () => { if (!b.silent) userEcho(b.label); b.fn(); });
+    chatQuick.appendChild(el);
+  }
+}
+document.getElementById('chat-send').addEventListener('click', () => {
+  const t = chatInput.value.trim();
+  if (!t) return;
+  chatInput.value = '';
+  userEcho(t);
+  if (W.onText) W.onText(t);
+  else bot('כרגע עדיף להשתמש בכפתורים שמתחת לשיחה 🙂');
+});
+chatInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); document.getElementById('chat-send').click(); }
+});
+
+/* ---- TEI document assembly ---- */
+function ph(v, comment) { return v ? escapeXml(v) : '<!-- ' + comment + ' -->'; }
+
+function buildTeiHeader() {
+  const m = W.meta;
+  const L = [];
+  L.push('<teiHeader>');
+  L.push('    <fileDesc>');
+  L.push('      <titleStmt>');
+  L.push('        <title>' + ph(m.title, 'הכותרת תמולא בשיחה') + '</title>');
+  L.push('        <author>' + ph(W.type === 'letter' ? m.sender : m.author, 'המחבר/ת') + '</author>');
+  L.push('      </titleStmt>');
+  L.push('      <publicationStmt>');
+  L.push('        <p>קידוד תרגול — סדנת אגרת</p>');
+  L.push('      </publicationStmt>');
+  L.push('      <sourceDesc>');
+  L.push('        <bibl>' + ph(m.source, 'המקור') + '</bibl>');
+  L.push('      </sourceDesc>');
+  L.push('    </fileDesc>');
+  L.push('    <profileDesc>');
+  if (W.type === 'letter') {
+    L.push('      <correspDesc>');
+    L.push('        <correspAction type="sent">');
+    L.push('          <persName>' + ph(m.sender, 'השולח/ת') + '</persName>');
+    L.push('          <placeName>' + ph(m.place, 'מקום הכתיבה') + '</placeName>');
+    L.push('          ' + (m.date ? '<date when="' + escapeXml(m.date) + '"/>' : '<!-- תאריך המשלוח -->'));
+    L.push('        </correspAction>');
+    L.push('        <correspAction type="received">');
+    L.push('          <persName>' + ph(m.recipient, 'הנמען/ת') + '</persName>');
+    L.push('        </correspAction>');
+    L.push('      </correspDesc>');
+  } else {
+    L.push('      <creation>');
+    L.push('        ' + (m.date ? '<date when="' + escapeXml(m.date) + '"/>' : '<!-- שנת החיבור -->'));
+    L.push('      </creation>');
+    L.push('      <particDesc>');
+    L.push('        <listPerson><!-- הדמויות יתווספו בשלב המבנה --></listPerson>');
+    L.push('      </particDesc>');
+  }
+  L.push('    </profileDesc>');
+  L.push('  </teiHeader>');
+  return L.join('\n');
+}
+
+function buildTeiSkeleton() {
+  const { xml } = convertToXml(W.html);
+  const mm = xml.match(/<body>\n([\s\S]*?)\n  <\/body>/);
+  const body = mm ? mm[1] : '    <p><!-- לא זוהה תוכן --></p>';
+  return '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<TEI xmlns="http://www.tei-c.org/ns/1.0">\n' +
+    '  ' + buildTeiHeader() + '\n' +
+    '  <text>\n' +
+    '    <body>\n' +
+    body + '\n' +
+    '    </body>\n' +
+    '  </text>\n' +
+    '</TEI>';
+}
+function updateHeader() {
+  teiEditor.value = teiEditor.value.replace(/<teiHeader>[\s\S]*?<\/teiHeader>/, buildTeiHeader());
+}
+function extractPrefill(html) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  const t = doc.querySelector('title');
+  const a = doc.querySelector('meta[name="author"]');
+  const src = (html.match(/https:\/\/benyehuda\.org\/read\/\d+/) || [])[0];
+  return {
+    title: t ? t.textContent.trim() : '',
+    author: a ? (a.getAttribute('content') || '').trim() : '',
+    source: src ? 'פרויקט בן־יהודה, ' + src : ''
+  };
+}
+
+/* ---- wizard flow ---- */
+function startWizard() {
+  chatLog.innerHTML = '';
+  teiEditor.value = '';
+  teiStatus.className = 'status';
+  document.getElementById('tei-file-name').textContent = '';
+  Object.assign(W, { type: null, html: null, meta: {}, found: {}, qi: 0, onText: null });
+  bot('שלום! אני אלווה אתכם בקידוד מסמך שלם לפי תקן <b>TEI</b>, בשלושה שלבים: <b>1)</b> תעודת הזהות של הקובץ — ה־<code>teiHeader</code> · <b>2)</b> מבנה הטקסט · <b>3)</b> תיוג לפי הפרק המתאים בתקן.<br>במה נעבוד?');
+  setQuick([
+    { label: 'מכתב — עם קובץ הדוגמה 📜', fn: () => loadTei(document.getElementById('sample-by-html').textContent, 'letter', 'קובץ הדוגמה: א. קובנר לר. בריינין') },
+    { label: 'מחזה — עם קובץ הדוגמה 🎭', fn: () => loadTei(document.getElementById('sample-by-drama').textContent, 'drama', 'קובץ הדוגמה: בחוץ / י״ל פרץ') },
+    { label: 'אעלה קובץ משלי', fn: () => bot('מצוין — העלו קובץ HTML של פרויקט בן־יהודה בכפתור שמעל לחלון השיחה, ואז נמשיך.') }
+  ]);
+}
+document.getElementById('tei-file').addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    userEcho('העליתי את ' + f.name);
+    bot('קיבלתי את <b>' + escapeHtml(f.name) + '</b>. מה יש לנו כאן?');
+    setQuick([
+      { label: 'מכתב 📜', fn: () => loadTei(r.result, 'letter', f.name) },
+      { label: 'מחזה 🎭', fn: () => loadTei(r.result, 'drama', f.name) }
+    ]);
+  };
+  r.readAsText(f);
+  e.target.value = '';
+});
+
+function loadTei(html, type, label) {
+  W.html = html;
+  W.type = type;
+  W.meta = {};
+  W.qi = 0;
+  W.found = extractPrefill(html);
+  document.getElementById('tei-file-name').textContent = label;
+  teiEditor.value = buildTeiSkeleton();
+  bot('בניתי בעורך <b>שלד TEI</b>: שורש <code>&lt;TEI&gt;</code> עם מרחב השמות של התקן, <code>&lt;teiHeader&gt;</code> עדיין מלא בהערות-ממתינות, והטקסט עצמו כבר יושב בתוך <code>&lt;text&gt;&lt;body&gt;</code>. עכשיו נמלא את תעודת הזהות.');
+  askNext();
+}
+
+const QUESTIONS = {
+  letter: [
+    { key: 'title', found: 'title', ask: 'מה כותרת המסמך? היא תשב ב־<code>&lt;title&gt;</code> שבתוך ה־header.' },
+    { key: 'sender', found: 'author', ask: 'מי כתב את המכתב? התשובה תמלא גם את <code>&lt;author&gt;</code> וגם את השולח ב־<code>correspAction type="sent"</code>.' },
+    { key: 'recipient', ask: 'מי הנמען? זה המידע שהופך קובץ בודד לחלק מרשת התכתבויות — <code>correspAction type="received"</code>.' },
+    { key: 'place', ask: 'מאיזה מקום נכתב המכתב? רמז: אצל קובנר המקום מסתתר בשורה הראשונה של המכתב, בכתיב יידי.' },
+    { key: 'date', validate: /^\d{4}(-\d{2}(-\d{2})?)?$/, ask: 'מתי נכתב? כתבו בפורמט קריא-למכונה: <code>YYYY-MM-DD</code>, או רק שנה. כך אלפי מכתבים נכנסים לציר זמן אחד.', errmsg: 'כמעט — בשביל מכונה צריך למשל <code>1904-02-27</code> או <code>1904</code>. נסו שוב:' },
+    { key: 'source', found: 'source', ask: 'ולסיום ה־header: מהיכן לקחנו את הטקסט? (<code>&lt;sourceDesc&gt;</code> — כדי שקוראים עתידיים ידעו על מה הקידוד מבוסס)' }
+  ],
+  drama: [
+    { key: 'title', found: 'title', ask: 'מה שם המחזה? הוא יישב ב־<code>&lt;title&gt;</code> שבתוך ה־header.' },
+    { key: 'author', found: 'author', ask: 'מי המחבר/ת?' },
+    { key: 'date', validate: /^\d{4}$/, ask: 'באיזו שנה חובר או פורסם? (<code>YYYY</code>; אם אינכם בטוחים — הערכה סבירה, אפשר גם לדלג)', errmsg: 'שנה בת ארבע ספרות, למשל <code>1906</code>. נסו שוב:' },
+    { key: 'source', found: 'source', ask: 'ומהיכן הטקסט? (<code>&lt;sourceDesc&gt;</code>)' }
+  ]
+};
+
+function askNext() {
+  const qs = QUESTIONS[W.type];
+  if (W.qi >= qs.length) { beginStructure(); return; }
+  const q = qs[W.qi];
+  const foundVal = q.found ? W.found[q.found] : '';
+  bot(q.ask + (foundVal ? '<br>מצאתי בקובץ: <b>«' + escapeHtml(foundVal) + '»</b> — להשתמש בזה?' : ''));
+  const answer = v => {
+    if (v && q.validate && !q.validate.test(v)) { bot(q.errmsg); return; }
+    W.meta[q.key] = v;
+    updateHeader();
+    if (v) bot('✓ עודכן בעורך.');
+    W.qi++;
+    askNext();
+  };
+  const buttons = [];
+  if (foundVal) buttons.push({ label: 'כן, להשתמש בזה', fn: () => answer(foundVal) });
+  buttons.push({ label: 'דילוג', fn: () => answer('') });
+  setQuick(buttons);
+  W.onText = answer;
+}
+
+/* ---- step 2: structure ---- */
+function wrapTei(tag, attrs) {
+  const s = teiEditor.selectionStart, e = teiEditor.selectionEnd;
+  if (s === e) { bot('קודם סמנו בעורך את קטע הטקסט, ואז לחצו על התגית.'); return; }
+  const sel = teiEditor.value.slice(s, e);
+  teiEditor.setRangeText('<' + tag + (attrs || '') + '>' + sel + '</' + tag + '>', s, e, 'end');
+  bot('✓ נעטף ב־<code>&lt;' + tag + '&gt;</code>. אפשר להמשיך לסמן, או להתקדם.');
+}
+
+function beginStructure() {
+  W.onText = null;
+  if (W.type === 'letter') {
+    bot('<b>שלב 2: מבנה.</b> ה־header מוכן — עכשיו הגוף. לתקן יש אוצר תגיות ייעודי למכתבים: <code>&lt;opener&gt;</code> — גוש הפתיחה; בתוכו <code>&lt;dateline&gt;</code> (מקום+תאריך) ו־<code>&lt;salute&gt;</code> (הפנייה, „אדון נכבד"); ובסוף המכתב <code>&lt;closer&gt;</code> עם <code>&lt;signed&gt;</code> (החתימה).<br>סמנו בעורך את הטקסט המתאים ולחצו על התגית:');
+    setQuick([
+      { label: '<opener>', mono: true, silent: true, fn: () => wrapTei('opener') },
+      { label: '<dateline>', mono: true, silent: true, fn: () => wrapTei('dateline') },
+      { label: '<salute>', mono: true, silent: true, fn: () => wrapTei('salute') },
+      { label: '<closer>', mono: true, silent: true, fn: () => wrapTei('closer') },
+      { label: '<signed>', mono: true, silent: true, fn: () => wrapTei('signed') },
+      { label: 'סיימתי את המבנה ←', fn: beginAnnotate }
+    ]);
+  } else {
+    bot('<b>שלב 2: מבנה.</b> במחזאות, כל רפליקה נעטפת ב־<code>&lt;sp&gt;</code> (speech), שם הדובר ב־<code>&lt;speaker&gt;</code>, והוראות הבמה — „( קוראת )" — ב־<code>&lt;stage&gt;</code>.<br>שמתם לב שבקובץ יש תבנית קבועה? <i>שם הדובר ( הוראת במה ): דיבור</i>. תבנית עקבית = מכונה יכולה לזהות אותה. רוצים שאנסה לבד?');
+    setQuick([
+      { label: 'זיהוי דוברים אוטומטי ✨', fn: () => {
+          const { n, speakers } = dramatize();
+          bot('זיהיתי <b>' + n + ' רפליקות</b> והפכתי אותן ל־<code>&lt;sp&gt;</code>. את רשימת הדמויות — ' + speakers.map(s => '<b>' + escapeHtml(s) + '</b>').join(', ') + ' — רשמתי גם ב־<code>&lt;listPerson&gt;</code> שב־header. בדקו בעורך אם זיהיתי נכון (מכונות טועות!) ותקנו ידנית איפה שצריך.');
+        } },
+      { label: '<sp>', mono: true, silent: true, fn: () => wrapTei('sp') },
+      { label: '<speaker>', mono: true, silent: true, fn: () => wrapTei('speaker') },
+      { label: '<stage>', mono: true, silent: true, fn: () => wrapTei('stage') },
+      { label: 'סיימתי את המבנה ←', fn: beginAnnotate }
+    ]);
+  }
+}
+
+function dramatize() {
+  let n = 0;
+  const speakers = new Set();
+  const NAME = '[\\u0590-\\u05FF][\\u0590-\\u05FF"\'׳״\\-\\u05BE ]{0,24}?';
+  teiEditor.value = teiEditor.value.replace(/<p>([\s\S]*?)<\/p>/g, (m0, inner) => {
+    let mm = inner.match(new RegExp('^(' + NAME + ')\\s*(\\([^)]*\\))?\\s*:\\s*([\\s\\S]+)$'));
+    if (mm) {
+      n++; speakers.add(mm[1].trim());
+      return '<sp><speaker>' + mm[1].trim() + '</speaker>' + (mm[2] ? ' <stage>' + mm[2] + '</stage>' : '') + '\n        <p>' + mm[3].trim() + '</p></sp>';
+    }
+    mm = inner.match(new RegExp('^(' + NAME + ')\\s*(\\([^)]*\\))\\s*\\.?\\s*$'));
+    if (mm) {
+      n++; speakers.add(mm[1].trim());
+      return '<sp><speaker>' + mm[1].trim() + '</speaker> <stage>' + mm[2] + '</stage></sp>';
+    }
+    return m0;
+  });
+  if (speakers.size) {
+    const lp = '<listPerson>\n' + [...speakers].map(s =>
+      '          <person><persName>' + escapeXml(s) + '</persName></person>').join('\n') + '\n        </listPerson>';
+    teiEditor.value = teiEditor.value.replace(/<listPerson>[\s\S]*?<\/listPerson>/, lp);
+  }
+  return { n, speakers: [...speakers] };
+}
+
+/* ---- step 3: annotation ---- */
+function beginAnnotate() {
+  W.onText = null;
+  const common = 'סמנו טקסט בעורך ולחצו על תגית. אלה אותם רעיונות שסימנתם בלשונית 2 — אבל הפעם בשמות שכל העולם מבין.';
+  if (W.type === 'letter') {
+    bot('<b>שלב 3: תיוג.</b> ' + common + ' למכתבים רלוונטיים במיוחד: אנשים, מקומות, תאריכים (עם <code>when=</code> קריא-למכונה!) ומוסדות.');
+  } else {
+    bot('<b>שלב 3: תיוג.</b> ' + common + ' במחזה שווה לתייג גם הוראות במה שהוחמצו, ואזכורים של אנשים ומקומות בתוך הדיבור.');
+  }
+  const btns = [
+    { label: '<persName>', mono: true, silent: true, fn: () => wrapTei('persName') },
+    { label: '<placeName>', mono: true, silent: true, fn: () => wrapTei('placeName') },
+    { label: '<date when="">', mono: true, silent: true, fn: () => wrapTei('date', ' when=""') },
+    { label: '<orgName>', mono: true, silent: true, fn: () => wrapTei('orgName') }
+  ];
+  if (W.type === 'drama') btns.push({ label: '<stage>', mono: true, silent: true, fn: () => wrapTei('stage') });
+  btns.push({ label: 'בדיקה אחרונה וסיכום ✓', fn: finishReview });
+  setQuick(btns);
+}
+
+/* ---- final checklist ---- */
+function teiChecklist() {
+  const items = [];
+  const doc = new DOMParser().parseFromString(teiEditor.value, 'application/xml');
+  const err = doc.querySelector('parsererror');
+  items.push({ ok: !err, label: 'המסמך well-formed — כל תגית נסגרת' });
+  if (err) return items;
+  const root = doc.documentElement;
+  items.push({ ok: root.tagName === 'TEI' && root.getAttribute('xmlns') === 'http://www.tei-c.org/ns/1.0', label: 'שורש <TEI> עם מרחב השמות של התקן' });
+  const txt = sel => { const el = doc.querySelector(sel); return el ? el.textContent.trim() : ''; };
+  items.push({ ok: !!txt('titleStmt > title'), label: 'יש כותרת ב־titleStmt' });
+  items.push({ ok: !!txt('titleStmt > author'), label: 'יש מחבר/ת' });
+  if (W.type === 'letter') {
+    items.push({ ok: !!doc.querySelector('correspDesc'), label: 'יש correspDesc — המכתב שמיש לרשתות התכתבות' });
+    const d = doc.querySelector('correspAction[type="sent"] date');
+    items.push({ ok: !!(d && /^\d{4}(-\d{2}(-\d{2})?)?$/.test(d.getAttribute('when') || '')), label: 'תאריך משלוח קריא-למכונה (when=)' });
+    items.push({ ok: !!txt('correspAction[type="received"] persName'), label: 'יש נמען/ת' });
+  } else {
+    const sp = doc.querySelectorAll('sp').length, spk = doc.querySelectorAll('speaker').length;
+    items.push({ ok: sp > 0, label: 'רפליקות עטופות ב־<sp> (' + sp + ')' });
+    items.push({ ok: spk > 0, label: 'דוברים מסומנים ב־<speaker> (' + spk + ')' });
+    items.push({ ok: doc.querySelectorAll('listPerson person').length > 0, label: 'רשימת דמויות ב־listPerson' });
+  }
+  items.push({ ok: doc.querySelectorAll('persName, placeName, date, orgName').length > 0, label: 'יש תיוג תוכן (שמות/מקומות/תאריכים)' });
+  return items;
+}
+
+function finishReview() {
+  const items = teiChecklist();
+  const allOk = items.every(i => i.ok);
+  bot(items.map(i => (i.ok
+    ? '<span style="color:var(--ok)">✓</span> '
+    : '<span style="color:var(--err)">✗</span> ') + escapeHtml(i.label)).join('<br>'));
+  if (allOk) {
+    bot('<b>מזל טוב — קידדתם מסמך TEI!</b> 🎉 הקובץ הזה קריא עכשיו לכל כלי שמבין את התקן: הוא יכול להצטרף ל־<b>correspSearch</b> (המאגד עשרות אלפי מכתבים היסטוריים), להיכנס למאגרי דרמה כמו DraCor, או להצטרף ל־4,721 המכתבים שכבר חולצו בפרויקט אגרת. הורידו אותו למזכרת ⤓');
+    setQuick([
+      { label: 'הורדת הקובץ ⤓', fn: () => document.getElementById('tei-download').click() },
+      { label: 'עוד סיבוב — מהתחלה ↺', fn: startWizard }
+    ]);
+  } else {
+    bot('יש עוד מה להשלים — תקנו בעורך (או המשיכו לתייג עם הכפתורים) ולחצו שוב על הבדיקה.');
+  }
+}
+
+/* ---- editor side buttons ---- */
+document.getElementById('tei-check').addEventListener('click', () => {
+  const doc = new DOMParser().parseFromString(teiEditor.value, 'application/xml');
+  const err = doc.querySelector('parsererror');
+  if (err) {
+    teiStatus.className = 'status err';
+    teiStatus.innerHTML = '<b>לא well-formed.</b> <code>' + escapeHtml(err.textContent.replace(/\s+/g, ' ').slice(0, 250)) + '</code>';
+  } else {
+    const items = teiChecklist();
+    const bad = items.filter(i => !i.ok);
+    teiStatus.className = bad.length ? 'status err' : 'status ok';
+    teiStatus.innerHTML = bad.length
+      ? '<b>תקין טכנית, אבל חסר:</b> ' + bad.map(i => escapeHtml(i.label)).join(' · ')
+      : '<b>מצוין!</b> המסמך תקין ועומד בכל בדיקות הסדנה.';
+  }
+});
+document.getElementById('tei-dirbtn').addEventListener('click', () => {
+  const ltr = teiEditor.dir !== 'rtl';
+  teiEditor.dir = ltr ? 'rtl' : 'ltr';
+  teiEditor.style.textAlign = ltr ? 'right' : 'left';
+});
+document.getElementById('tei-download').addEventListener('click', () => {
+  const blob = new Blob([teiEditor.value], { type: 'application/xml;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'tei-' + (W.type || 'document') + '.xml';
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+document.getElementById('tei-restart').addEventListener('click', startWizard);
+
+startWizard();
 </script>
 </body>
 </html>
