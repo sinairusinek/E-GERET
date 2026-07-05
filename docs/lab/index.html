@@ -506,21 +506,23 @@
 
   <div class="wrap">
     <nav class="tabs">
-      <button class="tab-btn active" data-tab="md"><span class="num">1</span>טקסט · Markdown · HTML</button>
-      <button class="tab-btn" data-tab="xml"><span class="num">2</span>מ־HTML ל־XML</button>
-      <button class="tab-btn" data-tab="tei"><span class="num">3</span>לקראת TEI</button>
+      <button class="tab-btn active" data-tab="md"><span class="num">1</span>טקסט · Markdown</button>
+      <button class="tab-btn" data-tab="html"><span class="num">2</span>HTML</button>
+      <button class="tab-btn" data-tab="xml"><span class="num">3</span>מ־HTML ל־XML</button>
+      <button class="tab-btn" data-tab="tei"><span class="num">4</span>לקראת TEI</button>
     </nav>
 
     <!-- ============================================================ -->
-    <!-- TAB 1: plain text / markdown / html                          -->
+    <!-- TAB 1: plain text + markdown                                 -->
     <!-- ============================================================ -->
     <section class="tab-panel active" id="panel-md">
       <div class="explain">
-        <b>אותו טקסט, שלוש צורות.</b>
-        משמאל תראו את הטקסט כפי שהוא באמת — רצף של תווים. סימנים כמו <code>#</code> ו־<code>**</code> הם
-        <b>Markdown</b>: מוסכמות סימון קלות שבני אדם כותבים בקלות ומחשבים יודעים לפרש.
-        המחשב ממיר אותן ל־<b>HTML</b> — שפת סימון של תגיות — והדפדפן הופך את התגיות לעיצוב.
-        ערכו את הטקסט מימין וצפו בתוצאה מיד. החליפו "לבוש" (ערכת עיצוב) כדי לראות שהתוכן והמראה נפרדים זה מזה.
+        <b>מטקסט פשוט לטקסט מעוצב — עם סימנים בלבד.</b>
+        בעורך שמימין יושב טקסט פשוט: רצף של תווים, בלי שום עיצוב. <b>Markdown</b> היא מוסכמת סימון קלה:
+        מוסיפים סימנים לטקסט, והמחשב מפרש אותם לעיצוב — שתראו מיד בצד שמאל.
+        נסו על הטקסט: <code>#</code> בתחילת שורה = כותרת · <code>**מילה**</code> = הדגשה ·
+        <code>*מילה*</code> = הטיה · <code>-</code> בתחילת שורה = פריט רשימה · <code>&gt;</code> = ציטוט ·
+        <code>---</code> בשורה משלה = קו מפריד · <code>[טקסט](כתובת)</code> = קישור.
       </div>
 
       <div class="toolbar">
@@ -529,35 +531,80 @@
           <input type="file" id="md-file" accept=".txt,.md,.markdown,text/plain">
         </label>
         <button class="btn small" id="md-reset">חזרה לדוגמה</button>
+        <button class="btn small" id="md-download">הורדה כ־Markdown ⤓</button>
         <span class="spacer"></span>
-        <span class="hint">אפשר גם פשוט להקליד — התצוגה מתעדכנת תוך כדי כתיבה</span>
+        <span class="hint">התצוגה מתעדכנת תוך כדי הקלדה</span>
       </div>
 
       <div class="split">
         <div class="pane">
-          <div class="pane-head">מקור — מה שכותבים</div>
+          <div class="pane-head">הקוד — טקסט + סימני Markdown</div>
           <div class="pane-body">
             <textarea class="editor" id="md-src" dir="rtl" spellcheck="false"></textarea>
           </div>
         </div>
         <div class="pane">
-          <div class="pane-head">
-            תצוגה — מה שרואים
-            <span class="spacer"></span>
-            <span class="seg" id="md-modes">
-              <button data-mode="plain">טקסט גולמי</button>
-              <button data-mode="render" class="active">Markdown מעובד</button>
-              <button data-mode="html">קוד ה־HTML</button>
-            </span>
-            <select id="md-theme" title="ערכת עיצוב">
-              <option value="theme-book">לבוש: ספר</option>
-              <option value="theme-news">לבוש: עיתון</option>
-              <option value="theme-type">לבוש: מכונת כתיבה</option>
-            </select>
-          </div>
+          <div class="pane-head">התוצאה המעוצבת</div>
           <div class="pane-body" id="md-out"></div>
         </div>
       </div>
+      <p class="hint" style="margin-top:12px">
+        ניסוי להמשך: הורידו את הקובץ (<code>.md</code>), העלו אותו ל־Google Drive ופתחו — מה קרה לסימנים?
+        עכשיו נסו לפתוח את אותו קובץ ב"פנקס רשימות" פשוט. מי מפרש ומי מציג כפי־שהוא?
+      </p>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- TAB 2: html drill                                            -->
+    <!-- ============================================================ -->
+    <section class="tab-panel" id="panel-html">
+      <div class="explain">
+        <b>מסימנים לתגיות.</b>
+        את ה־Markdown מהתרגיל הקודם המחשב מתרגם ל־<b>HTML</b> — שפת הסימון של כל דף אינטרנט.
+        כאן הסימון גלוי: כל קטע עטוף ב<b>תגית</b> שנפתחת (<code>&lt;h1&gt;</code>) ונסגרת (<code>&lt;/h1&gt;</code>),
+        והדפדפן מפרש אותה לעיצוב. ערכו את הקוד שמימין — בהקלדה חופשית, או בסימון קטע ובחירת תגית
+        מהרשימה — וראו את התוצאה משמאל.
+      </div>
+
+      <div class="toolbar">
+        <label class="upload btn">
+          העלאת קובץ HTML…
+          <input type="file" id="html-file" accept=".html,.htm,text/html">
+        </label>
+        <button class="btn small" id="html-reset">חזרה לדוגמה</button>
+        <button class="btn small" id="html-from-md">ייבוא: ה־Markdown שלי כ־HTML ←</button>
+        <span class="spacer"></span>
+        <select id="html-wrap-el">
+          <option value="h1">h1 — כותרת ראשית</option>
+          <option value="h2">h2 — כותרת משנית</option>
+          <option value="p">p — פסקה</option>
+          <option value="strong">strong — הדגשה</option>
+          <option value="em">em — הטיה</option>
+          <option value="mark">mark — סימון בצהוב</option>
+          <option value="u">u — קו תחתון</option>
+          <option value="blockquote">blockquote — ציטוט</option>
+          <option value="li">li — פריט רשימה</option>
+          <option value="code">code — קוד/מכונת כתיבה</option>
+        </select>
+        <button class="btn small" id="html-wrap">עטפו את הבחירה</button>
+      </div>
+
+      <div class="split">
+        <div class="pane">
+          <div class="pane-head">הקוד — HTML</div>
+          <div class="pane-body">
+            <textarea class="editor" id="html-src" dir="ltr" style="text-align:left" spellcheck="false"></textarea>
+          </div>
+        </div>
+        <div class="pane">
+          <div class="pane-head">כך מציג זאת הדפדפן</div>
+          <div class="pane-body rendered theme-book" id="html-out" dir="rtl"></div>
+        </div>
+      </div>
+      <p class="hint" style="margin-top:12px">
+        שימו לב: התגיות, התכונות והערכים — תמיד באנגלית (<code>&lt;h1&gt;</code>, <code>dir="rtl"</code>);
+        התוכן שביניהן — בכל שפה. נסו למחוק תגית סוגרת וראו מה קורה לתצוגה.
+      </p>
     </section>
 
     <!-- ============================================================ -->
@@ -575,16 +622,16 @@
 
       <div class="anatomy">
         <div class="an-title">רגע של דקדוק: תגית, תכונה, ערך</div>
-        <div class="an-code">&lt;<span class="an-tag">ספר</span> <span class="an-attr">סוגה</span>=<span class="an-val">"מחזה"</span> <span class="an-attr">שפה</span>=<span class="an-val">"עברית"</span>&gt;<span class="an-cnt">בחוץ</span>&lt;/<span class="an-tag">ספר</span>&gt;</div>
+        <div class="an-code">&lt;<span class="an-tag">book</span> <span class="an-attr">genre</span>=<span class="an-val">"play"</span> <span class="an-attr">lang</span>=<span class="an-val">"he"</span>&gt;<span class="an-cnt">בחוץ</span>&lt;/<span class="an-tag">book</span>&gt;</div>
         <ul>
-          <li><span class="swatch" style="background:var(--teal)"></span><b>תגית (tag)</b> — אומרת <i>מה הדבר</i>: ספר. נפתחת ונסגרת, והסוגרת מקבלת לוכסן.</li>
-          <li><span class="swatch" style="background:var(--gold)"></span><b>תכונה (attribute)</b> — פרט נוסף <i>על</i> הדבר: סוגה, שפה. יושבת תמיד בתוך התגית הפותחת, ואפשר לצרף כמה שרוצים.</li>
-          <li><span class="swatch" style="background:var(--brick)"></span><b>ערך (value)</b> — התשובה של התכונה, תמיד בין מרכאות: "מחזה".</li>
-          <li><span class="swatch" style="background:#f3ecd9;border:1px solid var(--rule)"></span><b>תוכן</b> — הטקסט עצמו, בין הפותחת לסוגרת: בחוץ.</li>
+          <li><span class="swatch" style="background:var(--teal)"></span><b>תגית (tag)</b> — אומרת <i>מה הדבר</i>: book. נפתחת ונסגרת, והסוגרת מקבלת לוכסן.</li>
+          <li><span class="swatch" style="background:var(--gold)"></span><b>תכונה (attribute)</b> — פרט נוסף <i>על</i> הדבר: genre, lang. יושבת תמיד בתוך התגית הפותחת, ואפשר לצרף כמה שרוצים.</li>
+          <li><span class="swatch" style="background:var(--brick)"></span><b>ערך (value)</b> — התשובה של התכונה, תמיד בין מרכאות: "play".</li>
+          <li><span class="swatch" style="background:#f3ecd9;border:1px solid var(--rule)"></span><b>תוכן</b> — הטקסט עצמו, בין הפותחת לסוגרת: בחוץ. שימו לב לחלוקה: תגיות, תכונות וערכים — באנגלית; התוכן — בשפת המסמך.</li>
         </ul>
         <p style="margin:10px 0 0; font-size:14.5px; color:var(--ink-soft)">
-          בשביל מה תכונות? כדי לדייק בלי להמציא תגית חדשה לכל מקרה: <code>&lt;תאריך לוח="עברי"&gt;ט״ו בשבט תרס״ד&lt;/תאריך&gt;</code>
-          ו־<code>&lt;תאריך לוח="כללי"&gt;1904&lt;/תאריך&gt;</code> — אותה תגית, הבחנה אחרת. שימו לב אליהן בהמרה שתיכף נריץ: <code>type="section"</code> היא בדיוק כזאת.
+          בשביל מה תכונות? כדי לדייק בלי להמציא תגית חדשה לכל מקרה: <code>&lt;date calendar="hebrew"&gt;ט״ו בשבט תרס״ד&lt;/date&gt;</code>
+          לעומת <code>&lt;date calendar="gregorian"&gt;1904&lt;/date&gt;</code> — אותה תגית, הבחנה אחרת. שימו לב אליהן בהמרה שתיכף נריץ: <code>type="section"</code> היא בדיוק כזאת.
         </p>
       </div>
 
@@ -600,12 +647,12 @@
       </div>
       <div class="split">
         <div class="pane">
-          <div class="pane-head">כך זה נראה בדפדפן (סימון מעצב בפעולה)</div>
-          <div class="pane-body byrender" id="by-render"><div class="plainview" style="color:var(--muted)">טרם נטען קובץ.</div></div>
+          <div class="pane-head">קוד המקור — HTML</div>
+          <div class="pane-body"><pre class="code" id="by-source"></pre></div>
         </div>
         <div class="pane">
-          <div class="pane-head">קוד המקור — HTML</div>
-          <div class="pane-body"><pre class="code" id="by-source">טרם נטען קובץ.</pre></div>
+          <div class="pane-head">כך זה נראה בדפדפן (סימון מעצב בפעולה)</div>
+          <div class="pane-body byrender" id="by-render"></div>
         </div>
       </div>
 
@@ -619,7 +666,7 @@
       <div class="stepline" id="step-annotate"><span class="stepnum">3</span>המציאו תגיות משלכם</div>
       <div class="toolbar">
         <span class="hint">סמנו קטע טקסט בעורך, תנו שם לתגית —</span>
-        <input type="text" class="txt" id="tag-name" placeholder="שם התגית, למשל: שם_אדם" dir="rtl">
+        <input type="text" class="txt" id="tag-name" placeholder="person_name" dir="ltr" style="text-align:left">
         <button class="btn small" id="tag-wrap">עטפו את הבחירה</button>
         <span id="tag-chips"></span>
         <span class="spacer"></span>
@@ -627,7 +674,7 @@
         <button class="btn small" id="xml-check">בדיקת תקינות ✓</button>
       </div>
       <div class="toolbar">
-        <span class="hint">מה לתייג? מה שחשוב <i>לכם</i>: אנשים, מקומות, תאריכים, ציטוטים, לעג, טרוניה… אפשר לתת שמות בעברית או באנגלית. התגיות שכבר השתמשתם בהן יופיעו כאן ככפתורים.</span>
+        <span class="hint">מה לתייג? מה שחשוב <i>לכם</i>: אנשים, מקומות, תאריכים, ציטוטים, לעג, טרוניה… שמות התגיות — באנגלית, בלי רווחים (קו תחתון מותר); התוכן שביניהן נשאר עברית. התגיות שכבר השתמשתם בהן יופיעו כאן ככפתורים.</span>
         <span class="spacer"></span>
         <input type="text" class="txt" id="annotator-name" placeholder="שם המתייג/ת — ייכתב בקובץ">
         <button class="btn small" id="xml-download">הורדת ה־XML ⤓</button>
@@ -636,12 +683,12 @@
         <div class="pane">
           <div class="pane-head">עורך ה־XML</div>
           <div class="pane-body">
-            <textarea class="editor" id="xml-editor" dir="ltr" style="text-align:left" spellcheck="false" placeholder="כאן יופיע ה-XML אחרי ההמרה בשלב 2"></textarea>
+            <textarea class="editor" id="xml-editor" dir="ltr" style="text-align:left" spellcheck="false"></textarea>
           </div>
         </div>
         <div class="pane">
           <div class="pane-head">מבנה המסמך — כפי שמנתח אותו המחשב</div>
-          <div class="pane-body"><div class="tree" id="xml-tree"><span style="color:var(--muted);font-family:'Heebo',sans-serif;direction:rtl;display:block">העץ ייבנה אחרי ההמרה, ויתעדכן בכל בדיקת תקינות.</span></div></div>
+          <div class="pane-body"><div class="tree" id="xml-tree"></div></div>
         </div>
       </div>
       <div class="status" id="xml-status"></div>
@@ -670,7 +717,7 @@
         <b>עכשיו באמת.</b>
         בשלב ההשוואה ראינו: חדר אחד, טקסט אחד — ועשרות שמות תגיות שונים לאותם רעיונות.
         <b>TEI</b> (Text Encoding Initiative) היא התשובה של קהילת מדעי הרוח הדיגיטליים לבעיה הזו, מאז 1987:
-        אוצר מילים מוסכם ומתועד של מאות תגיות. מי שכתב <code>שם_אדם</code> חשב בדיוק כמו מי שקבע
+        אוצר מילים מוסכם ומתועד של מאות תגיות. מי שכתב <code>person_name</code> חשב בדיוק כמו מי שקבע
         <code>&lt;persName&gt;</code> — ההבדל היחיד הוא ההסכמה.
         כאן נקודד מסמך שלם לפי התקן, בליווי צמוד: המדריך בצ׳אט יוביל אתכם בשלושה שלבים —
         מילוי תעודת הזהות (<code>teiHeader</code>), בניית המבנה, ותיוג לפי הפרק הרלוונטי בתקן:
@@ -708,7 +755,7 @@
             <button class="btn small" id="tei-download">הורדה ⤓</button>
           </div>
           <div class="pane-body">
-            <textarea class="editor" id="tei-editor" dir="ltr" style="text-align:left" spellcheck="false" placeholder="המסמך ייבנה כאן תוך כדי השיחה עם המדריך"></textarea>
+            <textarea class="editor" id="tei-editor" dir="ltr" style="text-align:left" spellcheck="false"></textarea>
           </div>
         </div>
       </div>
@@ -720,9 +767,7 @@
           <span class="spacer"></span>
           <span class="hint">מתעדכן מן העורך; דורש XML תקין</span>
         </div>
-        <div class="pane-body tei-preview" id="tei-preview" dir="rtl">
-          <div class="pv-empty">כאן תופיע תצוגת קריאה מעוצבת ברגע שיהיה בעורך מסמך תקין.</div>
-        </div>
+        <div class="pane-body tei-preview" id="tei-preview" dir="rtl"></div>
       </div>
     </section>
   </div>
@@ -858,26 +903,24 @@ function colorizeCode(escaped) {
 }
 
 /* ================= TAB 1: markdown ================= */
-const SAMPLE_MD = `# מכתב מא"א קובנר לראובן בריינין
+/* the sample is deliberately PLAIN text — adding the markdown is the drill */
+const SAMPLE_MD = `מכתב מא"א קובנר לראובן בריינין
 
-**לומז'ה**, 27 בפברואר 1904
+לומז'ה, 27 בפברואר 1904
 
 אדון נכבד,
 
-זה כמעט *ארבעים שנה* (משנת 1868) עברו וחלפו, אשר לא קראתי ולא כתבתי מאומה בשפת עבר. אולם זה ימים אחדים, אשר אחד מאחי שלח לי ארבעה גליונות ממכתב־העת "הצופה", אשר בהם נדפס המאמר: "א. א. קובנר", וישאלני, אם באמת ובתמים ידבר המחבר ה' בריינין?
+זה כמעט ארבעים שנה (משנת 1868) עברו וחלפו, אשר לא קראתי ולא כתבתי מאומה בשפת עבר. אולם זה ימים אחדים, אשר אחד מאחי שלח לי ארבעה גליונות ממכתב־העת "הצופה", אשר בהם נדפס המאמר: "א. א. קובנר", וישאלני, אם באמת ובתמים ידבר המחבר ה' בריינין?
 
-> כבר הודעתי בספרי "צרור פרחים", כי לא אשיב מאומה למתנגדי, ואת דברי שמרתי קודש עד הלום.
+כבר הודעתי בספרי "צרור פרחים", כי לא אשיב מאומה למתנגדי, ואת דברי שמרתי קודש עד הלום.
 
 בין ספריו של קובנר:
 
-- חקר דבר (1865)
-- צרור פרחים (1868)
+חקר דבר (1865)
 
-ומה בין \`Markdown\` לבין טקסט רגיל? נסו למחוק את הסולמית בשורה הראשונה, או את הכוכביות — וראו מה קורה.
+צרור פרחים (1868)
 
----
-
-מקור: [פרויקט בן־יהודה](https://benyehuda.org/read/40830)`;
+מקור: פרויקט בן־יהודה, https://benyehuda.org/read/40830`;
 
 /* minimal markdown renderer: headings, hr, blockquote, lists, paragraphs;
    inline: code, bold, italic, links */
@@ -919,32 +962,13 @@ function renderMarkdown(src) {
 
 const mdSrc = document.getElementById('md-src');
 const mdOut = document.getElementById('md-out');
-const mdTheme = document.getElementById('md-theme');
-let mdMode = 'render';
 
 function updateMd() {
-  const src = mdSrc.value;
-  if (mdMode === 'plain') {
-    mdOut.innerHTML = '<div class="plainview" dir="rtl"></div>';
-    mdOut.firstChild.textContent = src;
-  } else if (mdMode === 'render') {
-    mdOut.innerHTML = '<div class="rendered ' + mdTheme.value + '" dir="rtl">' + renderMarkdown(src) + '</div>';
-  } else {
-    mdOut.innerHTML = '<pre class="code">' + colorizeCode(escapeHtml(renderMarkdown(src))) + '</pre>';
-  }
+  mdOut.innerHTML = '<div class="rendered theme-book" dir="rtl">' + renderMarkdown(mdSrc.value) + '</div>';
 }
 mdSrc.value = SAMPLE_MD;
 updateMd();
 mdSrc.addEventListener('input', updateMd);
-mdTheme.addEventListener('change', updateMd);
-document.getElementById('md-modes').querySelectorAll('button').forEach(b => {
-  b.addEventListener('click', () => {
-    document.getElementById('md-modes').querySelectorAll('button').forEach(x => x.classList.remove('active'));
-    b.classList.add('active');
-    mdMode = b.dataset.mode;
-    updateMd();
-  });
-});
 document.getElementById('md-reset').addEventListener('click', () => { mdSrc.value = SAMPLE_MD; updateMd(); });
 document.getElementById('md-file').addEventListener('change', e => {
   const f = e.target.files[0];
@@ -953,6 +977,77 @@ document.getElementById('md-file').addEventListener('change', e => {
   r.onload = () => { mdSrc.value = r.result; updateMd(); };
   r.readAsText(f);
   e.target.value = '';
+});
+document.getElementById('md-download').addEventListener('click', () => {
+  const blob = new Blob([mdSrc.value], { type: 'text/markdown;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'letter.md';
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+/* ================= TAB 2: html drill ================= */
+const SAMPLE_HTML = `<article dir="rtl">
+
+<h1>מכתב מא"א קובנר לראובן בריינין</h1>
+
+<p><strong>לומז'ה</strong>, 27 בפברואר 1904</p>
+
+<p>אדון נכבד,</p>
+
+<p>זה כמעט <em>ארבעים שנה</em> (משנת 1868) עברו וחלפו, אשר לא קראתי ולא כתבתי מאומה בשפת עבר.</p>
+
+<blockquote>כבר הודעתי בספרי "צרור פרחים", כי לא אשיב מאומה למתנגדי, ואת דברי שמרתי קודש עד הלום.</blockquote>
+
+<h2>בין ספריו של קובנר</h2>
+
+<ul>
+<li>חקר דבר (1865)</li>
+<li>צרור פרחים (1868)</li>
+</ul>
+
+<hr>
+
+<p>מקור: <a href="https://benyehuda.org/read/40830">פרויקט בן־יהודה</a></p>
+
+</article>`;
+
+const htmlSrc = document.getElementById('html-src');
+const htmlOut = document.getElementById('html-out');
+
+function updateHtmlView() {
+  const doc = new DOMParser().parseFromString(htmlSrc.value, 'text/html');
+  doc.querySelectorAll('script, style, link, iframe').forEach(el => el.remove());
+  doc.querySelectorAll('*').forEach(el => {
+    [...el.attributes].forEach(a => { if (/^on/i.test(a.name)) el.removeAttribute(a.name); });
+  });
+  htmlOut.innerHTML = doc.body ? doc.body.innerHTML : '';
+  htmlOut.querySelectorAll('a').forEach(a => { a.setAttribute('target', '_blank'); a.setAttribute('rel', 'noopener'); });
+}
+htmlSrc.value = SAMPLE_HTML;
+updateHtmlView();
+htmlSrc.addEventListener('input', updateHtmlView);
+document.getElementById('html-reset').addEventListener('click', () => { htmlSrc.value = SAMPLE_HTML; updateHtmlView(); });
+document.getElementById('html-file').addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => { htmlSrc.value = r.result; updateHtmlView(); };
+  r.readAsText(f);
+  e.target.value = '';
+});
+document.getElementById('html-from-md').addEventListener('click', () => {
+  htmlSrc.value = '<article dir="rtl">\n\n' + renderMarkdown(mdSrc.value) + '\n\n</article>';
+  updateHtmlView();
+});
+document.getElementById('html-wrap').addEventListener('click', () => {
+  const tag = document.getElementById('html-wrap-el').value;
+  const s = htmlSrc.selectionStart, e = htmlSrc.selectionEnd;
+  const sel = htmlSrc.value.slice(s, e);
+  htmlSrc.setRangeText('<' + tag + '>' + sel + '</' + tag + '>', s, e, 'end');
+  htmlSrc.focus();
+  updateHtmlView();
 });
 
 /* ================= TAB 2: HTML -> XML ================= */
@@ -1135,9 +1230,9 @@ const tagNameInput = document.getElementById('tag-name');
 const tagChips = document.getElementById('tag-chips');
 const usedTags = [];
 
-/* XML Name: letters (incl. Hebrew), digits, underscore, hyphen, dot; no spaces, no colon */
+/* tag names stay English: Latin letters, digits, underscore, hyphen, dot */
 function isValidTagName(t) {
-  return /^[A-Za-z_À-˿Ͱ-῿][A-Za-z0-9._\-À-˿Ͱ-῿]*$/.test(t);
+  return /^[A-Za-z_][A-Za-z0-9._-]*$/.test(t);
 }
 function wrapSelection(tag) {
   const s = xmlEditor.selectionStart, e = xmlEditor.selectionEnd;
@@ -1158,7 +1253,7 @@ document.getElementById('tag-wrap').addEventListener('click', () => {
   const tag = tagNameInput.value.trim();
   if (!isValidTagName(tag)) {
     xmlStatus.className = 'status err';
-    xmlStatus.innerHTML = '<b>שם תגית לא חוקי.</b> שם של תגית XML מתחיל באות (עברית או לטינית), בלי רווחים — אפשר לחבר מילים בקו תחתון: <code>שם_אדם</code>';
+    xmlStatus.innerHTML = '<b>שם תגית לא חוקי.</b> שם תגית נכתב באנגלית, מתחיל באות, בלי רווחים — מחברים מילים בקו תחתון: <code>person_name</code>';
     tagNameInput.focus();
     return;
   }
@@ -1448,7 +1543,7 @@ function startWizard() {
   teiEditor.value = '';
   teiStatus.className = 'status';
   document.getElementById('tei-file-name').textContent = '';
-  Object.assign(W, { type: null, html: null, meta: {}, found: {}, qi: 0, onText: null, stageQueue: [] });
+  Object.assign(W, { type: null, html: null, meta: {}, found: {}, qi: 0, onText: null, stageQueue: [], pidMap: new Map() });
   renderPreview();
   bot('שלום! אני אלווה אתכם בקידוד מסמך שלם לפי תקן <b>TEI</b>, בשלושה שלבים: <b>1)</b> תעודת הזהות של הקובץ — ה־<code>teiHeader</code> · <b>2)</b> מבנה הטקסט · <b>3)</b> תיוג לפי הפרק המתאים בתקן.<br>במה נעבוד?');
   setQuick([
@@ -1478,6 +1573,7 @@ function loadTei(html, type, label) {
   W.type = type;
   W.meta = {};
   W.qi = 0;
+  W.pidMap = new Map();
   W.found = extractPrefill(html);
   document.getElementById('tei-file-name').textContent = label;
   teiEditor.value = buildTeiSkeleton();
@@ -1576,7 +1672,7 @@ function dramaQ2() {
 function dramaQ3(name) {
   const shown = name || 'מלכה';
   const pid = personId(shown);
-  bot('נכון! וכך נראית הרפליקה שלה מקודדת לפי DraCor:<br><code>&lt;sp who="#' + escapeHtml(pid) + '"&gt;&lt;speaker&gt;' + escapeHtml(shown) + '&lt;/speaker&gt;&lt;p&gt;…&lt;/p&gt;&lt;/sp&gt;</code><br>שימו לב לזוג הזה: <code>who="#' + escapeHtml(pid) + '"</code> על הרפליקה מצביע על <code>xml:id="' + escapeHtml(pid) + '"</code> ברשימת הדמויות שב־header — כך מחשב יודע לספור בדיוק כמה מילים יש לכל דמות, גם אם שמה נכתב בכמה צורות.<br>במחזה שלם יש מאות רפליקות. שמתם לב שיש כאן תבנית קבועה — <i>שם ( הוראת במה ): דיבור</i>? תבנית עקבית = עבודה למכונה. שאשלים את כולן?');
+  bot('נכון! וכך נראית הרפליקה שלה מקודדת לפי DraCor:<br><code>&lt;sp who="#' + escapeHtml(pid) + '"&gt;&lt;speaker&gt;' + escapeHtml(shown) + '&lt;/speaker&gt;&lt;p&gt;…&lt;/p&gt;&lt;/sp&gt;</code><br>שימו לב לחלוקת העבודה: השם העברי נשאר <i>כתוכן</i> בתוך <code>&lt;speaker&gt;</code>, אבל המזהה הטכני — <code>who="#' + escapeHtml(pid) + '"</code> — באנגלית, והוא מצביע על <code>xml:id="' + escapeHtml(pid) + '"</code> ברשימת הדמויות שב־header. כך מחשב יודע לספור בדיוק כמה מילים יש לכל דמות, גם אם שמה נכתב בכמה צורות.<br>במחזה שלם יש מאות רפליקות. שמתם לב שיש כאן תבנית קבועה — <i>שם ( הוראת במה ): דיבור</i>? תבנית עקבית = עבודה למכונה. שאשלים את כולן?');
   setQuick([
     { label: 'כן — השלימו את כל הרפליקות ✨', fn: () => {
         const { n, speakers } = dramatize();
@@ -1654,9 +1750,12 @@ function finishDramaMapping() {
   ]);
 }
 
-/* xml:id must be an NCName — keep Hebrew/Latin letters and digits, underscore the rest */
+/* ids stay English: each distinct speaker name gets a stable person_N id */
 function personId(name) {
-  return name.trim().replace(/[^א-תA-Za-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+  const key = name.trim();
+  if (!W.pidMap) W.pidMap = new Map();
+  if (!W.pidMap.has(key)) W.pidMap.set(key, 'person_' + (W.pidMap.size + 1));
+  return W.pidMap.get(key);
 }
 
 /* wrap speeches DraCor-style: sp/@who -> person/@xml:id; stage directions
@@ -1793,7 +1892,7 @@ function pvRender(node) {
 function renderPreview() {
   const host = document.getElementById('tei-preview');
   const src = teiEditor.value.trim();
-  if (!src) { host.innerHTML = '<div class="pv-empty">כאן תופיע תצוגת קריאה מעוצבת ברגע שיהיה בעורך מסמך תקין.</div>'; return; }
+  if (!src) { host.innerHTML = ''; return; }
   const doc = new DOMParser().parseFromString(src, 'application/xml');
   if (doc.querySelector('parsererror')) {
     host.innerHTML = '<div class="pv-wait">התצוגה ממתינה ל־XML תקין — בדקו את העורך (תגית לא סגורה?).</div>';
