@@ -441,6 +441,61 @@
     background: var(--paper-2);
   }
   .chat-inputrow input { flex: 1; min-width: 0; }
+
+  /* ---- TEI reading view ---- */
+  .tei-preview {
+    padding: 28px 40px;
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 17.5px;
+    line-height: 1.85;
+    background: #fffdf7;
+    max-height: 560px;
+    overflow-y: auto;
+  }
+  .pv-empty, .pv-wait { color: var(--muted); font-family: 'Heebo', sans-serif; font-size: 14.5px; }
+  .pv-meta {
+    border-bottom: 2px solid var(--rule-2);
+    margin-bottom: 22px;
+    padding-bottom: 14px;
+  }
+  .pv-title { font-size: 26px; font-weight: 800; color: var(--brick); margin: 0 0 2px; }
+  .pv-byline { font-family: 'Heebo', sans-serif; font-size: 14px; color: var(--ink-soft); }
+  .pv-corresp {
+    font-family: 'Heebo', sans-serif; font-size: 13.5px; color: var(--muted);
+    margin-top: 6px; display: flex; gap: 14px; flex-wrap: wrap;
+  }
+  .pv-cast { font-family: 'Heebo', sans-serif; font-size: 13.5px; color: var(--muted); margin-top: 6px; }
+  .pv-head { font-size: 21px; font-weight: 700; color: var(--teal); margin: 22px 0 8px; }
+  .tei-preview p { margin: 0 0 12px; }
+  .pv-opener, .pv-closer { color: var(--ink-soft); font-style: italic; margin: 0 0 14px; }
+  .pv-dateline { text-align: left; }
+  .pv-salute { font-style: italic; }
+  .pv-signed { text-align: left; font-style: italic; }
+  .pv-sp { margin: 0 0 10px; padding-inline-start: 26px; text-indent: -26px; }
+  .pv-speaker { font-weight: 700; color: var(--brick); }
+  .pv-stage { font-style: italic; color: var(--muted); }
+  .pv-stagetype {
+    font-family: 'IBM Plex Mono', monospace; font-style: normal;
+    font-size: 10px; vertical-align: super;
+    color: var(--gold); background: var(--paper-2);
+    padding: 0 4px; border-radius: 3px; margin-inline-start: 2px;
+  }
+  .pv-persName { border-bottom: 2px solid #b8cccc; }
+  .pv-placeName { border-bottom: 2px solid #d9c48a; }
+  .pv-orgName { border-bottom: 2px dotted var(--rule-2); }
+  .pv-date { border-bottom: 2px solid #d0a8a0; }
+  .pv-note {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+    vertical-align: super; color: var(--teal); cursor: help;
+  }
+  .pv-notes {
+    border-top: 1px solid var(--rule); margin-top: 24px; padding-top: 12px;
+    font-size: 15px; color: var(--ink-soft);
+  }
+  .pv-legend {
+    font-family: 'Heebo', sans-serif; font-size: 12.5px; color: var(--muted);
+    margin-top: 18px; display: flex; gap: 16px; flex-wrap: wrap;
+  }
 </style>
 </head>
 <body>
@@ -658,6 +713,17 @@
         </div>
       </div>
       <div class="status" id="tei-status"></div>
+
+      <div class="pane" style="margin-top:16px">
+        <div class="pane-head">
+          תצוגת קריאה — מה שהקידוד מאפשר להציג (בהשראת TEI Publisher)
+          <span class="spacer"></span>
+          <span class="hint">מתעדכן מן העורך; דורש XML תקין</span>
+        </div>
+        <div class="pane-body tei-preview" id="tei-preview" dir="rtl">
+          <div class="pv-empty">כאן תופיע תצוגת קריאה מעוצבת ברגע שיהיה בעורך מסמך תקין.</div>
+        </div>
+      </div>
     </section>
   </div>
 
@@ -1382,7 +1448,8 @@ function startWizard() {
   teiEditor.value = '';
   teiStatus.className = 'status';
   document.getElementById('tei-file-name').textContent = '';
-  Object.assign(W, { type: null, html: null, meta: {}, found: {}, qi: 0, onText: null });
+  Object.assign(W, { type: null, html: null, meta: {}, found: {}, qi: 0, onText: null, stageQueue: [] });
+  renderPreview();
   bot('שלום! אני אלווה אתכם בקידוד מסמך שלם לפי תקן <b>TEI</b>, בשלושה שלבים: <b>1)</b> תעודת הזהות של הקובץ — ה־<code>teiHeader</code> · <b>2)</b> מבנה הטקסט · <b>3)</b> תיוג לפי הפרק המתאים בתקן.<br>במה נעבוד?');
   setQuick([
     { label: 'מכתב — עם קובץ הדוגמה 📜', fn: () => loadTei(document.getElementById('sample-by-html').textContent, 'letter', 'קובץ הדוגמה: א. קובנר לר. בריינין') },
@@ -1414,6 +1481,7 @@ function loadTei(html, type, label) {
   W.found = extractPrefill(html);
   document.getElementById('tei-file-name').textContent = label;
   teiEditor.value = buildTeiSkeleton();
+  renderPreview();
   bot('בניתי בעורך <b>שלד TEI</b>: שורש <code>&lt;TEI&gt;</code> עם מרחב השמות של התקן, <code>&lt;teiHeader&gt;</code> עדיין מלא בהערות-ממתינות, והטקסט עצמו כבר יושב בתוך <code>&lt;text&gt;&lt;body&gt;</code>. עכשיו נמלא את תעודת הזהות.');
   askNext();
 }
@@ -1445,6 +1513,7 @@ function askNext() {
     if (v && q.validate && !q.validate.test(v)) { bot(q.errmsg); return; }
     W.meta[q.key] = v;
     updateHeader();
+    renderPreview();
     if (v) bot('✓ עודכן בעורך.');
     W.qi++;
     askNext();
@@ -1462,6 +1531,7 @@ function wrapTei(tag, attrs) {
   if (s === e) { bot('קודם סמנו בעורך את קטע הטקסט, ואז לחצו על התגית.'); return; }
   const sel = teiEditor.value.slice(s, e);
   teiEditor.setRangeText('<' + tag + (attrs || '') + '>' + sel + '</' + tag + '>', s, e, 'end');
+  renderPreview();
   bot('✓ נעטף ב־<code>&lt;' + tag + '&gt;</code>. אפשר להמשיך לסמן, או להתקדם.');
 }
 
@@ -1478,20 +1548,119 @@ function beginStructure() {
       { label: 'סיימתי את המבנה ←', fn: beginAnnotate }
     ]);
   } else {
-    bot('<b>שלב 2: מבנה.</b> במחזאות, כל רפליקה נעטפת ב־<code>&lt;sp&gt;</code> (speech), שם הדובר ב־<code>&lt;speaker&gt;</code>, והוראות הבמה — „( קוראת )" — ב־<code>&lt;stage&gt;</code>.<br>שמתם לב שבקובץ יש תבנית קבועה? <i>שם הדובר ( הוראת במה ): דיבור</i>. תבנית עקבית = מכונה יכולה לזהות אותה. רוצים שאנסה לבד?');
-    setQuick([
-      { label: 'זיהוי דוברים אוטומטי ✨', fn: () => {
-          const { n, speakers } = dramatize();
-          bot('זיהיתי <b>' + n + ' רפליקות</b> והפכתי אותן ל־<code>&lt;sp&gt;</code>. את רשימת הדמויות — ' + speakers.map(s => '<b>' + escapeHtml(s) + '</b>').join(', ') + ' — רשמתי גם ב־<code>&lt;listPerson&gt;</code> שב־header. בדקו בעורך אם זיהיתי נכון (מכונות טועות!) ותקנו ידנית איפה שצריך.');
-        } },
-      { label: '<sp>', mono: true, silent: true, fn: () => wrapTei('sp') },
-      { label: '<speaker>', mono: true, silent: true, fn: () => wrapTei('speaker') },
-      { label: '<stage>', mono: true, silent: true, fn: () => wrapTei('stage') },
-      { label: 'סיימתי את המבנה ←', fn: beginAnnotate }
-    ]);
+    dramaQ1();
   }
 }
 
+/* ---- drama: didactic structure sequence (DraCor-style encoding) ---- */
+function dramaQ1() {
+  W.onText = null;
+  bot('<b>שלב 2: מבנה.</b> נקודד לפי הסכֵמה של <b>DraCor</b> — מאגר הדרמה הממוחשב שמחזיק אלפי מחזות מקודדי TEI.<br>אבל רגע — הסתכלו בטקסט שבעורך. <b>מהי יחידת היסוד שממנה בנוי מחזה?</b>');
+  setQuick([
+    { label: 'פסקאות, כמו בכל טקסט', fn: () => bot('הפסקה היא רק הצורה החיצונית. הסתכלו שוב: כל פסקה כאן היא בעצם מישהו ש<i>אומר</i> משהו. נסו שוב 🙂') },
+    { label: 'רפליקות — דמות שמדברת', fn: () => dramaQ2() },
+    { label: 'שורות שיר', fn: () => bot('יש מחזות שקולים (שורות ב־<code>&lt;l&gt;</code>), אבל זה לא המבנה הבסיסי כאן. הסתכלו שוב על הטקסט — מה קורה בכל פסקה?') }
+  ]);
+}
+function dramaQ2() {
+  bot('בדיוק — <b>הרפליקה</b> (speech), וב־TEI היא <code>&lt;sp&gt;</code>. עכשיו הסתכלו על הרפליקה השנייה בטקסט. <b>מי הדוברת?</b> כתבו את השם בצ׳אט.');
+  W.onText = t => {
+    if (t.includes('מלכה') || (W.found.title !== 'בחוץ' && t.length > 1)) {
+      dramaQ3(t.trim());
+    } else {
+      bot('הסתכלו שוב בעורך — השם עומד בתחילת השורה, לפני הסוגריים והנקודתיים.');
+    }
+  };
+  setQuick([{ label: 'דילוג', fn: () => dramaQ3('') }]);
+}
+function dramaQ3(name) {
+  const shown = name || 'מלכה';
+  const pid = personId(shown);
+  bot('נכון! וכך נראית הרפליקה שלה מקודדת לפי DraCor:<br><code>&lt;sp who="#' + escapeHtml(pid) + '"&gt;&lt;speaker&gt;' + escapeHtml(shown) + '&lt;/speaker&gt;&lt;p&gt;…&lt;/p&gt;&lt;/sp&gt;</code><br>שימו לב לזוג הזה: <code>who="#' + escapeHtml(pid) + '"</code> על הרפליקה מצביע על <code>xml:id="' + escapeHtml(pid) + '"</code> ברשימת הדמויות שב־header — כך מחשב יודע לספור בדיוק כמה מילים יש לכל דמות, גם אם שמה נכתב בכמה צורות.<br>במחזה שלם יש מאות רפליקות. שמתם לב שיש כאן תבנית קבועה — <i>שם ( הוראת במה ): דיבור</i>? תבנית עקבית = עבודה למכונה. שאשלים את כולן?');
+  setQuick([
+    { label: 'כן — השלימו את כל הרפליקות ✨', fn: () => {
+        const { n, speakers } = dramatize();
+        bot('עטפתי <b>' + n + ' רפליקות</b> ב־<code>&lt;sp&gt;</code> עם <code>who=</code>, ורשמתי את הדמויות — ' + speakers.map(s => '<b>' + escapeHtml(s) + '</b>').join(', ') + ' — ב־<code>&lt;listPerson&gt;</code> עם <code>xml:id</code>. בדקו בעורך אם צדקתי (מכונות טועות!). את הוראות הבמה עטפתי ב־<code>&lt;stage&gt;</code> — אבל בכוונה השארתי אותן בלי סיווג. זה התפקיד שלכם, בשלב הבא.');
+        renderPreview();
+        setQuick([{ label: 'לשלב 3: סיווג הוראות הבמה ←', fn: beginStageMapping }]);
+      } },
+    { label: 'אעטוף כמה בעצמי קודם', fn: () => {
+        bot('מצוין — סמנו בעורך רפליקה שלמה ועטפו עם הכפתורים. כשתתעייפו, המכונה כאן.');
+        setQuick([
+          { label: '<sp>', mono: true, silent: true, fn: () => wrapTei('sp') },
+          { label: '<speaker>', mono: true, silent: true, fn: () => wrapTei('speaker') },
+          { label: '<stage>', mono: true, silent: true, fn: () => wrapTei('stage') },
+          { label: 'עכשיו השלימו את השאר ✨', fn: () => {
+              const { n, speakers } = dramatize();
+              bot('הושלם: ' + n + ' רפליקות נוספות, ' + speakers.length + ' דמויות ב־listPerson. הוראות הבמה מחכות לסיווג שלכם.');
+              renderPreview();
+              setQuick([{ label: 'לשלב 3: סיווג הוראות הבמה ←', fn: beginStageMapping }]);
+            } }
+        ]);
+      } }
+  ]);
+}
+
+/* ---- drama step 3: the student maps stage directions to TEI types ---- */
+const STAGE_TYPES = [
+  { t: 'entrance', he: 'כניסה — דמות עולה על הבמה' },
+  { t: 'exit', he: 'יציאה — דמות עוזבת את הבמה' },
+  { t: 'delivery', he: 'אופן אמירה — איך נאמרת הרפליקה (בצחוק, באנחה)' },
+  { t: 'business', he: 'פעולה — מעשה על הבמה (נותנת תפוח, אוחז בידה)' },
+  { t: 'setting', he: 'תפאורה/מצב — תיאור הזירה או הרגע' }
+];
+function beginStageMapping() {
+  W.onText = null;
+  W.stageQueue = [...new Set((teiEditor.value.match(/<stage>([^<]+)<\/stage>/g) || [])
+    .map(s => s.replace(/<\/?stage>/g, '')))];
+  bot('<b>שלב 3: סיווג הוראות במה.</b> התקן מציע ערכים מוסכמים ל־<code>type=</code> של <code>&lt;stage&gt;</code>:<br>' +
+    STAGE_TYPES.map(s => '· <code>' + s.t + '</code> — ' + s.he).join('<br>') +
+    '<br>למה לסווג? כי אז אפשר לשאול את המחשב שאלות: כמה כניסות ויציאות יש במערכה? אילו רגשות מלווים את הדיבור? עכשיו אתם השופטים — אני אציג, אתם תסווגו.');
+  if (!W.stageQueue.length) {
+    bot('לא מצאתי הוראות במה עטופות ב־<code>&lt;stage&gt;</code> — עטפו קודם כמה בעורך.');
+    setQuick([
+      { label: '<stage>', mono: true, silent: true, fn: () => wrapTei('stage') },
+      { label: 'המשך ←', fn: finishDramaMapping }
+    ]);
+    return;
+  }
+  stageMapNext();
+}
+function stageMapNext() {
+  if (!W.stageQueue.length) { finishDramaMapping(); return; }
+  const dir = W.stageQueue[0];
+  const count = (teiEditor.value.split('<stage>' + dir + '</stage>').length - 1);
+  bot('איך תסווגו את: <b>«' + escapeHtml(dir.trim()) + '»</b>' + (count > 1 ? ' (מופיעה ' + count + ' פעמים)' : '') + '?');
+  const apply = t => {
+    W.stageQueue.shift();
+    teiEditor.value = teiEditor.value.split('<stage>' + dir + '</stage>')
+      .join('<stage type="' + t + '">' + dir + '</stage>');
+    renderPreview();
+    stageMapNext();
+  };
+  setQuick(STAGE_TYPES.map(s => ({ label: s.t, mono: true, fn: () => apply(s.t) }))
+    .concat([
+      { label: 'דילוג על זו', fn: () => { W.stageQueue.shift(); stageMapNext(); } },
+      { label: 'מספיק, הלאה ←', fn: finishDramaMapping }
+    ]));
+}
+function finishDramaMapping() {
+  W.onText = null;
+  const typed = (teiEditor.value.match(/<stage type="/g) || []).length;
+  bot('סיווגתם <b>' + typed + '</b> הוראות במה. שימו לב שאין תשובה אחת נכונה — „( הופך פניו בנחת )" היא גם פעולה וגם אופן; ההחלטה שלכם היא פרשנות, וזה בדיוק מה שתיוג עושה גלוי.<br>יש עוד הוראות במה שמסתתרות <i>בתוך</i> הדיבור — למשל „( נותנת לו והוא אוכל )". אפשר לסמן ולעטוף גם אותן, או לעבור לבדיקה.');
+  setQuick([
+    { label: '<stage type="">', mono: true, silent: true, fn: () => wrapTei('stage', ' type=""') },
+    { label: 'בדיקה אחרונה וסיכום ✓', fn: finishReview }
+  ]);
+}
+
+/* xml:id must be an NCName — keep Hebrew/Latin letters and digits, underscore the rest */
+function personId(name) {
+  return name.trim().replace(/[^א-תA-Za-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+}
+
+/* wrap speeches DraCor-style: sp/@who -> person/@xml:id; stage directions
+   are wrapped but left UNtyped — assigning @type is the student's job */
 function dramatize() {
   let n = 0;
   const speakers = new Set();
@@ -1500,41 +1669,35 @@ function dramatize() {
     let mm = inner.match(new RegExp('^(' + NAME + ')\\s*(\\([^)]*\\))?\\s*:\\s*([\\s\\S]+)$'));
     if (mm) {
       n++; speakers.add(mm[1].trim());
-      return '<sp><speaker>' + mm[1].trim() + '</speaker>' + (mm[2] ? ' <stage>' + mm[2] + '</stage>' : '') + '\n        <p>' + mm[3].trim() + '</p></sp>';
+      return '<sp who="#' + personId(mm[1]) + '"><speaker>' + mm[1].trim() + '</speaker>' +
+        (mm[2] ? ' <stage>' + mm[2] + '</stage>' : '') + '\n        <p>' + mm[3].trim() + '</p></sp>';
     }
     mm = inner.match(new RegExp('^(' + NAME + ')\\s*(\\([^)]*\\))\\s*\\.?\\s*$'));
     if (mm) {
       n++; speakers.add(mm[1].trim());
-      return '<sp><speaker>' + mm[1].trim() + '</speaker> <stage>' + mm[2] + '</stage></sp>';
+      return '<sp who="#' + personId(mm[1]) + '"><speaker>' + mm[1].trim() + '</speaker> <stage>' + mm[2] + '</stage></sp>';
     }
     return m0;
   });
   if (speakers.size) {
     const lp = '<listPerson>\n' + [...speakers].map(s =>
-      '          <person><persName>' + escapeXml(s) + '</persName></person>').join('\n') + '\n        </listPerson>';
+      '          <person xml:id="' + personId(s) + '"><persName>' + escapeXml(s) + '</persName></person>').join('\n') + '\n        </listPerson>';
     teiEditor.value = teiEditor.value.replace(/<listPerson>[\s\S]*?<\/listPerson>/, lp);
   }
   return { n, speakers: [...speakers] };
 }
 
-/* ---- step 3: annotation ---- */
+/* ---- step 3 (letters): content annotation ---- */
 function beginAnnotate() {
   W.onText = null;
-  const common = 'סמנו טקסט בעורך ולחצו על תגית. אלה אותם רעיונות שסימנתם בלשונית 2 — אבל הפעם בשמות שכל העולם מבין.';
-  if (W.type === 'letter') {
-    bot('<b>שלב 3: תיוג.</b> ' + common + ' למכתבים רלוונטיים במיוחד: אנשים, מקומות, תאריכים (עם <code>when=</code> קריא-למכונה!) ומוסדות.');
-  } else {
-    bot('<b>שלב 3: תיוג.</b> ' + common + ' במחזה שווה לתייג גם הוראות במה שהוחמצו, ואזכורים של אנשים ומקומות בתוך הדיבור.');
-  }
-  const btns = [
+  bot('<b>שלב 3: תיוג.</b> סמנו טקסט בעורך ולחצו על תגית — אלה אותם רעיונות שסימנתם בלשונית 2, אבל הפעם בשמות שכל העולם מבין. למכתבים רלוונטיים במיוחד: אנשים, מקומות, תאריכים (עם <code>when=</code> קריא-למכונה!) ומוסדות.');
+  setQuick([
     { label: '<persName>', mono: true, silent: true, fn: () => wrapTei('persName') },
     { label: '<placeName>', mono: true, silent: true, fn: () => wrapTei('placeName') },
     { label: '<date when="">', mono: true, silent: true, fn: () => wrapTei('date', ' when=""') },
-    { label: '<orgName>', mono: true, silent: true, fn: () => wrapTei('orgName') }
-  ];
-  if (W.type === 'drama') btns.push({ label: '<stage>', mono: true, silent: true, fn: () => wrapTei('stage') });
-  btns.push({ label: 'בדיקה אחרונה וסיכום ✓', fn: finishReview });
-  setQuick(btns);
+    { label: '<orgName>', mono: true, silent: true, fn: () => wrapTei('orgName') },
+    { label: 'בדיקה אחרונה וסיכום ✓', fn: finishReview }
+  ]);
 }
 
 /* ---- final checklist ---- */
@@ -1554,13 +1717,19 @@ function teiChecklist() {
     const d = doc.querySelector('correspAction[type="sent"] date');
     items.push({ ok: !!(d && /^\d{4}(-\d{2}(-\d{2})?)?$/.test(d.getAttribute('when') || '')), label: 'תאריך משלוח קריא-למכונה (when=)' });
     items.push({ ok: !!txt('correspAction[type="received"] persName'), label: 'יש נמען/ת' });
+    items.push({ ok: doc.querySelectorAll('persName, placeName, date, orgName').length > 0, label: 'יש תיוג תוכן (שמות/מקומות/תאריכים)' });
   } else {
-    const sp = doc.querySelectorAll('sp').length, spk = doc.querySelectorAll('speaker').length;
+    const sp = doc.querySelectorAll('sp').length;
+    const who = doc.querySelectorAll('sp[who]').length;
+    const spk = doc.querySelectorAll('speaker').length;
+    const ids = [...doc.querySelectorAll('listPerson person')].filter(p => p.getAttribute('xml:id')).length;
+    const typed = [...doc.querySelectorAll('stage')].filter(s => s.getAttribute('type')).length;
     items.push({ ok: sp > 0, label: 'רפליקות עטופות ב־<sp> (' + sp + ')' });
+    items.push({ ok: sp > 0 && who === sp, label: 'כל רפליקה מקושרת לדמות עם who= (' + who + '/' + sp + ')' });
     items.push({ ok: spk > 0, label: 'דוברים מסומנים ב־<speaker> (' + spk + ')' });
-    items.push({ ok: doc.querySelectorAll('listPerson person').length > 0, label: 'רשימת דמויות ב־listPerson' });
+    items.push({ ok: ids > 0, label: 'דמויות עם xml:id ב־listPerson (' + ids + ')' });
+    items.push({ ok: typed > 0, label: 'הוראות במה מסווגות ב־type= (' + typed + ')' });
   }
-  items.push({ ok: doc.querySelectorAll('persName, placeName, date, orgName').length > 0, label: 'יש תיוג תוכן (שמות/מקומות/תאריכים)' });
   return items;
 }
 
@@ -1580,6 +1749,102 @@ function finishReview() {
     bot('יש עוד מה להשלים — תקנו בעורך (או המשיכו לתייג עם הכפתורים) ולחצו שוב על הבדיקה.');
   }
 }
+
+/* ---- reading view (TEI-Publisher-flavored rendering) ---- */
+function pvRender(node) {
+  /* recursive TEI element -> display HTML */
+  let out = '';
+  for (const child of node.childNodes) {
+    if (child.nodeType === Node.TEXT_NODE) { out += escapeHtml(child.textContent); continue; }
+    if (child.nodeType !== Node.ELEMENT_NODE) continue;
+    const t = child.tagName;
+    const inner = () => pvRender(child);
+    if (t === 'div') out += '<section>' + inner() + '</section>';
+    else if (t === 'head') out += '<div class="pv-head">' + inner() + '</div>';
+    else if (t === 'p') out += '<p>' + inner() + '</p>';
+    else if (t === 'opener') out += '<div class="pv-opener">' + inner() + '</div>';
+    else if (t === 'closer') out += '<div class="pv-closer">' + inner() + '</div>';
+    else if (t === 'dateline') out += '<div class="pv-dateline">' + inner() + '</div>';
+    else if (t === 'salute') out += '<div class="pv-salute">' + inner() + '</div>';
+    else if (t === 'signed') out += '<div class="pv-signed">' + inner() + '</div>';
+    else if (t === 'sp') out += '<div class="pv-sp">' + inner() + '</div>';
+    else if (t === 'speaker') out += '<span class="pv-speaker">' + inner() + '</span> ';
+    else if (t === 'stage') {
+      const ty = child.getAttribute('type');
+      out += '<span class="pv-stage">' + inner() + (ty ? '<span class="pv-stagetype">' + escapeHtml(ty) + '</span>' : '') + '</span> ';
+    }
+    else if (t === 'emph') out += '<em>' + inner() + '</em>';
+    else if (t === 'lb') out += '<br>';
+    else if (t === 'persName' || t === 'placeName' || t === 'orgName' || t === 'date')
+      out += '<span class="pv-' + t + '">' + inner() + '</span>';
+    else if (t === 'note') { /* rendered from the notes div; inline notes become markers */
+      out += '<span class="pv-note" title="' + escapeHtml(child.textContent.trim()) + '">[הערה]</span>';
+    }
+    else if (t === 'ref') {
+      const tg = child.getAttribute('target') || '';
+      if (tg.startsWith('#')) out += '<span class="pv-note" title="הפניה להערה ' + escapeHtml(tg) + '">[' + escapeHtml(tg.replace('#fn', '')) + ']</span>';
+      else out += inner();
+    }
+    else out += inner();
+  }
+  return out;
+}
+
+function renderPreview() {
+  const host = document.getElementById('tei-preview');
+  const src = teiEditor.value.trim();
+  if (!src) { host.innerHTML = '<div class="pv-empty">כאן תופיע תצוגת קריאה מעוצבת ברגע שיהיה בעורך מסמך תקין.</div>'; return; }
+  const doc = new DOMParser().parseFromString(src, 'application/xml');
+  if (doc.querySelector('parsererror')) {
+    host.innerHTML = '<div class="pv-wait">התצוגה ממתינה ל־XML תקין — בדקו את העורך (תגית לא סגורה?).</div>';
+    return;
+  }
+  const g = sel => { const el = doc.querySelector(sel); return el ? el.textContent.trim() : ''; };
+  let h = '<div class="pv-meta">';
+  const title = g('titleStmt > title'), author = g('titleStmt > author');
+  if (title) h += '<div class="pv-title">' + escapeHtml(title) + '</div>';
+  if (author) h += '<div class="pv-byline">' + escapeHtml(author) + '</div>';
+  const sent = doc.querySelector('correspAction[type="sent"]');
+  const recd = doc.querySelector('correspAction[type="received"]');
+  if (sent || recd) {
+    const bits = [];
+    const gg = (root, sel) => { const el = root && root.querySelector(sel); return el ? el.textContent.trim() : ''; };
+    const from = gg(sent, 'persName'), place = gg(sent, 'placeName'), to = gg(recd, 'persName');
+    const when = sent && sent.querySelector('date') ? (sent.querySelector('date').getAttribute('when') || '') : '';
+    if (from) bits.push('מאת: ' + escapeHtml(from));
+    if (to) bits.push('אל: ' + escapeHtml(to));
+    if (place) bits.push('מקום: ' + escapeHtml(place));
+    if (when) bits.push('תאריך: ' + escapeHtml(when));
+    if (bits.length) h += '<div class="pv-corresp">' + bits.map(b => '<span>' + b + '</span>').join('') + '</div>';
+  }
+  const cast = [...doc.querySelectorAll('listPerson persName')].map(p => p.textContent.trim()).filter(Boolean);
+  if (cast.length) h += '<div class="pv-cast">הנפשות הפועלות: ' + cast.map(escapeHtml).join(' · ') + '</div>';
+  h += '</div>';
+
+  const body = doc.querySelector('body');
+  if (body) {
+    /* the notes div renders as a footnote block at the end */
+    const notesDiv = body.querySelector('div[type="notes"]');
+    let notesHtml = '';
+    if (notesDiv) {
+      notesHtml = '<div class="pv-notes">' + [...notesDiv.querySelectorAll('note')].map((n, i) =>
+        '<p>[' + (i + 1) + '] ' + escapeHtml(n.textContent.trim()) + '</p>').join('') + '</div>';
+      notesDiv.remove();
+    }
+    h += pvRender(body) + notesHtml;
+  }
+  const used = ['persName', 'placeName', 'orgName', 'date'].filter(t => doc.querySelector('body ' + t));
+  if (used.length) {
+    const names = { persName: 'שם אדם', placeName: 'שם מקום', orgName: 'מוסד', date: 'תאריך' };
+    h += '<div class="pv-legend">' + used.map(t => '<span class="pv-' + t + '">' + names[t] + '</span>').join('') + '</div>';
+  }
+  host.innerHTML = h;
+}
+let pvTimer = null;
+teiEditor.addEventListener('input', () => {
+  clearTimeout(pvTimer);
+  pvTimer = setTimeout(renderPreview, 700);
+});
 
 /* ---- editor side buttons ---- */
 document.getElementById('tei-check').addEventListener('click', () => {
