@@ -523,6 +523,8 @@
         נסו על הטקסט: <code>#</code> בתחילת שורה = כותרת · <code>**מילה**</code> = הדגשה ·
         <code>*מילה*</code> = הטיה · <code>-</code> בתחילת שורה = פריט רשימה · <code>&gt;</code> = ציטוט ·
         <code>---</code> בשורה משלה = קו מפריד · <code>[טקסט](כתובת)</code> = קישור.
+        <br>שימו לב — תופעה של כתיבה דו־כיוונית: במקלדת עברית תווי הסוגריים מתהפכים, וסימנים כמו
+        <code>&gt;</code> מוצגים במראָה. המעבדה סלחנית לזה; כלים אחרים בעולם — לא תמיד.
       </div>
 
       <div class="toolbar">
@@ -929,7 +931,9 @@ function renderInline(s) {
   t = t.replace(/`([^`]+)`/g, '<code>$1</code>');
   t = t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   t = t.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-  t = t.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  /* links: tolerate mirrored parens/brackets — Hebrew keyboards swap ( and ),
+     so the typed sequence may be logically [text])url( while looking correct */
+  t = t.replace(/[\[\]]([^\[\]]+)[\[\]]\s*[()]([^()\s]+)[()]/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
   return t;
 }
 function renderMarkdown(src) {
@@ -947,7 +951,9 @@ function renderMarkdown(src) {
     const h = line.match(/^(#{1,6})\s+(.*)$/);
     if (h) { flushAll(); out.push('<h' + h[1].length + '>' + renderInline(h[2]) + '</h' + h[1].length + '>'); continue; }
     if (/^(-{3,}|\*{3,}|_{3,})$/.test(line.trim())) { flushAll(); out.push('<hr>'); continue; }
-    const q = line.match(/^>\s?(.*)$/);
+    /* blockquote: accept < too — in RTL display > and < are mirrored, and
+       Hebrew keyboards often emit the mirrored character */
+    const q = line.match(/^[><]\s?(.*)$/);
     if (q) { flushPara(); flushList(); quote.push(q[1]); continue; }
     const ul = line.match(/^[-*]\s+(.*)$/);
     if (ul) { flushPara(); flushQuote(); if (!list || list.tag !== 'ul') { flushList(); list = { tag: 'ul', items: [] }; } list.items.push(ul[1]); continue; }
