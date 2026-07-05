@@ -534,6 +534,7 @@
         </label>
         <button class="btn small" id="md-reset">חזרה לדוגמה</button>
         <button class="btn small" id="md-download">הורדה כ־Markdown ⤓</button>
+        <button class="btn small" id="md-download-html">הורדה כ־HTML ⤓</button>
         <span class="spacer"></span>
         <span class="hint">התצוגה מתעדכנת תוך כדי הקלדה</span>
       </div>
@@ -550,10 +551,15 @@
           <div class="pane-body" id="md-out"></div>
         </div>
       </div>
-      <p class="hint" style="margin-top:12px">
-        ניסוי להמשך: הורידו את הקובץ (<code>.md</code>), העלו אותו ל־Google Drive ופתחו — מה קרה לסימנים?
-        עכשיו נסו לפתוח את אותו קובץ ב"פנקס רשימות" פשוט. מי מפרש ומי מציג כפי־שהוא?
-      </p>
+      <div class="explain" style="margin-top:16px; border-inline-start-color: var(--teal)">
+        <b>ניסוי: אותו קובץ, שלושה מפרשים.</b>
+        <ol style="margin:8px 0 0; padding-inline-start:22px">
+          <li>הורידו את העבודה שלכם כ־<code>.md</code> והעלו את הקובץ ל־Google Drive.</li>
+          <li>לחצו עליו לחיצה כפולה — <b>תצוגה מקדימה</b>: מה רואים? טקסט פשוט, הסימנים גלויים. Drive מציג, לא מפרש.</li>
+          <li>עכשיו קליק ימני ← <b>פתיחה באמצעות ← Google Docs</b>: הסימנים הפכו לעיצוב! אבל בדקו את הכיוון והיישור — Docs רק <i>מנחש</i> שהטקסט עברי, כי ל־Markdown אין דרך להגיד "אני ימין־לשמאל". (תיקון ידני ב־Docs: File ← Language ← עברית, לסמן הכול ולהפוך כיוון פסקה.)</li>
+          <li>הורידו מכאן גם את גרסת ה־<code>.html</code>, העלו ופתחו גם אותה עם Docs — הפעם הכיוון נכון מעצמו. למה? חזרו לתצוגה המקדימה של Drive, שמציגה את הקובץ כטקסט פשוט, ומצאו את התשובה: <code>dir="rtl"</code>. זו בדיוק היכולת ש־HTML מוסיף על Markdown — לא רק לעצב, אלא להצהיר.</li>
+        </ol>
+      </div>
     </section>
 
     <!-- ============================================================ -->
@@ -989,6 +995,16 @@ document.getElementById('md-download').addEventListener('click', () => {
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'letter.md';
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+document.getElementById('md-download-html').addEventListener('click', () => {
+  const html = '<!DOCTYPE html>\n<html dir="rtl" lang="he">\n<head>\n<meta charset="utf-8">\n<title>letter</title>\n</head>\n<body dir="rtl">\n\n' +
+    renderMarkdown(mdSrc.value) + '\n\n</body>\n</html>\n';
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'letter.html';
   a.click();
   URL.revokeObjectURL(a.href);
 });
