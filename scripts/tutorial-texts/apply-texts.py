@@ -48,7 +48,10 @@ def replacement(kind, exact, edited):
         attr = kind.split(':')[1]
         return attr + '="' + edited.replace('"', '&quot;') + '"'
     if kind == 'js':
-        return "'" + edited.replace('\\', '\\\\').replace("'", "\\'") + "'"
+        # a typed \n is an intentional line break (e.g. in the LLM prompt),
+        # not a backslash to be escaped
+        s = edited.replace('\\', '\\\\').replace("'", "\\'").replace('\\\\n', '\\n')
+        return "'" + s + "'"
     return edited
 
 
