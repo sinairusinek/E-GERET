@@ -50,6 +50,13 @@
   header.page .crumbs { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
   header.page .crumbs a { color: var(--teal); text-decoration: none; }
   header.page .crumbs a:hover { text-decoration: underline; }
+  .name-row {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .name-row label { font-size: 14px; color: var(--ink-soft); font-weight: 600; }
+  .name-row .hint { font-size: 12.5px; }
+  #user-name.missing { border-color: var(--err); background: #fdf0ee; }
   h1 {
     font-family: 'Frank Ruhl Libre', serif;
     font-weight: 800;
@@ -487,6 +494,11 @@
     <div class="crumbs"><a href="../">→ חזרה לדף הסדנה</a></div>
     <h1>מן התיוג אל המחקר — ישויות, קישור ונתונים פתוחים</h1>
     <div class="subtitle">מפגש שני · מ־TEI דרך זיהוי ישויות (NER) אל נתונים מקושרים (Linked Open Data)</div>
+    <div class="name-row">
+      <label for="user-name">שם המתייג/ת:</label>
+      <input type="text" class="txt" id="user-name" placeholder="למשל: moshe או משה" dir="rtl">
+      <span class="hint">חובה לפני כל הורדה — השם ייכתב בקובץ (<code>respStmt</code>) ובשם הקובץ עצמו</span>
+    </div>
   </header>
 
   <div class="wrap">
@@ -1964,7 +1976,24 @@ function renderMap() {
 }
 document.getElementById('map-zoom').addEventListener('click', () => { mapEurope = !mapEurope; renderMap(); });
 
-/* ---- downloads ---- */
+/* ---- downloads (annotator name is mandatory) ---- */
+function userName() { return document.getElementById('user-name').value.trim(); }
+/* filename-safe slug: keeps Hebrew/Latin letters and digits, spaces -> dash */
+function nameSlug() {
+  return userName().replace(/\s+/g, '-').replace(/[\\/:*?"<>|#%&{}]+/g, '').slice(0, 40);
+}
+function requireName() {
+  if (userName()) return true;
+  const inp = document.getElementById('user-name');
+  inp.classList.add('missing');
+  inp.focus();
+  inp.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  const active = document.querySelector('.tab-panel.active .status');
+  if (active) { active.className = 'status err'; active.textContent = '⚠ לפני ההורדה — כתבו את שמכם בשדה שבראש הדף. השם נכנס לקובץ ולשם הקובץ: כך יודעים, גם בעוד שנה, מי קידד ומי הכריע.'; }
+  return false;
+}
+document.getElementById('user-name').addEventListener('input', function () { this.classList.remove('missing'); });
+function exportFilename(word, ext) { return nameSlug() + '_' + word + '.' + ext; }
 function download(name, content, mime) {
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([content], { type: mime || 'text/plain;charset=utf-8' }));
@@ -1972,17 +2001,36 @@ function download(name, content, mime) {
   a.click();
   URL.revokeObjectURL(a.href);
 }
+/* the annotator is recorded inside the TEI as a respStmt in the titleStmt */
+function teiWithRespStmt() {
+  const resp = '<respStmt>\n          <resp>תיוג, זיהוי ישויות וקישור</resp>\n          <name>' + escapeXml(userName()) + '</name>\n        </respStmt>';
+  let src = TEI.replace(/\s*<respStmt>[\s\S]*?<\/respStmt>/, '');
+  if (/<\/author>/.test(src)) return src.replace(/(<\/author>)/, '$1\n        ' + resp);
+  return src.replace(/(<\/title>)/, '$1\n        ' + resp);   /* uploaded files without <author> */
+}
 document.getElementById('dl-authority').addEventListener('click', () => {
+  if (!requireName()) return;
   const so = buildStandOffXml('  ');
-  download('authority-egeret.xml', '<?xml version="1.0" encoding="UTF-8"?>\n' + (so || '<standOff/>'), 'application/xml');
+  download(exportFilename('authority', 'xml'),
+    '<?xml version="1.0" encoding="UTF-8"?>\n<!-- קובץ הזהויות של ' + userName() + ' · סדנת אגרת -->\n' + (so || '<standOff/>'),
+    'application/xml');
 });
 document.getElementById('dl-auth2').addEventListener('click', () => document.getElementById('dl-authority').click());
-document.getElementById('dl-tei').addEventListener('click', () => download('letter-enriched.xml', TEI, 'application/xml'));
-document.getElementById('dl-ttl').addEventListener('click', () => download('letter.ttl', buildTurtle(), 'text/turtle'));
+document.getElementById('dl-tei').addEventListener('click', () => {
+  if (!requireName()) return;
+  download(exportFilename('tei-enriched', 'xml'), teiWithRespStmt(), 'application/xml');
+});
+document.getElementById('dl-ttl').addEventListener('click', () => {
+  if (!requireName()) return;
+  download(exportFilename('triples', 'ttl'), '# annotator: ' + userName() + '\n' + buildTurtle(), 'text/turtle');
+});
 document.getElementById('dl-donations').addEventListener('click', () => {
-  download('kima-donations.json', JSON.stringify(DONATIONS, null, 2), 'application/json');
+  if (!requireName()) return;
+  download(exportFilename('kima-donations', 'json'),
+    JSON.stringify({ annotator: userName(), donations: DONATIONS }, null, 2), 'application/json');
 });
 document.getElementById('dl-cmif').addEventListener('click', () => {
+  if (!requireName()) return;
   const doc = parseTei(TEI);
   const gg = (p, s, attr) => { const el = p && p.querySelector(s); return el ? (attr ? el.getAttribute(attr) || '' : el.textContent.trim()) : ''; };
   const sent = doc && doc.querySelector('correspAction[type="sent"]');
@@ -2001,7 +2049,7 @@ document.getElementById('dl-cmif').addEventListener('click', () => {
     '    <persName' + ref(gg(recd, 'persName')) + '>' + escapeXml(gg(recd, 'persName')) + '</persName>\n' +
     '  </correspAction>\n' +
     '</correspDesc>';
-  download('letter-cmif.xml', cmif, 'application/xml');
+  download(exportFilename('cmif', 'xml'), cmif, 'application/xml');
 });
 
 /* ================= corpus queue + init ================= */
@@ -2011,7 +2059,7 @@ refreshAll();
 renderMap();
 
 /* test hooks (harmless in production) */
-window.LAB2 = { kimaLookup, tagInTei, tagAllInTei, collectEntities, buildStandOffXml, buildTurtle, suggestions, normHe, skeleton, setTEI, AUTH, DONATIONS, confirmPlace, confirmLocalOnly, letterPlainText, setCert(v) { currentCert = v; }, get TEI() { return TEI; } };
+window.LAB2 = { kimaLookup, tagInTei, tagAllInTei, collectEntities, buildStandOffXml, buildTurtle, suggestions, normHe, skeleton, setTEI, AUTH, DONATIONS, confirmPlace, confirmLocalOnly, letterPlainText, requireName, exportFilename, teiWithRespStmt, setCert(v) { currentCert = v; }, get TEI() { return TEI; } };
 </script>
 </body>
 </html>
