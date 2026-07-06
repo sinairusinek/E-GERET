@@ -7,7 +7,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DOCS = os.path.join(HERE, '..', '..', 'docs', 'lab2')
 t = open(os.path.join(HERE, 'index.template.html'), encoding='utf-8').read()
 for ph, fn in [('__GAZ__', 'gazetteer.json'), ('__LEX__', 'lexicon.json'),
-               ('__QUEUE__', 'queue.json'), ('__MAP__', 'mapdata.json'), ('__COAST__', 'coast.json')]:
+               ('__QUEUE__', 'queue.json'), ('__MAP__', 'mapdata.json'), ('__COAST__', 'coast.json'),
+               ('__POOL__', 'pool.json')]:
     blob = open(os.path.join(HERE, 'data', fn), encoding='utf-8').read()
     assert '</script' not in blob.lower(), fn
     t = t.replace(ph, blob)

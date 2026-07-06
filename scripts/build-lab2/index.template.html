@@ -333,6 +333,30 @@
   .certseg button + button { border-inline-start: 1px solid var(--rule); }
   .certseg button.active { background: var(--teal); color: #fff; font-weight: 600; }
 
+  /* ---- classroom merge table ---- */
+  .merge-stats {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 19px; font-weight: 700;
+    margin: 14px 0 10px;
+  }
+  .merge-stats b { color: var(--brick); }
+  table.merge {
+    border-collapse: collapse; width: 100%;
+    background: #fff; border: 1.5px solid var(--rule);
+    font-size: 14px;
+  }
+  table.merge th {
+    background: var(--paper-2); border-bottom: 1.5px solid var(--rule);
+    padding: 7px 12px; text-align: right; font-size: 13px; color: var(--ink-soft);
+  }
+  table.merge td { padding: 7px 12px; border-bottom: 1px solid var(--paper-2); vertical-align: top; }
+  table.merge tr.merged-multi td { background: #f2f7f2; }
+  table.merge .forms span {
+    display: inline-block; background: var(--paper-2); border: 1px solid var(--rule);
+    border-radius: 10px; padding: 0 9px; margin: 1px 2px; font-size: 13px;
+  }
+  table.merge .who { font-size: 12.5px; color: var(--muted); }
+
   /* ---- copyable LLM prompt ---- */
   .copybox {
     background: #fff;
@@ -797,7 +821,37 @@
         <div class="pane-body" id="map-box"></div>
       </div>
 
-      <div class="stepline"><span class="stepnum">4</span>הצטרפות למארג: הורדות ותרומות</div>
+      <div class="stepline"><span class="stepnum">4</span>הסבב האישי — מכתב משלכם</div>
+      <div class="explain">
+        עברתם את המסלול פעם אחת, כולנו על אותו מכתב. עכשיו — מכתב <b>שלכם</b>:
+        השם שבראש הדף מקצה לכם מכתב אמיתי מתוך 4,721 מכתבי המאגר (אותו שם ← אותו מכתב,
+        כך שאפשר להמשיך גם בבית). תקבלו אותו עם תעודת זהות מלאה אך <b>בלי שום סימון בגוף
+        הטקסט</b> — כל מסלול ה־NER והקישור לפניכם. שימו לב: קבלת מכתב חדש מנקה את רשימת
+        הזהויות והתרומות של הסבב הקודם — הורידו קודם את הקבצים שלכם.
+      </div>
+      <div class="toolbar">
+        <button class="btn primary" id="pool-get">קבלו את המכתב שלכם ←</button>
+        <span class="hint" id="pool-info"></span>
+      </div>
+
+      <div class="stepline"><span class="stepnum">5</span>מיזוג בכיתה — הגרף המשותף</div>
+      <div class="explain">
+        כל אחד ואחת עבדו על מכתב אחר — ועכשיו הרגע של האמת: המנחה מעלה כאן את קובצי
+        הזהויות (<code>_authority.xml</code> או <code>_tei-enriched.xml</code>) של כולם בבת אחת.
+        אם שניים כתבו ״ווארשא״ ו״וורשה״ — הכתיב שונה, אבל המזהה זהה, והרשומות מתמזגות
+        מעצמן. <b>המזהים עושים את המיזוג — לא הכתיב.</b> זה, במשפט אחד, כל הרעיון של
+        נתונים מקושרים.
+      </div>
+      <div class="toolbar">
+        <label class="upload btn">
+          העלאת קובצי הזהויות של הקבוצה…
+          <input type="file" id="merge-files" accept=".xml,text/xml,application/xml" multiple>
+        </label>
+        <span class="hint">אפשר (ורצוי) לבחור את כל הקבצים בבת אחת</span>
+      </div>
+      <div id="merge-out"></div>
+
+      <div class="stepline"><span class="stepnum">6</span>הצטרפות למארג: הורדות ותרומות</div>
       <div class="explain">
         המסמך שלכם מוכן להצטרף לתשתיות אמיתיות:
         ה־<code>correspDesc</code> המקושר הוא בדיוק הפורמט (CMIF) שאוסף שירות
@@ -871,6 +925,7 @@
 <script type="application/json" id="data-queue">__QUEUE__</script>
 <script type="application/json" id="data-map">__MAP__</script>
 <script type="application/json" id="data-coast">__COAST__</script>
+<script type="application/json" id="data-pool">__POOL__</script>
 
 <script>
 'use strict';
@@ -1977,6 +2032,162 @@ function renderMap() {
 }
 document.getElementById('map-zoom').addEventListener('click', () => { mapEurope = !mapEurope; renderMap(); });
 
+/* ================= tab 4: personal-letter round ================= */
+const POOL = JSON.parse(document.getElementById('data-pool').textContent);
+function nameHash(s) {
+  let h = 5381;
+  for (let i = 0; i < s.length; i++) h = ((h * 33) ^ s.charCodeAt(i)) >>> 0;
+  return h;
+}
+function poolToTei(L) {
+  const x = escapeXml;
+  return '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<TEI xmlns="http://www.tei-c.org/ns/1.0">\n' +
+    '  <teiHeader>\n' +
+    '    <fileDesc>\n' +
+    '      <titleStmt>\n' +
+    '        <title>' + x(L.title || 'מכתב') + '</title>\n' +
+    '        <author>' + x(L.author || L.sender) + '</author>\n' +
+    '      </titleStmt>\n' +
+    '      <publicationStmt>\n' +
+    '        <p>קידוד תרגול — סדנת אגרת</p>\n' +
+    '      </publicationStmt>\n' +
+    '      <sourceDesc>\n' +
+    '        <bibl>פרויקט בן־יהודה, ' + x(L.url) + '</bibl>\n' +
+    '      </sourceDesc>\n' +
+    '    </fileDesc>\n' +
+    '    <profileDesc>\n' +
+    '      <correspDesc>\n' +
+    '        <correspAction type="sent">\n' +
+    '          <persName>' + x(L.sender) + '</persName>\n' +
+    '          <placeName>' + x(L.location || '') + '</placeName>\n' +
+    '          <date when="' + x(L.dateISO) + '"/>\n' +
+    '        </correspAction>\n' +
+    '        <correspAction type="received">\n' +
+    '          <persName>' + x(L.recipient) + '</persName>\n' +
+    '        </correspAction>\n' +
+    '      </correspDesc>\n' +
+    '    </profileDesc>\n' +
+    '  </teiHeader>\n' +
+    '  <text>\n' +
+    '    <body>\n' +
+    '      <div type="letter">\n' +
+    L.paras.map(p => '        <p>' + x(p) + '</p>').join('\n') + '\n' +
+    '      </div>\n' +
+    '    </body>\n' +
+    '  </text>\n' +
+    '</TEI>';
+}
+function allocateLetter(name) { return POOL[nameHash(name) % POOL.length]; }
+document.getElementById('pool-get').addEventListener('click', () => {
+  if (!requireName()) return;
+  const doc = parseTei(TEI);
+  const tagged = doc && doc.querySelector('body persName, body placeName, body title, body orgName, body date');
+  if (tagged && !confirm('במסמך הנוכחי יש כבר סימונים. לקבל מכתב חדש ולנקות את רשימת הזהויות? (הורידו קודם את הקבצים שלכם אם טרם עשיתם זאת)')) return;
+  const L = allocateLetter(nameSlug());
+  AUTH.clear();
+  DONATIONS.length = 0;
+  authSeq = { person: 0, place: 0, org: 0, work: 0 };
+  selectedEnt = null;
+  setTEI(poolToTei(L));
+  document.getElementById('tei-filename').textContent = 'המכתב האישי: ' + L.title;
+  document.getElementById('pool-info').innerHTML =
+    'המכתב שלכם: <b>' + escapeHtml(L.title) + '</b> (' + escapeHtml(L.dateISO) + ') · ' +
+    '<a href="' + escapeHtml(L.url) + '" target="_blank" rel="noopener" style="color:var(--teal)">במקור</a>';
+  activateTab('ner');
+  history.replaceState(null, '', '#ner');
+  window.scrollTo({ top: 0 });
+  flash('ner-status', 'ok', '✉ קיבלתם את «' + escapeHtml(L.title) + '» — תעודת הזהות מלאה, הטקסט נקי מסימונים. כל המסלול שלכם: זיהוי ← קישור ← הורדה. (חזרה למכתב של קובנר: ״חזרה לקובץ הדוגמה״ בלשונית 1.)');
+});
+
+/* ================= tab 4: classroom authority merge ================= */
+function parseAuthorityFile(text, filename) {
+  const doc = new DOMParser().parseFromString(text, 'text/xml');
+  if (doc.querySelector('parsererror')) return null;
+  let annotator = '';
+  const resp = doc.querySelector('respStmt > name');
+  if (resp) annotator = resp.textContent.trim();
+  if (!annotator) annotator = (filename.split('_')[0] || '').replace(/\.xml$/, '');
+  const entries = [];
+  for (const el of doc.querySelectorAll('standOff person, standOff place, standOff bibl, standOff org')) {
+    const kind = el.localName;
+    const nameEl = el.querySelector('persName, placeName, title, orgName');
+    const name = nameEl ? nameEl.textContent.trim() : '';
+    if (!name) continue;
+    const ids = {};
+    for (const idno of el.querySelectorAll('idno')) {
+      const t = idno.getAttribute('type');
+      const v = idno.textContent.trim();
+      const m = v.match(/(Q\d+)$/) || v.match(/(\d+)\s*$/);
+      if (t && m) ids[t] = m[1];
+    }
+    entries.push({ kind, name, ids, annotator });
+  }
+  return entries;
+}
+function mergeAuthorities(fileEntries) {
+  /* fileEntries: [{name: filename, entries: [...]}, ...] */
+  const groups = new Map();
+  let formCount = 0;
+  for (const f of fileEntries) {
+    for (const e of f.entries) {
+      formCount++;
+      const gk = e.ids.wikidata ? 'wd:' + e.ids.wikidata
+        : e.ids.kima ? 'kima:' + e.ids.kima
+        : 'local:' + e.annotator + ':' + e.name;
+      if (!groups.has(gk)) groups.set(gk, { key: gk, kind: e.kind, forms: new Map(), ids: {}, who: new Set() });
+      const g = groups.get(gk);
+      g.forms.set(e.name, (g.forms.get(e.name) || 0) + 1);
+      Object.assign(g.ids, e.ids);
+      g.who.add(e.annotator || '?');
+    }
+  }
+  return { groups: [...groups.values()], formCount, fileCount: fileEntries.length };
+}
+document.getElementById('merge-files').addEventListener('change', async e => {
+  const files = [...e.target.files];
+  if (!files.length) return;
+  const fileEntries = [];
+  for (const f of files) {
+    const text = await f.text();
+    const entries = parseAuthorityFile(text, f.name);
+    if (entries) fileEntries.push({ name: f.name, entries });
+  }
+  e.target.value = '';
+  renderMerge(mergeAuthorities(fileEntries), files.length);
+});
+function renderMerge(m, nFiles) {
+  const out = document.getElementById('merge-out');
+  if (!m.formCount) {
+    out.innerHTML = '<div class="status err" style="display:block">לא נמצאו רשומות זהות בקבצים — ודאו שאלה קובצי ה־authority או ה־TEI המועשר שהורדו מהמעבדה.</div>';
+    return;
+  }
+  const linked = m.groups.filter(g => !g.key.startsWith('local:'));
+  const local = m.groups.filter(g => g.key.startsWith('local:'));
+  const kindHeb = { person: 'אדם', place: 'מקום', bibl: 'יצירה', org: 'ארגון' };
+  let h = '<div class="merge-stats">' + nFiles + ' קבצים · ' + m.formCount + ' רשומות ← <b>' +
+    m.groups.length + ' ישויות</b>' +
+    (linked.some(g => g.forms.size > 1) ? ' — שימו לב לשורות הירוקות: כתיבים שונים, ישות אחת.' : '') + '</div>';
+  h += '<table class="merge"><tr><th>ישות</th><th>סוג</th><th>הכתיבים שנמצאו</th><th>מי</th><th>מזהים</th></tr>';
+  linked.sort((a, b) => b.forms.size - a.forms.size || b.who.size - a.who.size);
+  for (const g of linked) {
+    const forms = [...g.forms.entries()].map(([f, c]) => '<span>' + escapeHtml(f) + (c > 1 ? ' ×' + c : '') + '</span>').join('');
+    const badges =
+      (g.ids.wikidata ? '<a class="badge" href="https://www.wikidata.org/wiki/' + g.ids.wikidata + '" target="_blank" rel="noopener">' + g.ids.wikidata + '</a> ' : '') +
+      (g.ids.kima ? '<a class="badge" href="https://data.geo-kima.org/Places/Details/' + g.ids.kima + '" target="_blank" rel="noopener">Kima ' + g.ids.kima + '</a>' : '');
+    h += '<tr' + (g.forms.size > 1 ? ' class="merged-multi"' : '') + '><td><b>' + escapeHtml([...g.forms.keys()][0]) + '</b></td>' +
+      '<td>' + (kindHeb[g.kind] || g.kind) + '</td>' +
+      '<td class="forms">' + forms + '</td>' +
+      '<td class="who">' + [...g.who].map(escapeHtml).join(' · ') + '</td>' +
+      '<td>' + badges + '</td></tr>';
+  }
+  h += '</table>';
+  if (local.length) {
+    h += '<div class="hint" style="margin-top:10px"><b>' + local.length + ' רשומות מקומיות</b> נשארו בלתי־ממוזגות — בלי מזהה חיצוני אין למחשב דרך לדעת ששתי רשומות הן אותה ישות. זה בדיוק מה שמזהה קונה.</div>';
+  }
+  out.innerHTML = h;
+}
+
 /* ---- downloads (annotator name is mandatory) ---- */
 function userName() { return document.getElementById('user-name').value.trim(); }
 /* filename-safe slug: keeps Hebrew/Latin letters and digits, spaces -> dash */
@@ -2060,7 +2271,7 @@ refreshAll();
 renderMap();
 
 /* test hooks (harmless in production) */
-window.LAB2 = { kimaLookup, tagInTei, tagAllInTei, collectEntities, buildStandOffXml, buildTurtle, suggestions, normHe, skeleton, setTEI, AUTH, DONATIONS, confirmPlace, confirmLocalOnly, letterPlainText, requireName, exportFilename, teiWithRespStmt, setCert(v) { currentCert = v; }, get TEI() { return TEI; } };
+window.LAB2 = { kimaLookup, tagInTei, tagAllInTei, collectEntities, buildStandOffXml, buildTurtle, suggestions, normHe, skeleton, setTEI, AUTH, DONATIONS, confirmPlace, confirmLocalOnly, letterPlainText, requireName, exportFilename, teiWithRespStmt, POOL, allocateLetter, poolToTei, parseAuthorityFile, mergeAuthorities, setCert(v) { currentCert = v; }, get TEI() { return TEI; } };
 </script>
 </body>
 </html>
