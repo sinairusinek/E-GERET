@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מעבדת ישויות וקישור — מן התיוג אל המחקר</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;800;900&family=Heebo:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:        #1a1a1a;
+    --ink-soft:   #3a3a3a;
+    --paper:      #f6f1e6;
+    --paper-2:    #efe7d4;
+    --paper-3:    #fbf7eb;
+    --rule:       #c9bfa6;
+    --rule-2:     #a89c7e;
+    --brick:      #8a2418;
+    --teal:       #2d5a5a;
+    --gold:       #a0780f;
+    --muted:      #6b6354;
+    --ok:         #3d6b35;
+    --err:        #a03020;
+    --c-person:   #b8cccc;
+    --c-place:    #e0c98d;
+    --c-org:      #cdb8d4;
+    --c-date:     #d9aca4;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    padding: 32px 20px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  header.page {
+    max-width: 1200px;
+    width: 100%;
+    border-bottom: 2px solid var(--rule-2);
+    padding-bottom: 18px;
+    margin-bottom: 24px;
+  }
+  header.page .crumbs { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  header.page .crumbs a { color: var(--teal); text-decoration: none; }
+  header.page .crumbs a:hover { text-decoration: underline; }
+  h1 {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 800;
+    font-size: 34px;
+    margin: 0;
+    color: var(--brick);
+  }
+  .subtitle { font-size: 15px; color: var(--muted); margin-top: 4px; }
+  .wrap { max-width: 1200px; width: 100%; }
+
+  /* ---- tabs ---- */
+  .tabs { display: flex; gap: 6px; margin-bottom: 0; flex-wrap: wrap; }
+  .tab-btn {
+    font-family: 'Heebo', sans-serif;
+    font-size: 16px; font-weight: 500;
+    padding: 10px 22px;
+    background: var(--paper-2);
+    border: 1.5px solid var(--rule);
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    color: var(--ink-soft);
+  }
+  .tab-btn .num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; color: var(--gold); margin-inline-end: 6px;
+  }
+  .tab-btn.active {
+    background: var(--paper-3); color: var(--ink); font-weight: 700;
+    position: relative; top: 1.5px;
+  }
+  .tab-panel {
+    display: none;
+    background: var(--paper-3);
+    border: 1.5px solid var(--rule);
+    border-radius: 0 6px 6px 6px;
+    padding: 24px;
+  }
+  .tab-panel.active { display: block; }
+
+  /* ---- explainer strip ---- */
+  .explain {
+    background: var(--paper-2);
+    border-inline-start: 4px solid var(--gold);
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 15px;
+    color: var(--ink-soft);
+    border-radius: 3px;
+  }
+  .explain b { color: var(--ink); }
+  .explain.q { border-inline-start-color: var(--teal); }
+  .explain code, .hint code, .stepline code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    background: var(--paper);
+    padding: 1px 5px;
+    border-radius: 3px;
+    direction: ltr;
+    unicode-bidi: embed;
+  }
+
+  /* ---- toolbars & buttons ---- */
+  .toolbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .btn {
+    font-family: 'Heebo', sans-serif;
+    font-size: 14px; font-weight: 500;
+    padding: 7px 16px;
+    border: 1.5px solid var(--rule-2);
+    border-radius: 4px;
+    background: var(--paper-3);
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color .12s, background .12s;
+  }
+  .btn:hover { border-color: var(--brick); }
+  .btn.primary { background: var(--brick); border-color: var(--brick); color: #fff; }
+  .btn.primary:hover { background: #6f1d13; }
+  .btn.small { font-size: 13px; padding: 4px 12px; }
+  .btn:disabled { opacity: .45; cursor: default; }
+  label.upload { display: inline-block; }
+  label.upload input { display: none; }
+  .spacer { flex: 1; }
+  .hint { font-size: 13px; color: var(--muted); }
+  input.txt {
+    font-family: 'Heebo', sans-serif;
+    font-size: 14px;
+    padding: 6px 12px;
+    border: 1.5px solid var(--rule-2);
+    border-radius: 4px;
+    background: #fffdf7;
+    color: var(--ink);
+    min-width: 210px;
+  }
+  input.txt:focus { outline: none; border-color: var(--teal); background: #fff; }
+
+  /* ---- panes ---- */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 900px) { .split { grid-template-columns: 1fr; } }
+  .pane {
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    min-height: 420px;
+  }
+  .pane.short { min-height: 220px; }
+  .pane-head {
+    background: var(--paper-2);
+    border-bottom: 1.5px solid var(--rule);
+    padding: 8px 14px;
+    font-size: 13.5px; font-weight: 600;
+    color: var(--ink-soft);
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .pane-body { flex: 1; overflow: auto; position: relative; }
+  textarea.editor {
+    width: 100%; height: 100%; min-height: 380px;
+    border: none; resize: vertical;
+    padding: 16px;
+    font-family: 'IBM Plex Mono', 'Heebo', monospace;
+    font-size: 14px; line-height: 1.7;
+    background: #fffdf7; color: var(--ink);
+    outline: none;
+  }
+  textarea.editor:focus { background: #fff; }
+  pre.code {
+    margin: 0; padding: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px; line-height: 1.6;
+    direction: ltr; text-align: left;
+    white-space: pre-wrap; word-break: break-word;
+    color: #2a2a2a;
+  }
+  pre.code .xtag  { color: var(--teal); }
+  pre.code .xattr { color: var(--gold); }
+  pre.code .xval  { color: var(--brick); }
+
+  .status {
+    font-size: 14px;
+    padding: 8px 14px;
+    border-radius: 4px;
+    margin-top: 10px;
+    display: none;
+  }
+  .status.ok  { display: block; background: #e8efe4; color: var(--ok);  border: 1px solid #b9ccb0; }
+  .status.err { display: block; background: #f6e4e0; color: var(--err); border: 1px solid #ddb3aa; }
+
+  .stepline {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 21px; font-weight: 700;
+    color: var(--ink);
+    margin: 26px 0 10px;
+    padding-top: 18px;
+    border-top: 1px dashed var(--rule-2);
+  }
+  .stepline:first-of-type { border-top: none; padding-top: 0; margin-top: 8px; }
+  .stepline .stepnum {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    background: var(--brick); color: #fff;
+    border-radius: 50%;
+    width: 24px; height: 24px; line-height: 24px;
+    text-align: center;
+    margin-inline-end: 8px;
+    vertical-align: 3px;
+  }
+
+  /* ---- TEI reading view ---- */
+  .tei-preview {
+    padding: 26px 36px;
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 17.5px;
+    line-height: 1.85;
+    background: #fffdf7;
+    max-height: 560px;
+    overflow-y: auto;
+  }
+  .pv-empty { color: var(--muted); font-family: 'Heebo', sans-serif; font-size: 14.5px; }
+  .pv-meta { border-bottom: 2px solid var(--rule-2); margin-bottom: 22px; padding-bottom: 14px; }
+  .pv-title { font-size: 24px; font-weight: 800; color: var(--brick); margin: 0 0 2px; }
+  .pv-byline { font-family: 'Heebo', sans-serif; font-size: 14px; color: var(--ink-soft); }
+  .pv-corresp { font-family: 'Heebo', sans-serif; font-size: 13.5px; color: var(--muted); margin-top: 6px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .tei-preview p { margin: 0 0 12px; }
+  .pv-opener, .pv-closer { color: var(--ink-soft); font-style: italic; margin: 0 0 14px; }
+  .pv-dateline { text-align: left; }
+  .pv-salute { font-style: italic; }
+  .pv-signed { text-align: left; font-style: italic; }
+
+  /* ---- catalog card (tab 1) ---- */
+  .catalog {
+    background: #fff;
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    padding: 16px 22px;
+    margin: 14px 0 4px;
+    max-width: 640px;
+  }
+  .catalog .cat-title {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 700; font-size: 17px; margin-bottom: 8px;
+  }
+  .catalog table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+  .catalog td { padding: 4px 8px; vertical-align: top; }
+  .catalog td.k { color: var(--muted); white-space: nowrap; width: 110px; }
+  .catalog td.v b { color: var(--ink); }
+  .catalog .unknown { color: var(--err); font-size: 12.5px; }
+
+  /* ---- entity marks in annotatable text ---- */
+  .annotext {
+    padding: 24px 30px;
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 18px;
+    line-height: 2.05;
+    background: #fffdf7;
+    user-select: text;
+  }
+  .annotext .ab { margin: 0 0 12px; }
+  .annotext .ab-dateline { text-align: left; color: var(--ink-soft); font-style: italic; }
+  .annotext .ab-salute { font-style: italic; color: var(--ink-soft); }
+  .annotext .ab-signed { text-align: left; font-style: italic; color: var(--ink-soft); }
+  .mk { padding: 1px 3px; border-radius: 3px; cursor: default; }
+  .mk-person { background: color-mix(in srgb, var(--c-person) 55%, transparent); box-shadow: 0 1.5px 0 var(--teal); }
+  .mk-place  { background: color-mix(in srgb, var(--c-place) 55%, transparent);  box-shadow: 0 1.5px 0 var(--gold); }
+  .mk-org    { background: color-mix(in srgb, var(--c-org) 50%, transparent);    box-shadow: 0 1.5px 0 #7a5a86; }
+  .mk-date   { background: color-mix(in srgb, var(--c-date) 55%, transparent);   box-shadow: 0 1.5px 0 var(--brick); }
+  .mk.linked::after { content: ' ✓'; font-family: 'Heebo'; font-size: 11px; color: var(--ok); }
+
+  /* ---- floating type toolbar ---- */
+  .floatbar {
+    position: absolute;
+    display: none;
+    background: #fff;
+    border: 1.5px solid var(--rule-2);
+    border-radius: 6px;
+    box-shadow: 0 4px 18px rgba(0,0,0,.14);
+    padding: 6px;
+    gap: 4px;
+    z-index: 30;
+  }
+  .floatbar.open { display: flex; }
+  .floatbar button {
+    font-family: 'Heebo', sans-serif;
+    font-size: 13px; font-weight: 600;
+    border: none; border-radius: 4px;
+    padding: 5px 12px;
+    cursor: pointer;
+  }
+  .fb-person { background: var(--c-person); }
+  .fb-place  { background: var(--c-place); }
+  .fb-org    { background: var(--c-org); }
+  .fb-date   { background: var(--c-date); }
+  .fb-x { background: var(--paper-2); color: var(--muted); }
+
+  /* ---- legend ---- */
+  .legend { font-size: 13px; color: var(--muted); display: flex; gap: 16px; flex-wrap: wrap; margin: 8px 2px; }
+  .legend .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-inline-end: 5px; vertical-align: -1px; }
+
+  /* ---- entity chips ---- */
+  .entlist { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px; }
+  .ent-chip {
+    display: inline-flex; align-items: center; gap: 7px;
+    border: 1.5px solid var(--rule);
+    border-radius: 16px;
+    padding: 3px 12px;
+    font-size: 14px;
+    background: #fff;
+    cursor: pointer;
+  }
+  .ent-chip:hover { border-color: var(--brick); }
+  .ent-chip .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .ent-chip .cnt { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
+  .ent-chip .lnk { font-size: 11px; color: var(--ok); font-weight: 700; }
+  .ent-chip.sel { border-color: var(--brick); box-shadow: 0 0 0 2px color-mix(in srgb, var(--brick) 22%, transparent); }
+  .dot-person { background: var(--teal); }
+  .dot-place { background: var(--gold); }
+  .dot-org { background: #7a5a86; }
+  .dot-date { background: var(--brick); }
+
+  /* ---- suggestions ---- */
+  .sugg-list { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; }
+  .sugg {
+    display: flex; align-items: center; gap: 10px;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: #fff;
+    padding: 7px 12px;
+    font-size: 14.5px;
+  }
+  .sugg .stype { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 1px 7px; border-radius: 8px; }
+  .sugg .cnt { color: var(--muted); font-size: 12.5px; }
+  .sugg.done { opacity: .5; }
+
+  /* ---- linking cards ---- */
+  .cand {
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    background: #fff;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+  }
+  .cand .c-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .cand .c-label { font-weight: 700; font-size: 16px; }
+  .cand .c-rom { color: var(--muted); font-size: 13.5px; direction: ltr; unicode-bidi: embed; }
+  .cand .c-desc { font-size: 13.5px; color: var(--ink-soft); margin: 3px 0 8px; }
+  .cand .c-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    direction: ltr; unicode-bidi: embed;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 1px 7px;
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
+  a.badge:hover { border-color: var(--teal); color: var(--teal); }
+  .grade {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px; font-weight: 500;
+    padding: 2px 9px; border-radius: 9px;
+  }
+  .grade-A { background: #e8efe4; color: var(--ok); border: 1px solid #b9ccb0; }
+  .grade-B { background: #f6efdd; color: var(--gold); border: 1px solid #dcc99a; }
+  .grade-C { background: #f6e4e0; color: var(--err); border: 1px solid #ddb3aa; }
+
+  .workrow { display: grid; grid-template-columns: 340px 1fr; gap: 16px; align-items: start; }
+  @media (max-width: 900px) { .workrow { grid-template-columns: 1fr; } }
+
+  /* ---- donations ---- */
+  .donatebox {
+    background: #f2ede0;
+    border: 1.5px dashed var(--gold);
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin-top: 14px;
+    font-size: 14.5px;
+  }
+  .donatebox .d-title { font-weight: 700; color: var(--gold); margin-bottom: 4px; }
+  .donatebox ul { margin: 4px 0; padding-inline-start: 20px; }
+  .donatebox code { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; direction: ltr; unicode-bidi: embed; }
+
+  /* ---- corpus queue ---- */
+  .qcase {
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    background: #fff;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+  }
+  .qcase .q-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+  .qcase .q-name { font-family: 'Frank Ruhl Libre', serif; font-size: 20px; font-weight: 700; }
+  .qcase .q-count { font-size: 13px; color: var(--brick); font-weight: 600; }
+  .qcase .q-cands { display: flex; flex-wrap: wrap; gap: 8px; }
+  .qcase .q-cand {
+    font-family: 'Heebo', sans-serif;
+    font-size: 13.5px;
+    border: 1.5px solid var(--rule-2);
+    border-radius: 4px;
+    background: var(--paper-3);
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+  .qcase .q-cand:hover { border-color: var(--brick); }
+  .qcase .q-cand.picked { background: var(--teal); color: #fff; border-color: var(--teal); }
+  .qcase .q-reveal { margin-top: 10px; font-size: 14px; display: none; }
+  .qcase .q-reveal.open { display: block; }
+
+  /* ---- LOD tab ---- */
+  .ttl-pre {
+    margin: 0; padding: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px; line-height: 1.65;
+    direction: ltr; text-align: left;
+    white-space: pre-wrap; word-break: break-word;
+  }
+  .ttl-pre .t-pfx { color: var(--muted); }
+  .ttl-pre .t-uri { color: var(--teal); }
+  .ttl-pre .t-lit { color: var(--brick); }
+  .graph-svg, .map-svg { display: block; width: 100%; background: #fffdf7; }
+  .map-svg .coast { fill: none; stroke: var(--rule-2); stroke-width: .6; }
+  .map-svg .dot { fill: var(--teal); fill-opacity: .55; stroke: #fff; stroke-width: .3; }
+  .map-svg .dot.mine { fill: var(--brick); fill-opacity: .9; }
+  .wdcard {
+    display: flex; gap: 18px; align-items: flex-start;
+    background: #fff;
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    padding: 16px 20px;
+  }
+  .wdcard img { max-width: 130px; border-radius: 4px; border: 1px solid var(--rule); }
+  .wdcard .w-label { font-family: 'Frank Ruhl Libre', serif; font-size: 21px; font-weight: 700; margin-bottom: 2px; }
+  .wdcard .w-desc { color: var(--ink-soft); font-size: 14.5px; margin-bottom: 8px; }
+  .wdcard .w-ids { display: flex; gap: 8px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+  <header class="page">
+    <div class="crumbs"><a href="../">→ חזרה לדף הסדנה</a></div>
+    <h1>מן התיוג אל המחקר — ישויות, קישור ונתונים פתוחים</h1>
+    <div class="subtitle">מפגש שני · מ־TEI דרך זיהוי ישויות (NER) אל נתונים מקושרים (Linked Open Data)</div>
+  </header>
+
+  <div class="wrap">
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="tei"><span class="num">1</span>המסמך כנתונים · TEI</button>
+      <button class="tab-btn" data-tab="ner"><span class="num">2</span>זיהוי ישויות · NER</button>
+      <button class="tab-btn" data-tab="link"><span class="num">3</span>קישור ומאגרי זהויות</button>
+      <button class="tab-btn" data-tab="lod"><span class="num">4</span>נתונים מקושרים · LOD</button>
+    </nav>
+
+    <!-- ============================================================ -->
+    <!-- TAB 1: the TEI document as data                              -->
+    <!-- ============================================================ -->
+    <section class="tab-panel active" id="panel-tei">
+      <div class="explain">
+        <b>נקודת הפתיחה: המסמך שקידדתם במפגש הקודם.</b>
+        בעורך שמימין — מכתבו של א״א קובנר לראובן בריינין (1904), כבר עטוף ב־TEI: תעודת זהות
+        (<code>teiHeader</code>) עם <code>correspDesc</code>, ומבנה מכתב מסומן. משמאל — תצוגת קריאה
+        שנבנית מן הקידוד. מי שיש בידיו קובץ משלו מהמפגש הקודם — מוזמן להעלות אותו במקום הדוגמה.
+      </div>
+
+      <div class="toolbar">
+        <label class="upload btn">
+          העלאת ה־TEI שלי מהמפגש הקודם…
+          <input type="file" id="tei-upload" accept=".xml,text/xml,application/xml">
+        </label>
+        <button class="btn small" id="tei-reset">חזרה לקובץ הדוגמה</button>
+        <button class="btn small" id="tei-check">בדיקת תקינות ✓</button>
+        <span class="spacer"></span>
+        <span class="hint" id="tei-filename">קובץ הדוגמה: א. קובנר לר. בריינין</span>
+      </div>
+
+      <div class="split">
+        <div class="pane">
+          <div class="pane-head">קוד ה־TEI — אפשר לערוך</div>
+          <div class="pane-body">
+            <textarea class="editor" id="tei-src" dir="ltr" style="text-align:left" spellcheck="false"></textarea>
+          </div>
+        </div>
+        <div class="pane">
+          <div class="pane-head">תצוגת קריאה</div>
+          <div class="pane-body tei-preview" id="tei-view" dir="rtl"></div>
+        </div>
+      </div>
+      <div class="status" id="tei-status"></div>
+
+      <div class="stepline"><span class="stepnum">?</span>מה המחשב כבר יודע לקרוא מכאן?</div>
+      <div class="explain q">
+        בזכות ה־<code>correspDesc</code> המחשב שולף לבדו את הכרטיס הקטלוגי של המכתב.
+        הביטו בו רגע — ואז שאלו: <b>מה בדיוק המחשב <u>יודע</u> כאן?</b>
+        הוא יודע שהמכתב נשלח מ״לאמזשא״. אבל היכן זה לאמזשא? על איזו מפה? ומי זה ״ראובן בריינין״ —
+        מבין כל האנשים שנשאו את השם הזה אי־פעם?
+      </div>
+      <div class="catalog" id="catalog-card"></div>
+      <div class="explain q" style="margin-top:18px">
+        <b>וכמה מקומות יש כאן?</b> אלה כתיבים אמיתיים של שמות־מקום מתוך 4,721 המכתבים שחילצנו
+        בפרויקט אגרת: <b>אודיסא · אדעסא · אודסה · אדעס · אודיסה</b>.
+        חמש מחרוזות שונות — כמה מקומות? ומה עם <b>ווארשא</b> ו<b>וורשה</b> ו<b>Warsaw</b>?
+        למחשב אלו מחרוזות זרות זו לזו. כדי שהטקסט יהפוך לנתונים, כל שם צריך להפוך מ<b>מחרוזת</b>
+        ל<b>ישות</b> — עם זהות אחת ומזהה אחד. זה בדיוק מסע המפגש הזה:
+        קודם <b>נזהה</b> את השמות בטקסט (NER), אחר כך <b>נקשר</b> כל שם לישות במאגר ידע —
+        ונראה מה זה פותח.
+      </div>
+      <div class="explain" style="border-inline-start-color: var(--brick)">
+        <b>אגב, קובנר כבר התלונן על זה ב־1904.</b> קראו את הפסקה האחרונה במכתב: הוא מתרעם על
+        הסופרים שמשנים כתיב של שמות — ״קובנר (תחת קאוונער), גיטה (תחת גאטהע), מטרלינק (תחת מעטטערלינק)״.
+        הבעיה שנפתור היום בעזרת מזהים — מטרידה את הכותבים עצמם כבר מאה ועשרים שנה.
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- TAB 2: NER                                                   -->
+    <!-- ============================================================ -->
+    <section class="tab-panel" id="panel-ner">
+      <div class="explain">
+        <b>זיהוי ישויות בשם — NER (Named Entity Recognition).</b>
+        המשימה: למצוא בטקסט כל אזכור של <b>אדם</b>, <b>מקום</b>, <b>ארגון</b> או <b>תאריך</b>, ולסמן אותו.
+        בצד שמאל הטקסט עצמו: סמנו קטע בעכבר, ובחרו סוג בסרגל שיקפוץ. כל סימון נכתב מיד
+        כתגית TEI בקוד שמימין — <code>persName</code>, <code>placeName</code>, <code>orgName</code>, <code>date</code>.
+      </div>
+
+      <div class="stepline"><span class="stepnum">1</span>תיוג ידני — קראו וסמנו</div>
+      <div class="explain q">
+        התחילו בשורת התאריך שבראש המכתב. מה יש בה? ואז המשיכו פנימה:
+        מי הם האנשים המוזכרים במכתב? אילו שמות מסתתרים מאחורי כתיב יידי (״היינע״, ״גאגאל״)?
+        האם ״הצופה״ הוא אדם? האם ״חקר־דבר״ הוא ארגון? ומה עושים עם ״בשפת רוסיה״ —
+        האם זה אזכור של <i>מקום</i>?
+      </div>
+      <div class="legend">
+        <span><span class="swatch" style="background:var(--c-person)"></span>persName — אדם</span>
+        <span><span class="swatch" style="background:var(--c-place)"></span>placeName — מקום</span>
+        <span><span class="swatch" style="background:var(--c-org)"></span>orgName — ארגון/כתב־עת</span>
+        <span><span class="swatch" style="background:var(--c-date)"></span>date — תאריך</span>
+      </div>
+
+      <div class="split">
+        <div class="pane">
+          <div class="pane-head">קוד ה־TEI — מתעדכן עם כל סימון</div>
+          <div class="pane-body"><pre class="code" id="ner-code"></pre></div>
+        </div>
+        <div class="pane">
+          <div class="pane-head">הטקסט — סמנו קטע בעכבר</div>
+          <div class="pane-body">
+            <div class="annotext" id="annotext" dir="rtl"></div>
+            <div class="floatbar" id="floatbar">
+              <button class="fb-person" data-t="person">אדם</button>
+              <button class="fb-place" data-t="place">מקום</button>
+              <button class="fb-org" data-t="org">ארגון</button>
+              <button class="fb-date" data-t="date">תאריך</button>
+              <button class="fb-x" data-t="x">✕</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="status" id="ner-status"></div>
+
+      <div class="stepline"><span class="stepnum">2</span>תיוג חצי־אוטומטי — המכונה מציעה, אתם מכריעים</div>
+      <div class="explain">
+        כך עובד NER מבוסס־מילון: המחשב משווה את הטקסט לרשימות שמות מוכרים — כאן, השמות השכיחים
+        שחולצו מ־4,721 מכתבי הפרויקט — ומציע מועמדים. לחצו והשוו לעבודה הידנית שלכם:
+        <b>מה הוא מצא שפספסתם? ומה הוא פספס</b> — או מצא בטעות? שימו לב במיוחד ל״לאמזשא״
+        ול״בשפת רוסיה״.
+      </div>
+      <div class="toolbar">
+        <button class="btn primary" id="ner-suggest">סריקה אוטומטית מבוססת מילון ←</button>
+        <span class="hint">בפרויקט האמיתי את השלב הזה עשה מודל שפה (Gemini) על כל 4,721 המכתבים — אותו עיקרון, מילון גדול בהרבה</span>
+      </div>
+      <div class="pane short" id="sugg-pane" style="display:none">
+        <div class="pane-head">הצעות המכונה — אשרו או דחו כל אחת</div>
+        <div class="pane-body"><div class="sugg-list" id="sugg-list"></div></div>
+      </div>
+
+      <div class="stepline"><span class="stepnum">3</span>הישויות שנמצאו</div>
+      <div class="explain q">
+        זהו יבול ה־NER שלכם — כל שורה היא <b>ישות מועמדת</b>, עם מספר המופעים שלה בטקסט.
+        לתאריכים הוסיפו ערך קריא־למכונה (<code>when</code>) בלחיצה על השבב.
+        הרשימה הזו עוברת איתנו לשלב הבא: הקישור.
+      </div>
+      <div class="pane short">
+        <div class="pane-head">רשימת הישויות <span class="spacer"></span><span class="hint" id="ent-count"></span></div>
+        <div class="pane-body"><div class="entlist" id="entlist"></div></div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- TAB 3: linking + authority                                   -->
+    <!-- ============================================================ -->
+    <section class="tab-panel" id="panel-link">
+      <div class="explain">
+        <b>מן השם אל הישות: קישור למאגרי ידע.</b>
+        לכל תחום יש מאגר זהויות (authority file) משלו: <b>Wikidata</b> לאנשים ולכל דבר אחר,
+        <b>Kima</b> — הגזטיר ההיסטורי של שמות מקומות בכתב עברי, <b>GeoNames</b> למקומות בכלל,
+        <b>VIAF</b> לרשומות ספרייתיות. בחרו ישות מהרשימה, חפשו אותה במאגר המתאים, והכריעו:
+        איזו רשומה היא <i>הישות שלכם</i>? כל הכרעה נרשמת בקובץ הזהויות המקומי שלכם —
+        ה־<code>standOff</code> שבסוף המסמך.
+      </div>
+
+      <div class="stepline"><span class="stepnum">1</span>קשרו את הישויות שלכם</div>
+      <div class="workrow">
+        <div class="pane short">
+          <div class="pane-head">תור העבודה — לחצו על ישות</div>
+          <div class="pane-body"><div class="entlist" id="linklist"></div></div>
+        </div>
+        <div>
+          <div class="pane short">
+            <div class="pane-head" id="search-head">חיפוש במאגר</div>
+            <div class="pane-body" style="padding:14px" id="search-body">
+              <div class="hint">בחרו ישות מתור העבודה שמימין.</div>
+            </div>
+          </div>
+          <div class="donatebox" id="donatebox" style="display:none"></div>
+        </div>
+      </div>
+      <div class="status" id="link-status"></div>
+
+      <div class="stepline"><span class="stepnum">2</span>קובץ הזהויות המקומי שלכם</div>
+      <div class="explain">
+        כל הכרעה נכתבת פעמיים: בגוף הטקסט — <code>ref="#pers_1"</code> על כל מופע; וברשומת
+        זהות אחת ב־<code>standOff</code>, שאוספת את כל המזהים החיצוניים:
+        <code>&lt;idno type="wikidata"&gt;</code>, <code>&lt;idno type="VIAF"&gt;</code>,
+        <code>&lt;idno type="geonames"&gt;</code>… שם אחד בטקסט — ישות אחת ברשומה — מזהים רבים בעולם.
+      </div>
+      <div class="split">
+        <div class="pane short">
+          <div class="pane-head">
+            standOff — קובץ הזהויות
+            <span class="spacer"></span>
+            <button class="btn small" id="dl-authority">הורדת קובץ הזהויות ⤓</button>
+          </div>
+          <div class="pane-body"><pre class="code" id="authority-code"></pre></div>
+        </div>
+        <div class="pane short">
+          <div class="pane-head">המסמך המלא — עם ההפניות</div>
+          <div class="pane-body"><pre class="code" id="link-code"></pre></div>
+        </div>
+      </div>
+
+      <div class="stepline"><span class="stepnum">3</span>ועכשיו בקנה מידה: 4,721 מכתבים</div>
+      <div class="explain q">
+        במכתב אחד הכרעתם ביד. בפרויקט אגרת חולצו <b>1,877 שמות מקומות</b> — אי אפשר להכריע יד
+        אחר יד. מנוע ההתאמה (Kimatch) מדרג כל שם: <span class="grade grade-A">A</span> התאמה
+        מדויקת ויחידה — מקושרת אוטומטית · <span class="grade grade-B">B</span> התאמה יחידה אך
+        מקורבת — ראויה למבט אנושי · <span class="grade grade-C">C</span> כמה מועמדים או אף אחד —
+        חובה אדם. לפניכם שישה שמות אמיתיים מהמאגר שקיבלו ציון C. הכריעו — ואז השוו להכרעת הפרויקט.
+      </div>
+      <div id="corpus-queue"></div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- TAB 4: LOD                                                   -->
+    <!-- ============================================================ -->
+    <section class="tab-panel" id="panel-lod">
+      <div class="explain">
+        <b>נתונים מקושרים — Linked Open Data.</b>
+        ברגע שכל ישות קיבלה מזהה, המסמך חדל להיות טקסט בודד: הוא נהפך לצומת ברשת.
+        העיקרון פשוט — כל דבר מקבל כתובת (URI), וכל קשר בין שני דברים הוא משפט בן שלושה
+        חלקים: נושא ← יחס ← מושא. הנה המכתב שלכם, מפורק למשפטים כאלה.
+      </div>
+
+      <div class="stepline"><span class="stepnum">1</span>המכתב שלכם כגרף ידע</div>
+      <div class="toolbar">
+        <button class="btn primary" id="lod-build">בנו את הגרף מן המסמך שלי ←</button>
+        <span class="hint">נבנה מתוך ה־correspDesc, הישויות והקישורים שיצרתם בשלבים הקודמים</span>
+      </div>
+      <div class="split" id="lod-panes" style="display:none">
+        <div class="pane short">
+          <div class="pane-head">
+            המשפטים — תחביר Turtle
+            <span class="spacer"></span>
+            <button class="btn small" id="dl-ttl">הורדה ⤓</button>
+          </div>
+          <div class="pane-body"><pre class="ttl-pre" id="ttl-out"></pre></div>
+        </div>
+        <div class="pane short">
+          <div class="pane-head">אותם משפטים — כתמונה</div>
+          <div class="pane-body" id="graph-box"></div>
+        </div>
+      </div>
+
+      <div class="stepline"><span class="stepnum">2</span>מה מזהה אחד קונה — שאלו את הרשת</div>
+      <div class="explain q">
+        קישרתם שם ל־QID. עכשיו נלך בכיוון ההפוך: ניקח את המזהה ונשאל את Wikidata מה <i>היא</i>
+        יודעת עליו. שימו לב מה חוזר: תאריכים, תמונה, תיאור — וגם מזהים במאגרים <i>אחרים</i>
+        (VIAF, הספרייה הלאומית). מזהה אחד הוא מפתח לשרשרת מאגרים שלמה.
+      </div>
+      <div class="toolbar">
+        <select id="enrich-pick" class="txt" style="min-width:260px"></select>
+        <button class="btn" id="enrich-go">שאלו את Wikidata ←</button>
+      </div>
+      <div id="enrich-out"></div>
+
+      <div class="stepline"><span class="stepnum">3</span>וזה נראה כך בקנה מידה: מפת 4,721 המכתבים</div>
+      <div class="explain">
+        בפרויקט אגרת עבר כל שם־מקום את המסלול שעברתם זה עתה — NER, התאמה ב־Kimatch, הכרעה —
+        וכל רשומת Kima נושאת קואורדינטות. התוצאה: אלפי מכתבים עבריים על מפה אחת.
+        גודל הנקודה — מספר המכתבים. <b>המקומות שקישרתם היום מסומנים באדום.</b>
+      </div>
+      <div class="pane short">
+        <div class="pane-head">
+          מפת המקומות המקושרים
+          <span class="spacer"></span>
+          <button class="btn small" id="map-zoom">עולם ⇄ אירופה</button>
+        </div>
+        <div class="pane-body" id="map-box"></div>
+      </div>
+
+      <div class="stepline"><span class="stepnum">4</span>הצטרפות למארג: הורדות ותרומות</div>
+      <div class="explain">
+        המסמך שלכם מוכן להצטרף לתשתיות אמיתיות:
+        ה־<code>correspDesc</code> המקושר הוא בדיוק הפורמט (CMIF) שאוסף שירות
+        <a href="https://correspsearch.net" target="_blank" rel="noopener">correspSearch</a>
+        המאגד רשתות התכתבות מכל אירופה; והכתיבים החדשים שמצאתם — כמו ״לאמזשא״ —
+        הם תרומה לגזטיר Kima עצמו. בפרויקט אגרת נתרמו כך <b>425 כתיבים עבריים חדשים</b>.
+      </div>
+      <div class="toolbar">
+        <button class="btn" id="dl-tei">הורדת ה־TEI המועשר ⤓</button>
+        <button class="btn" id="dl-auth2">הורדת קובץ הזהויות ⤓</button>
+        <button class="btn" id="dl-donations">הורדת קובץ התרומות ל־Kima ⤓</button>
+        <button class="btn" id="dl-cmif">הורדת רשומת CMIF ל־correspSearch ⤓</button>
+      </div>
+      <div class="status" id="lod-status"></div>
+    </section>
+  </div>
+
+<!-- ================= preloaded sample: the Kovner letter, TEI from session 1 ================= -->
+<script type="text/plain" id="sample-tei"><?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>א. קובנר לר. בריינין</title>
+        <author>אברהם אורי קובנר</author>
+      </titleStmt>
+      <publicationStmt>
+        <p>קידוד תרגול — סדנת אגרת</p>
+      </publicationStmt>
+      <sourceDesc>
+        <bibl>פרויקט בן־יהודה, https://benyehuda.org/read/40830</bibl>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <correspDesc>
+        <correspAction type="sent">
+          <persName>אברהם אורי קובנר</persName>
+          <placeName>לאמזשא</placeName>
+          <date when="1904-02-27"/>
+        </correspAction>
+        <correspAction type="received">
+          <persName>ראובן בריינין</persName>
+        </correspAction>
+      </correspDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="letter">
+        <opener>
+          <dateline>דען 27 טען פעברואר, יאהר 1904, לאמזשא.</dateline>
+          <salute>אדון נכבד,</salute>
+        </opener>
+        <p>זה כמעט ארבעים שנה (משנת 1868) עברו וחלפו, אשר לא קראתי ולא כתבתי מאומה בשפת עבר. אולם זה ימים אחדים, אשר אחד מאחי שלח לי ארבעה גליונות ממה"ע "הצופה", אשר בהם נדפס המאמר: "א. א. קובנר" (לתולדות הבקורת בספרותנו החדשה), וישאלני, אם באמת ובתמים ידבר המחבר ה' בריינין?</p>
+        <p>אודה ולא אבוש, כי קשה לי מאד לכתוב בשפת עבר צחה וברורה, כי זה יותר מארבעים שנה, אשר אכתוב את ספרי ומאמרי אך בשפת רוסיה, לכן חשבתי מראש לכתוב לאדוני בשפה הזאת, אשר בלי ספק הוא יודע אותה (הנני שופט מזה, כי במאמרו הנזכר יזכיר את החוקר הנודע פיסארעוו); אך אחרי כן גמרתי בנפשי לכתוב איזה שורות בשפה זאת, אשר בה נכתב מאמרו. וזה החלי!</p>
+        <p>אמת הוא, כי בספרי "חקר־דבר" ו"צרור־פרחים" אין השקפות חדשות, אולם להגיד ברור ומפורש, כי אין במאמרי "דעות ומחשבות כל עיקר", הוא חטא נגד האמת. דיים המקומות שיביא הוא בעצמו מספרי, למשל ע"ד אייכענבוים ושד"ל — לראות, כי יש איזה דעות ומחשבות במאמרי. ואם ישים לב כי המאמרים ההם נכתבו לפני ארבעים שנה, וכי בני הדור החדש מישראל לא ידעו אז מאומה מהדעות החדשות, אשר התפרצו בעוז בכל אירופא, אז אוכל לאמור בפה מלא, כי במאמרי ההם תמצאנה דעות ומחשבות חדשות לקוראים העברים בימים ההם.</p>
+        <p>אקח לי העזות להודיע, כי ידעתי גם אז מה הנה ה"עקיצות דקות ומסוכנות", ידעתי גם את מקורן כמו היינע, בערנע, גאגאל ודומיהם. עקיצות כאלה נתפזרו למכביר בספרי "צרור פרחים" (עיין עוד בספרי "חקר דבר", איפו אדבר מעקיצות החדות של ערטער), ובפרט במאמרי "רוח באר", ע"ד גאטלאבער.</p>
+        <p>ולהפך שמעתי מהמון סופרים (כמו י. ל. גארדאן, ליליענבלום, פאפירנא ועוד), כי לא היה עוד לפני מהסופרים הצעירים, אשר יכתבו בשפה ברורה וצחה כמוני…</p>
+        <p>ובפרט אולת גדולה היא לשנות את שמות פרטים, כמו קובנר (תחת קאוונער), גוטלובר (תחת גאטלאבער), גיטה (תחת גאטהע), מטרלינק (תחת מעטטערלינק) וכדומה.</p>
+        <closer>
+          <salute>ובזה שלום!</salute>
+          <signed>א. א. קובנר</signed>
+        </closer>
+      </div>
+    </body>
+  </text>
+</TEI></script>
+
+<script type="application/json" id="data-gaz">__GAZ__</script>
+<script type="application/json" id="data-lex">__LEX__</script>
+<script type="application/json" id="data-queue">__QUEUE__</script>
+<script type="application/json" id="data-map">__MAP__</script>
+<script type="application/json" id="data-coast">__COAST__</script>
+
+<script>
+'use strict';
+
+/* ================= tabs ================= */
+function activateTab(name) {
+  const btn = document.querySelector('.tab-btn[data-tab="' + name + '"]');
+  if (!btn) return;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+}
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    activateTab(btn.dataset.tab);
+    history.replaceState(null, '', '#' + btn.dataset.tab);
+    refreshAll();
+  });
+});
+if (/^#(tei|ner|link|lod)$/.test(location.hash)) activateTab(location.hash.slice(1));
+
+/* ================= embedded data ================= */
+const GAZ    = JSON.parse(document.getElementById('data-gaz').textContent);
+const LEX    = JSON.parse(document.getElementById('data-lex').textContent);
+const QUEUE  = JSON.parse(document.getElementById('data-queue').textContent);
+const MAPPTS = JSON.parse(document.getElementById('data-map').textContent);
+const COAST  = JSON.parse(document.getElementById('data-coast').textContent);
+
+/* verified QIDs for offline classrooms (modern-Hebrew spellings only —
+   normalising the historical spelling is part of the drill) */
+const WD_FALLBACK = {
+  'ראובן בריינין':        [{ id: 'Q356423',   label: 'ראובן בריינין', description: 'סופר עברי (1862–1939)' }],
+  'אברהם אורי קובנר':     [{ id: 'Q21101286', label: 'אברהם אורי קובנר', description: 'סופר ומבקר עברי-רוסי' }],
+  'דמיטרי פיסארב':        [{ id: 'Q378753',   label: 'דמיטרי פיסארב', description: 'מבקר ספרות ופילוסוף רוסי (1840–1869)' }],
+  'שד"ל':                 [{ id: 'Q1391533',  label: 'שד"ל', description: 'שמואל דוד לוצאטו — משורר, פרשן מקרא ובלשן' }],
+  'שמואל דוד לוצאטו':     [{ id: 'Q1391533',  label: 'שד"ל', description: 'שמואל דוד לוצאטו — משורר, פרשן מקרא ובלשן' }],
+  'היינריך היינה':        [{ id: 'Q44403',    label: 'היינריך היינה', description: 'משורר ופובליציסט גרמני' }],
+  'ניקולאי גוגול':        [{ id: 'Q43718',    label: 'ניקולאי גוגול', description: 'סופר רוסי' }],
+  'יצחק ארטר':            [{ id: 'Q2903903',  label: 'יצחק ארטר', description: 'סאטיריקן עברי ורופא (1791–1851)' }],
+  'אברהם בר גוטלובר':     [{ id: 'Q329845',   label: 'אברהם בר גוטלובר', description: 'משורר, סופר והיסטוריון יהודי' }],
+  'מאיר הלוי לטריס':      [{ id: 'Q1912967',  label: 'מאיר הלוי לטריס', description: 'משורר וסופר עברי' }],
+  'משה לייב ליליינבלום':  [{ id: 'Q742539',   label: 'משה לייב ליליינבלום', description: 'משכיל וסופר עברי, מראשי חובבי ציון' }],
+  'יהודה לייב גורדון':    [{ id: 'Q1376036',  label: 'יהודה לייב גורדון', description: 'מגדולי המשוררים העבריים' }],
+  'לודוויג ברנה':         [{ id: 'Q213595',   label: 'לודוויג ברנה', description: 'סופר גרמני' }],
+  'יעקב אייכנבוים':       [{ id: 'Q20502079', label: 'יעקב אייכנבוים', description: 'מחנך, משורר ומתמטיקאי יהודי-רוסי' }],
+  'יוהאן וולפגנג פון גתה':[{ id: 'Q5879',     label: 'יוהאן וולפגנג פון גתה', description: 'סופר ומשורר גרמני' }]
+};
+
+/* ================= shared state ================= */
+let TEI = document.getElementById('sample-tei').textContent.trim();
+const ENT_TAGS = { person: 'persName', place: 'placeName', org: 'orgName', date: 'date' };
+const TAG2TYPE = { persName: 'person', placeName: 'place', orgName: 'org', date: 'date' };
+const TYPE_HEB = { person: 'אדם', place: 'מקום', org: 'ארגון', date: 'תאריך' };
+const AUTH = new Map();       // entKey -> {authId, kind, label, desc, ids:{}, lat, lon, local}
+const DONATIONS = [];         // {kima_id, kima_name, variant, source}
+let authSeq = { person: 0, place: 0, org: 0 };
+let selectedEnt = null;       // entKey selected in tab 3
+
+function escapeHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+function escapeXml(s) { return escapeHtml(s); }
+
+/* ================= TEI parse / serialize ================= */
+function parseTei(src) {
+  const doc = new DOMParser().parseFromString(src, 'text/xml');
+  if (doc.querySelector('parsererror')) return null;
+  return doc;
+}
+function serializeTei(doc) {
+  let s = new XMLSerializer().serializeToString(doc);
+  if (!s.startsWith('<?xml')) s = '<?xml version="1.0" encoding="UTF-8"?>\n' + s;
+  return s;
+}
+function setTEI(next) {
+  TEI = next;
+  const ta = document.getElementById('tei-src');
+  if (ta.value !== TEI) ta.value = TEI;
+  refreshAll();
+}
+
+/* body blocks = the natural text units of the letter */
+const BLOCK_SEL = 'dateline, salute, p, signed, head';
+function bodyBlocks(doc) {
+  const body = doc.querySelector('body');
+  return body ? [...body.querySelectorAll(BLOCK_SEL)] : [];
+}
+/* text nodes of a block that are NOT inside an entity tag */
+function plainTextNodes(el) {
+  const out = [];
+  (function walk(n) {
+    for (const c of n.childNodes) {
+      if (c.nodeType === 3) out.push(c);
+      else if (c.nodeType === 1) {
+        const nm = c.localName || c.nodeName;
+        if (!TAG2TYPE[nm] && !(c.classList && c.classList.contains('mk'))) walk(c);
+      }
+    }
+  })(el);
+  return out;
+}
+/* find n-th occurrence of phrase across a list of text nodes (within a single node) */
+function findOccurrence(nodes, phrase, n) {
+  let seen = 0;
+  for (const node of nodes) {
+    let from = 0, idx;
+    while ((idx = node.data.indexOf(phrase, from)) !== -1) {
+      if (seen === n) return { node, idx };
+      seen++; from = idx + 1;
+    }
+  }
+  return null;
+}
+function countOccurrences(nodes, phrase) {
+  let c = 0;
+  for (const node of nodes) {
+    let from = 0, idx;
+    while ((idx = node.data.indexOf(phrase, from)) !== -1) { c++; from = idx + 1; }
+  }
+  return c;
+}
+
+/* wrap the n-th plain occurrence of phrase inside block #bi with an entity tag */
+function tagInTei(bi, phrase, occ, type) {
+  const doc = parseTei(TEI);
+  if (!doc) return { ok: false, msg: 'ה־XML אינו תקין — תקנו אותו בלשונית 1' };
+  const blocks = bodyBlocks(doc);
+  if (bi < 0 || bi >= blocks.length) return { ok: false, msg: 'לא נמצאה הפסקה' };
+  const hit = findOccurrence(plainTextNodes(blocks[bi]), phrase, occ);
+  if (!hit) return { ok: false, msg: 'הקטע חופף לסימון קיים או לא נמצא' };
+  const tail = hit.node.splitText(hit.idx);
+  tail.splitText(phrase.length);
+  const el = doc.createElementNS('http://www.tei-c.org/ns/1.0', ENT_TAGS[type]);
+  hit.node.parentNode.insertBefore(el, tail);
+  el.appendChild(tail);
+  setTEI(serializeTei(doc));
+  return { ok: true };
+}
+/* tag every remaining plain occurrence of phrase in the whole body */
+function tagAllInTei(phrase, type) {
+  let total = 0, guard = 0;
+  while (guard++ < 60) {
+    const doc = parseTei(TEI);
+    const blocks = bodyBlocks(doc);
+    let done = true;
+    for (let bi = 0; bi < blocks.length; bi++) {
+      if (countOccurrences(plainTextNodes(blocks[bi]), phrase) > 0) {
+        const r = tagInTei(bi, phrase, 0, type);
+        if (r.ok) { total++; done = false; }
+        break;
+      }
+    }
+    if (done) break;
+  }
+  return total;
+}
+
+/* ================= entity collection ================= */
+function collectEntities() {
+  const doc = parseTei(TEI);
+  if (!doc) return [];
+  const body = doc.querySelector('body');
+  if (!body) return [];
+  const map = new Map();
+  for (const el of body.querySelectorAll(Object.values(ENT_TAGS).join(','))) {
+    const type = TAG2TYPE[el.localName || el.nodeName];
+    const text = el.textContent.replace(/\s+/g, ' ').trim();
+    if (!text) continue;
+    const key = type + '|' + text;
+    if (!map.has(key)) map.set(key, { key, type, text, count: 0, refs: 0, when: '' });
+    const e = map.get(key);
+    e.count++;
+    if (el.getAttribute('ref')) e.refs++;
+    if (type === 'date' && el.getAttribute('when')) e.when = el.getAttribute('when');
+  }
+  return [...map.values()];
+}
+
+/* ================= renderers ================= */
+function highlightXml(src) {
+  return escapeHtml(src)
+    .replace(/(&lt;\/?)([\w:.-]+)/g, '$1<span class="xtag">$2</span>')
+    .replace(/([\w:.-]+)=(&quot;.*?&quot;)/g, '<span class="xattr">$1</span>=<span class="xval">$2</span>');
+}
+
+function renderReadingView() {
+  const box = document.getElementById('tei-view');
+  const doc = parseTei(TEI);
+  if (!doc) { box.innerHTML = '<div class="pv-empty">ה־XML אינו תקין — בדקו את הקוד.</div>'; return; }
+  const g = (sel) => { const el = doc.querySelector(sel); return el ? el.textContent.trim() : ''; };
+  let h = '';
+  const title = g('titleStmt > title'), author = g('titleStmt > author');
+  h += '<div class="pv-meta">';
+  if (title) h += '<div class="pv-title">' + escapeHtml(title) + '</div>';
+  if (author) h += '<div class="pv-byline">' + escapeHtml(author) + '</div>';
+  const sent = doc.querySelector('correspAction[type="sent"]'), recd = doc.querySelector('correspAction[type="received"]');
+  if (sent || recd) {
+    const gg = (p, s) => { const el = p && p.querySelector(s); return el ? (el.getAttribute('when') || el.textContent.trim()) : ''; };
+    h += '<div class="pv-corresp">';
+    if (gg(sent, 'persName'))  h += '<span>✉ מאת: ' + escapeHtml(gg(sent, 'persName')) + '</span>';
+    if (gg(sent, 'placeName')) h += '<span>מ־' + escapeHtml(gg(sent, 'placeName')) + '</span>';
+    if (gg(sent, 'date'))      h += '<span>בתאריך ' + escapeHtml(gg(sent, 'date')) + '</span>';
+    if (gg(recd, 'persName'))  h += '<span>אל: ' + escapeHtml(gg(recd, 'persName')) + '</span>';
+    h += '</div>';
+  }
+  h += '</div>';
+  const inline = (el) => {
+    let out = '';
+    for (const c of el.childNodes) {
+      if (c.nodeType === 3) out += escapeHtml(c.data);
+      else if (c.nodeType === 1) {
+        const t = TAG2TYPE[c.localName || c.nodeName];
+        if (t) out += '<span class="mk mk-' + t + '">' + escapeHtml(c.textContent) + '</span>';
+        else out += inline(c);
+      }
+    }
+    return out;
+  };
+  const body = doc.querySelector('body');
+  if (body) for (const bl of body.querySelectorAll(BLOCK_SEL)) {
+    const nm = bl.localName || bl.nodeName;
+    const cls = nm === 'dateline' ? 'pv-dateline' : nm === 'salute' ? 'pv-salute' : nm === 'signed' ? 'pv-signed' : '';
+    h += '<p class="' + cls + '">' + inline(bl) + '</p>';
+  }
+  box.innerHTML = h;
+}
+
+function renderCatalog() {
+  const box = document.getElementById('catalog-card');
+  const doc = parseTei(TEI);
+  if (!doc) { box.innerHTML = '<div class="pv-empty">ה־XML אינו תקין.</div>'; return; }
+  const sent = doc.querySelector('correspAction[type="sent"]'), recd = doc.querySelector('correspAction[type="received"]');
+  const gg = (p, s, attr) => { const el = p && p.querySelector(s); return el ? (attr ? el.getAttribute(attr) || '' : el.textContent.trim()) : ''; };
+  const rows = [
+    ['כותרת', gg(doc, 'titleStmt > title')],
+    ['שולח', gg(sent, 'persName')],
+    ['נמען', gg(recd, 'persName')],
+    ['מקום הכתיבה', gg(sent, 'placeName'), 'מחרוזת — עדיין לא ישות'],
+    ['תאריך', gg(sent, 'date', 'when') || gg(sent, 'date')],
+    ['מקור', gg(doc, 'sourceDesc bibl')]
+  ];
+  let h = '<div class="cat-title">📇 הכרטיס הקטלוגי — חולץ אוטומטית מן ה־teiHeader</div><table>';
+  for (const [k, v, note] of rows) {
+    h += '<tr><td class="k">' + k + '</td><td class="v"><b>' + (v ? escapeHtml(v) : '—') + '</b>' +
+         (v && note ? ' <span class="unknown">← ' + note + '</span>' : '') + '</td></tr>';
+  }
+  box.innerHTML = h + '</table>';
+}
+
+function renderAnnotext() {
+  const box = document.getElementById('annotext');
+  const doc = parseTei(TEI);
+  if (!doc) { box.innerHTML = '<div class="pv-empty">ה־XML אינו תקין — תקנו בלשונית 1.</div>'; return; }
+  const inline = (el) => {
+    let out = '';
+    for (const c of el.childNodes) {
+      if (c.nodeType === 3) out += escapeHtml(c.data);
+      else if (c.nodeType === 1) {
+        const t = TAG2TYPE[c.localName || c.nodeName];
+        if (t) {
+          const linked = c.getAttribute('ref') ? ' linked' : '';
+          out += '<span class="mk mk-' + t + linked + '" title="' + ENT_TAGS[t] + '">' + escapeHtml(c.textContent) + '</span>';
+        } else out += inline(c);
+      }
+    }
+    return out;
+  };
+  let h = '';
+  bodyBlocks(doc).forEach((bl, i) => {
+    const nm = bl.localName || bl.nodeName;
+    h += '<div class="ab ab-' + nm + '" data-b="' + i + '">' + inline(bl) + '</div>';
+  });
+  box.innerHTML = h;
+}
+
+function renderEntityLists() {
+  const ents = collectEntities();
+  const mk = (e, forLink) => {
+    const linked = AUTH.has(e.key);
+    return '<span class="ent-chip' + (selectedEnt === e.key && forLink ? ' sel' : '') + '" data-k="' + escapeHtml(e.key) + '">' +
+      '<span class="dot dot-' + e.type + '"></span>' + escapeHtml(e.text) +
+      (e.type === 'date' && e.when ? ' <span class="cnt">when=' + escapeHtml(e.when) + '</span>' : '') +
+      ' <span class="cnt">×' + e.count + '</span>' +
+      (linked ? ' <span class="lnk">✓ ' + escapeHtml(AUTH.get(e.key).authId) + '</span>' : '') +
+      '</span>';
+  };
+  document.getElementById('entlist').innerHTML =
+    ents.length ? ents.map(e => mk(e, false)).join('') : '<span class="hint">עדיין לא סומנו ישויות — חזרו לטקסט וסמנו.</span>';
+  document.getElementById('ent-count').textContent =
+    ents.length ? ents.length + ' ישויות · ' + ents.reduce((a, e) => a + e.count, 0) + ' מופעים' : '';
+  document.getElementById('linklist').innerHTML =
+    ents.length ? ents.map(e => mk(e, true)).join('') : '<span class="hint">אין ישויות עדיין — סמנו בלשונית 2.</span>';
+}
+
+function refreshAll() {
+  document.getElementById('ner-code').innerHTML = highlightXml(TEI);
+  document.getElementById('link-code').innerHTML = highlightXml(TEI);
+  renderReadingView();
+  renderCatalog();
+  renderAnnotext();
+  renderEntityLists();
+  renderAuthorityPane();
+  renderDonations();
+  populateEnrichPick();
+}
+
+/* ================= tab 1 wiring ================= */
+const teiSrc = document.getElementById('tei-src');
+teiSrc.addEventListener('input', () => { TEI = teiSrc.value; refreshAll(); });
+document.getElementById('tei-reset').addEventListener('click', () => {
+  setTEI(document.getElementById('sample-tei').textContent.trim());
+  document.getElementById('tei-filename').textContent = 'קובץ הדוגמה: א. קובנר לר. בריינין';
+});
+document.getElementById('tei-upload').addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    if (!/(<TEI[\s>])/.test(r.result)) { flash('tei-status', 'err', 'הקובץ אינו נראה כמסמך TEI.'); return; }
+    setTEI(r.result.trim());
+    document.getElementById('tei-filename').textContent = f.name;
+    flash('tei-status', 'ok', 'נטען: ' + f.name);
+  };
+  r.readAsText(f);
+  e.target.value = '';
+});
+document.getElementById('tei-check').addEventListener('click', () => {
+  const doc = parseTei(TEI);
+  if (doc) flash('tei-status', 'ok', '✓ XML תקין. ' + (doc.querySelector('correspDesc') ? 'נמצא correspDesc — הכרטיס הקטלוגי למטה.' : 'לא נמצא correspDesc.'));
+  else flash('tei-status', 'err', '✗ ה־XML אינו תקין — חפשו תגית שלא נסגרה.');
+});
+function flash(id, cls, msg) {
+  const el = document.getElementById(id);
+  el.className = 'status ' + cls;
+  el.innerHTML = msg;
+}
+
+/* ================= tab 2: selection -> floating toolbar ================= */
+const annotext = document.getElementById('annotext');
+const floatbar = document.getElementById('floatbar');
+let pendingSel = null;
+
+annotext.addEventListener('mouseup', () => {
+  setTimeout(() => {
+    const sel = window.getSelection();
+    floatbar.classList.remove('open');
+    pendingSel = null;
+    if (!sel || sel.isCollapsed) return;
+    const s = sel.toString().replace(/\s+/g, ' ').trim();
+    if (s.length < 2 || s.length > 120) return;
+    const r = sel.getRangeAt(0);
+    const blockEl = r.startContainer.parentElement && r.startContainer.parentElement.closest('.ab');
+    const blockEnd = r.endContainer.parentElement && r.endContainer.parentElement.closest('.ab');
+    if (!blockEl || blockEl !== blockEnd) return;
+    if (r.startContainer.parentElement.closest('.mk') || r.endContainer.parentElement.closest('.mk')) {
+      flash('ner-status', 'err', 'הקטע כבר מסומן (או חופף לסימון) — כדי לשנות סוג, מחקו את התגית בקוד.');
+      return;
+    }
+    /* occurrence index of this selection among the block's plain occurrences */
+    const bi = +blockEl.dataset.b;
+    const nodes = plainTextNodes(blockEl);
+    let occ = -1, seen = 0, found = false;
+    for (const node of nodes) {
+      let from = 0, idx;
+      while ((idx = node.data.indexOf(s, from)) !== -1) {
+        if (node === r.startContainer && idx === r.startOffset) { occ = seen; found = true; break; }
+        /* selection may start mid-whitespace; accept containment */
+        if (node === r.startContainer && r.startOffset >= idx && r.startOffset < idx + s.length && node.data.substr(idx, s.length) === s) { occ = seen; found = true; break; }
+        seen++; from = idx + 1;
+      }
+      if (found) break;
+    }
+    if (occ < 0) { occ = 0; } /* fall back to first occurrence in the block */
+    pendingSel = { bi, phrase: s, occ };
+    const rect = r.getBoundingClientRect();
+    const host = annotext.parentElement.getBoundingClientRect();
+    floatbar.style.top = (rect.bottom - host.top + annotext.parentElement.scrollTop + 6) + 'px';
+    floatbar.style.left = Math.max(6, rect.left - host.left + rect.width / 2 - 110) + 'px';
+    floatbar.classList.add('open');
+  }, 0);
+});
+floatbar.addEventListener('click', e => {
+  const t = e.target.dataset && e.target.dataset.t;
+  if (!t) return;
+  floatbar.classList.remove('open');
+  if (t === 'x' || !pendingSel) { pendingSel = null; return; }
+  const { bi, phrase, occ } = pendingSel;
+  pendingSel = null;
+  window.getSelection().removeAllRanges();
+  const r = tagInTei(bi, phrase, occ, t);
+  if (!r.ok) { flash('ner-status', 'err', r.msg); return; }
+  /* offer to tag remaining identical occurrences */
+  const doc = parseTei(TEI);
+  let rest = 0;
+  for (const bl of bodyBlocks(doc)) rest += countOccurrences(plainTextNodes(bl), phrase);
+  if (rest > 0) {
+    flash('ner-status', 'ok', '✓ סומן ‎<' + ENT_TAGS[t] + '>‎. נמצאו עוד ' + rest + ' מופעים זהים של «' + escapeHtml(phrase) + '» — ' +
+      '<button class="btn small" id="tag-rest">לתייג את כולם</button>');
+    document.getElementById('tag-rest').addEventListener('click', () => {
+      const n = tagAllInTei(phrase, t);
+      flash('ner-status', 'ok', '✓ תויגו עוד ' + n + ' מופעים. כך עובד תיוג חצי־אוטומטי: החלטה אנושית אחת, יישום מכני על כל המופעים.');
+    });
+  } else {
+    flash('ner-status', 'ok', '✓ סומן ‎<' + ENT_TAGS[t] + '>‎«' + escapeHtml(phrase) + '»');
+  }
+});
+
+/* date chips: click to set @when */
+document.getElementById('entlist').addEventListener('click', e => {
+  const chip = e.target.closest('.ent-chip');
+  if (!chip) return;
+  const key = chip.dataset.k;
+  const [type, ...rest] = key.split('|');
+  const text = rest.join('|');
+  if (type !== 'date') return;
+  const val = prompt('ערך קריא־למכונה עבור «' + text + '» (למשל 1904-02-27 או 1868):');
+  if (val === null) return;
+  if (!/^\d{4}(-\d{2}(-\d{2})?)?$/.test(val.trim())) { flash('ner-status', 'err', 'הפורמט: YYYY או YYYY-MM-DD'); return; }
+  const doc = parseTei(TEI);
+  for (const el of doc.querySelectorAll('body date')) {
+    if (el.textContent.replace(/\s+/g, ' ').trim() === text) el.setAttribute('when', val.trim());
+  }
+  setTEI(serializeTei(doc));
+  flash('ner-status', 'ok', '✓ נוסף when="' + val.trim() + '" — עכשיו התאריך יושב על ציר זמן אוניברסלי (ISO 8601). זהו ה"מאגר" של תאריכים.');
+});
+
+/* ================= tab 2: dictionary suggester ================= */
+function heb(s) { return /[֐-׿]/.test(s); }
+function suggestions() {
+  const doc = parseTei(TEI);
+  if (!doc) return [];
+  const blocks = bodyBlocks(doc);
+  const found = new Map();
+  const tryTerm = (term, type) => {
+    if (term.length < 3) return;
+    let count = 0;
+    for (const bl of blocks) {
+      for (const node of plainTextNodes(bl)) {
+        let from = 0, idx;
+        while ((idx = node.data.indexOf(term, from)) !== -1) {
+          const before = idx === 0 ? '' : node.data[idx - 1];
+          const after = node.data[idx + term.length] || '';
+          if (!/[֐-׿A-Za-z0-9]/.test(before) && !/[֐-׿A-Za-z0-9]/.test(after)) count++;
+          from = idx + 1;
+        }
+      }
+    }
+    if (count > 0) {
+      const key = type + '|' + term;
+      if (!found.has(key)) found.set(key, { term, type, count });
+    }
+  };
+  for (const t of LEX.personsFull) tryTerm(t, 'person');
+  for (const t of LEX.personsSurname) tryTerm(t, 'person');
+  for (const t of LEX.orgs) tryTerm(t, 'org');
+  for (const t of LEX.places) tryTerm(t, 'place');
+  /* years */
+  const yearRe = /\b1[89]\d\d\b/g;
+  const years = new Set();
+  for (const bl of blocks) for (const node of plainTextNodes(bl)) {
+    let m; while ((m = yearRe.exec(node.data)) !== null) years.add(m[0]);
+  }
+  for (const y of years) found.set('date|' + y, { term: y, type: 'date', count: 1 });
+  return [...found.values()].sort((a, b) => b.term.length - a.term.length);
+}
+document.getElementById('ner-suggest').addEventListener('click', () => {
+  const sug = suggestions();
+  const pane = document.getElementById('sugg-pane');
+  const list = document.getElementById('sugg-list');
+  pane.style.display = '';
+  if (!sug.length) {
+    list.innerHTML = '<div class="hint">המילון לא מצא מועמדים חדשים — או שכבר תייגתם הכול. מה זה אומר על שיטת המילון?</div>';
+    return;
+  }
+  const tcol = { person: 'var(--c-person)', place: 'var(--c-place)', org: 'var(--c-org)', date: 'var(--c-date)' };
+  list.innerHTML = sug.map((s, i) =>
+    '<div class="sugg" data-i="' + i + '">' +
+    '<span class="stype" style="background:' + tcol[s.type] + '">' + ENT_TAGS[s.type] + '</span>' +
+    '<b>' + escapeHtml(s.term) + '</b><span class="cnt">×' + s.count + ' מופעים</span>' +
+    '<span class="spacer"></span>' +
+    '<button class="btn small" data-act="ok">אשרו — תייגו הכול</button>' +
+    '<button class="btn small" data-act="no">דחו</button>' +
+    '</div>').join('') +
+    '<div class="hint" style="padding:4px 2px">שימו לב מה <b>אין</b> ברשימה: ״לאמזשא״ — הכתיב הזה אינו במילון. מילון מזהה רק את מה שכבר ראה; זה ההבדל בינו לבין מודל שפה — וגם מודל שפה טועה, רק אחרת.</div>';
+  const items = sug;
+  list.querySelectorAll('.sugg button').forEach(btn => btn.addEventListener('click', () => {
+    const row = btn.closest('.sugg');
+    const s = items[+row.dataset.i];
+    if (btn.dataset.act === 'ok') {
+      const n = tagAllInTei(s.term, s.type);
+      flash('ner-status', n ? 'ok' : 'err', n ? '✓ «' + escapeHtml(s.term) + '» תויג ב־' + n + ' מופעים' : 'לא נותרו מופעים חופשיים לתיוג');
+    }
+    row.classList.add('done');
+    row.querySelectorAll('button').forEach(b => b.disabled = true);
+  }));
+});
+
+/* ================= mini-Kima matcher ================= */
+function normHe(s) {
+  return s.normalize('NFC')
+    .replace(/[֑-ׇ]/g, '')
+    .replace(/[״”"]/g, '"').replace(/[׳’']/g, '')
+    .replace(/[־–—-]/g, ' ')
+    .replace(/[().,:;!?"]/g, '')
+    .replace(/ך/g, 'כ').replace(/ם/g, 'מ').replace(/ן/g, 'נ').replace(/ף/g, 'פ').replace(/ץ/g, 'צ')
+    .replace(/\s+/g, ' ').trim().toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
+const TRANSLIT = { 'א': '', 'ב': 'b', 'ג': 'g', 'ד': 'd', 'ה': '', 'ו': '', 'ז': 'z', 'ח': 'h', 'ט': 't', 'י': '', 'כ': 'k', 'ל': 'l', 'מ': 'm', 'נ': 'n', 'ס': 's', 'ע': '', 'פ': 'p', 'צ': 'c', 'ק': 'k', 'ר': 'r', 'ש': 's', 'ת': 't' };
+function skeleton(s) {
+  let x = normHe(s);
+  if (/[֐-׿]/.test(x)) {
+    x = x.replace(/זש/g, 'z').replace(/טש/g, 'c').replace(/וו/g, 'v').replace(/יי/g, '').replace(/[֐-׿]/g, ch => TRANSLIT[ch] !== undefined ? TRANSLIT[ch] : '');
+  } else {
+    x = x.replace(/[aeiouwyh]/g, '');
+  }
+  return x.replace(/sh/g, 's').replace(/ph/g, 'p').replace(/q/g, 'k').replace(/f/g, 'p').replace(/v/g, 'b').replace(/h/g, '').replace(/\s+/g, '');
+}
+function bigrams(s) {
+  const set = new Set();
+  for (let i = 0; i < s.length - 1; i++) set.add(s.substr(i, 2));
+  return set;
+}
+function dice(a, b) {
+  if (!a.size || !b.size) return 0;
+  let inter = 0;
+  for (const x of a) if (b.has(x)) inter++;
+  return 2 * inter / (a.size + b.size);
+}
+/* index: normalized variant -> Set(place ids) */
+const KIMA_INDEX = new Map();
+const KIMA_BY_ID = new Map();
+(function buildKimaIndex() {
+  for (const p of GAZ) {
+    KIMA_BY_ID.set(p.id, p);
+    const keys = new Set(p.v.map(normHe));
+    keys.add(normHe(p.heb.replace(/\s*\(.*\)$/, '')));
+    keys.add(normHe(p.rom.replace(/\s*\(.*\)$/, '')));
+    p._keys = [...keys].filter(Boolean);
+    for (const k of p._keys) {
+      if (!KIMA_INDEX.has(k)) KIMA_INDEX.set(k, new Set());
+      KIMA_INDEX.get(k).add(p.id);
+    }
+  }
+})();
+function kimaLookup(q) {
+  const k = normHe(q);
+  if (!k) return { status: 'no_match', cands: [] };
+  const exact = KIMA_INDEX.get(k);
+  if (exact && exact.size === 1) {
+    return { status: 'exact', grade: 'A', cands: [{ place: KIMA_BY_ID.get([...exact][0]), score: 1, method: 'התאמה מדויקת לכתיב רשום' }] };
+  }
+  if (exact && exact.size > 1) {
+    return { status: 'ambiguous', grade: 'C', cands: [...exact].map(id => ({ place: KIMA_BY_ID.get(id), score: 1, method: 'כתיב רשום — אך על יותר ממקום אחד' })) };
+  }
+  /* fuzzy: bigram dice + phonetic skeleton */
+  const qb = bigrams(k), qs = skeleton(q);
+  const scored = [];
+  for (const p of GAZ) {
+    let best = 0, how = '';
+    for (const key of p._keys) {
+      const d = dice(qb, bigrams(key));
+      if (d > best) { best = d; how = 'דמיון כתיב'; }
+    }
+    if (qs.length >= 3) {
+      for (const v of p.v.concat([p.heb, p.rom])) {
+        if (skeleton(v) === qs) { if (0.9 > best) { best = 0.9; how = 'התאמה פונטית (שלד עיצורים)'; } break; }
+      }
+    }
+    if (best >= 0.52) scored.push({ place: p, score: best, method: how });
+  }
+  scored.sort((a, b) => b.score - a.score);
+  if (!scored.length) return { status: 'no_match', cands: [] };
+  return { status: 'fuzzy', grade: 'B', cands: scored.slice(0, 5) };
+}
+
+/* ================= Wikidata ================= */
+async function wdSearch(q) {
+  const url = 'https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&origin=*&type=item&limit=7&language=he&uselang=he&search=' + encodeURIComponent(q);
+  const ctl = new AbortController();
+  const t = setTimeout(() => ctl.abort(), 9000);
+  try {
+    const res = await fetch(url, { signal: ctl.signal });
+    const d = await res.json();
+    clearTimeout(t);
+    return { live: true, results: (d.search || []).map(r => ({ id: r.id, label: r.label || r.id, description: r.description || '' })) };
+  } catch (err) {
+    clearTimeout(t);
+    const fb = WD_FALLBACK[q.trim()];
+    return { live: false, results: fb || [] };
+  }
+}
+async function wdIds(qid) {
+  const url = 'https://www.wikidata.org/w/api.php?action=wbgetentities&format=json&origin=*&props=claims|descriptions|labels&languages=he|en&ids=' + qid;
+  try {
+    const res = await fetch(url);
+    const d = await res.json();
+    const ent = d.entities && d.entities[qid];
+    if (!ent) return {};
+    const claims = ent.claims || {};
+    const val = p => { const c = claims[p]; return c && c[0] && c[0].mainsnak && c[0].mainsnak.datavalue ? c[0].mainsnak.datavalue.value : null; };
+    const timeVal = p => { const v = val(p); return v && v.time ? v.time.replace(/^\+/, '').split('T')[0] : ''; };
+    return {
+      viaf: val('P214') || '', nli: val('P8189') || '', gnd: val('P227') || '',
+      born: timeVal('P569'), died: timeVal('P570'),
+      image: val('P18') || '',
+      desc: (ent.descriptions && (ent.descriptions.he || ent.descriptions.en) || {}).value || ''
+    };
+  } catch (e) { return {}; }
+}
+
+/* ================= tab 3: linking ================= */
+document.getElementById('linklist').addEventListener('click', e => {
+  const chip = e.target.closest('.ent-chip');
+  if (!chip) return;
+  selectedEnt = chip.dataset.k;
+  renderEntityLists();
+  openSearchPanel(selectedEnt);
+});
+
+function openSearchPanel(key) {
+  const [type, ...rest] = key.split('|');
+  const text = rest.join('|');
+  const head = document.getElementById('search-head');
+  const body = document.getElementById('search-body');
+  if (type === 'date') {
+    head.textContent = 'תאריך: ' + text;
+    body.innerHTML = '<div class="hint">תאריכים אינם זקוקים למאגר חיצוני: המזהה שלהם הוא הערך התקני עצמו — <code>when="1904-02-27"</code> בתקן ISO 8601. אם טרם מילאתם אותו, לחצו על השבב בלשונית 2. זה מה שמציב את המכתב על ציר זמן אחד עם כל מסמך אחר בעולם.</div>';
+    return;
+  }
+  const isPlace = type === 'place';
+  head.innerHTML = (isPlace ? 'חיפוש בגזטיר Kima — ' : 'חיפוש ב־Wikidata — ') + '<b>' + escapeHtml(text) + '</b>';
+  body.innerHTML =
+    '<div class="toolbar" style="margin-bottom:10px">' +
+    '<input type="text" class="txt" id="q-input" value="' + escapeHtml(text) + '" dir="rtl" style="flex:1">' +
+    '<button class="btn primary" id="q-go">חיפוש ←</button>' +
+    '</div>' +
+    '<div class="hint" style="margin-bottom:8px">' + (isPlace
+      ? 'Kima מכיר כתיבים היסטוריים רבים — אבל לא את כולם. אם החיפוש המדויק ייכשל, המנוע ינסה התאמה קירובית.'
+      : 'טיפ: מאגרי זהויות מדברים עברית מודרנית. אם הכתיב שבמכתב לא נמצא — נסו לנרמל אותו (למשל ״גאגאל״ ← ״גוגול״). זה בדיוק האתגר בטקסטים היסטוריים.') +
+    '</div><div id="q-results"></div>';
+  document.getElementById('q-go').addEventListener('click', () => runSearch(key, type, text));
+  document.getElementById('q-input').addEventListener('keydown', e => { if (e.key === 'Enter') runSearch(key, type, text); });
+  if (isPlace) runSearch(key, type, text);
+}
+
+async function runSearch(key, type, origText) {
+  const q = document.getElementById('q-input').value.trim();
+  const out = document.getElementById('q-results');
+  if (!q) return;
+  if (type === 'place') {
+    const r = kimaLookup(q);
+    let h = '';
+    if (r.status === 'no_match') {
+      h = '<div class="cand"><div class="c-desc">לא נמצא — גם לא בקירוב. שתי אפשרויות: (א) זה מקום שאינו יישוב — לגזטיר של יישובים יש גבולות (נסו ״אירופא״…); (ב) זה כתיב או מקום שחסר ב־Kima — תגלית! סמנו אותו כתרומה עתידית.</div>' +
+          '<button class="btn small" data-noext="1">רשמו כישות מקומית בלבד</button></div>';
+    } else {
+      const gradeTxt = { exact: 'התאמה מדויקת · דרגה A', ambiguous: 'כתיב רשום על כמה מקומות — הכרעה אנושית · דרגה C', fuzzy: 'לא נמצא כתיב מדויק — מועמדים קירוביים · דרגה B' };
+      h = '<div style="margin-bottom:8px"><span class="grade grade-' + r.grade + '">' + gradeTxt[r.status] + '</span></div>';
+      h += r.cands.map((c, i) => {
+        const p = c.place;
+        return '<div class="cand"><div class="c-head">' +
+          '<span class="c-label">' + escapeHtml(p.heb) + '</span>' +
+          '<span class="c-rom">' + escapeHtml(p.rom) + '</span>' +
+          (c.method ? '<span class="hint">' + c.method + (c.score < 1 ? ' · ' + Math.round(c.score * 100) + '%' : '') + '</span>' : '') +
+          '</div>' +
+          (p.d ? '<div class="c-desc">' + escapeHtml(p.d) + '</div>' : '') +
+          '<div class="c-row">' +
+          '<a class="badge" href="https://data.geo-kima.org/Places/Details/' + p.id + '" target="_blank" rel="noopener">Kima ' + p.id + '</a>' +
+          (p.wd ? '<a class="badge" href="https://www.wikidata.org/wiki/' + p.wd + '" target="_blank" rel="noopener">WD ' + p.wd + '</a>' : '') +
+          (p.gn ? '<a class="badge" href="https://www.geonames.org/' + p.gn + '" target="_blank" rel="noopener">GeoNames ' + p.gn + '</a>' : '') +
+          (p.viaf ? '<a class="badge" href="https://viaf.org/viaf/' + p.viaf + '" target="_blank" rel="noopener">VIAF</a>' : '') +
+          (p.lat !== undefined ? '<span class="badge">' + p.lat + ', ' + p.lon + '</span>' : '') +
+          '<span class="spacer"></span>' +
+          '<button class="btn small primary" data-pick="' + i + '">זו הישות ←</button>' +
+          '</div></div>';
+      }).join('');
+      h += '<button class="btn small" data-noext="1" style="margin-top:2px">אף אחד מהם — רשמו כישות מקומית בלבד</button>';
+    }
+    out.innerHTML = h;
+    out.querySelectorAll('[data-pick]').forEach(btn => btn.addEventListener('click', () => {
+      confirmPlace(key, origText, q, r.cands[+btn.dataset.pick].place, r.status);
+    }));
+    const no = out.querySelector('[data-noext]');
+    if (no) no.addEventListener('click', () => confirmLocalOnly(key, type, origText));
+  } else {
+    out.innerHTML = '<div class="hint">מחפש ב־Wikidata…</div>';
+    const r = await wdSearch(q);
+    if (!r.results.length) {
+      out.innerHTML = '<div class="cand"><div class="c-desc">' +
+        (r.live ? 'לא נמצא. נסו כתיב אחר — שם מלא, כתיב מודרני, או צורה מקובלת אחרת.' : 'אין חיבור לרשת — ואין תוצאה שמורה לכתיב הזה. נסו את הכתיב המודרני המלא.') +
+        '</div><button class="btn small" data-noext="1">רשמו כישות מקומית בלבד</button></div>';
+    } else {
+      out.innerHTML = (r.live ? '' : '<div class="hint" style="margin-bottom:6px">⚠ מצב לא־מקוון — תוצאות שמורות מראש</div>') +
+        r.results.map((c, i) =>
+          '<div class="cand"><div class="c-head"><span class="c-label">' + escapeHtml(c.label) + '</span>' +
+          '<a class="badge" href="https://www.wikidata.org/wiki/' + c.id + '" target="_blank" rel="noopener">' + c.id + '</a></div>' +
+          '<div class="c-desc">' + escapeHtml(c.description || '(ללא תיאור)') + '</div>' +
+          '<div class="c-row"><span class="spacer"></span><button class="btn small primary" data-pick="' + i + '">זו הישות ←</button></div></div>').join('') +
+        '<button class="btn small" data-noext="1" style="margin-top:2px">אף אחד מהם — רשמו כישות מקומית בלבד</button>';
+      out.querySelectorAll('[data-pick]').forEach(btn => btn.addEventListener('click', () => {
+        confirmWikidata(key, type, origText, r.results[+btn.dataset.pick]);
+      }));
+    }
+    const no = out.querySelector('[data-noext]');
+    if (no) no.addEventListener('click', () => confirmLocalOnly(key, type, origText));
+  }
+}
+
+function nextAuthId(type) {
+  authSeq[type]++;
+  return (type === 'person' ? 'pers_' : type === 'place' ? 'place_' : 'org_') + authSeq[type];
+}
+function applyRefs(key, authId) {
+  const [type, ...rest] = key.split('|');
+  const text = rest.join('|');
+  const doc = parseTei(TEI);
+  for (const el of doc.querySelectorAll('body ' + ENT_TAGS[type])) {
+    if (el.textContent.replace(/\s+/g, ' ').trim() === text) el.setAttribute('ref', '#' + authId);
+  }
+  setTEI(serializeTei(doc));
+}
+
+async function confirmWikidata(key, type, text, cand) {
+  const auth = AUTH.get(key) || { authId: nextAuthId(type) };
+  Object.assign(auth, { kind: type, label: cand.label, desc: cand.description, ids: { wikidata: cand.id }, local: false });
+  AUTH.set(key, auth);
+  applyRefs(key, auth.authId);
+  flash('link-status', 'ok', '✓ «' + escapeHtml(text) + '» ⇐ <b>' + escapeHtml(cand.label) + '</b> (' + cand.id + '). מושך מזהים נוספים מן הרשת…');
+  const ids = await wdIds(cand.id);
+  if (ids.viaf) auth.ids.VIAF = ids.viaf;
+  if (ids.nli) auth.ids.NLI = ids.nli;
+  if (ids.gnd) auth.ids.GND = ids.gnd;
+  if (ids.born) auth.born = ids.born;
+  if (ids.died) auth.died = ids.died;
+  if (ids.image) auth.image = ids.image;
+  renderAuthorityPane();
+  renderEntityLists();
+  populateEnrichPick();
+  const extra = ['VIAF', 'NLI', 'GND'].filter(k => auth.ids[k]);
+  flash('link-status', 'ok', '✓ «' + escapeHtml(text) + '» ⇐ ' + cand.id +
+    (extra.length ? ' · ומזהה אחד גרר עוד: ' + extra.join(' · ') + ' — שרשרת המאגרים בפעולה.' : ''));
+}
+
+function confirmPlace(key, origText, queried, place, how) {
+  const auth = AUTH.get(key) || { authId: nextAuthId('place') };
+  Object.assign(auth, {
+    kind: 'place', label: place.heb, desc: place.rom,
+    ids: { kima: String(place.id) }, lat: place.lat, lon: place.lon, local: false
+  });
+  if (place.wd) auth.ids.wikidata = place.wd;
+  if (place.gn) auth.ids.geonames = place.gn;
+  if (place.viaf) auth.ids.VIAF = place.viaf;
+  if (place.nli) auth.ids.NLI = place.nli;
+  AUTH.set(key, auth);
+  applyRefs(key, auth.authId);
+  /* donation check: is the queried spelling among the place's registered variants? */
+  const known = place._keys.includes(normHe(queried)) || place._keys.includes(normHe(origText));
+  let msg = '✓ «' + escapeHtml(origText) + '» ⇐ <b>' + escapeHtml(place.heb) + '</b> — Kima ' + place.id +
+            (place.wd ? ' · ' + place.wd : '') + (place.gn ? ' · GeoNames' : '');
+  if (!known) {
+    if (!DONATIONS.some(d => d.kima_id === place.id && d.variant === origText)) {
+      DONATIONS.push({ kima_id: place.id, kima_name: place.rom, variant: origText, source: 'benyehuda.org/read/40830 · סדנת אגרת' });
+    }
+    msg += '<br>🎁 <b>מצאתם כתיב ש־Kima אינו מכיר!</b> «' + escapeHtml(origText) + '» נרשם בקובץ התרומות — בדיוק כך נתרמו לפרויקט 425 כתיבים חדשים.';
+  }
+  flash('link-status', 'ok', msg);
+  renderAuthorityPane();
+  renderEntityLists();
+  renderDonations();
+  populateEnrichPick();
+}
+
+function confirmLocalOnly(key, type, text) {
+  const auth = AUTH.get(key) || { authId: nextAuthId(type) };
+  Object.assign(auth, { kind: type, label: text, desc: '', ids: {}, local: true });
+  AUTH.set(key, auth);
+  applyRefs(key, auth.authId);
+  flash('link-status', 'ok', '✓ «' + escapeHtml(text) + '» נרשם כישות <b>מקומית</b> — ' + auth.authId +
+    '. גם בלי מזהה חיצוני יש לו עכשיו זהות אחת בקובץ שלכם: כל המופעים מצביעים לרשומה אחת. מאגר עולמי מתחיל כך בדיוק.');
+  renderAuthorityPane();
+  renderEntityLists();
+}
+
+/* ---- standOff builder ---- */
+function buildStandOffXml(indent) {
+  const pad = indent || '  ';
+  const persons = [], places = [], orgs = [];
+  for (const [key, a] of AUTH) {
+    const text = key.split('|').slice(1).join('|');
+    let x = '';
+    const nameTag = a.kind === 'place' ? 'placeName' : a.kind === 'org' ? 'orgName' : 'persName';
+    const elTag = a.kind === 'place' ? 'place' : a.kind === 'org' ? 'org' : 'person';
+    x += pad + pad + '<' + elTag + ' xml:id="' + a.authId + '">\n';
+    x += pad + pad + pad + '<' + nameTag + '>' + escapeXml(text) + '</' + nameTag + '>\n';
+    if (a.label && a.label !== text) x += pad + pad + pad + '<' + nameTag + ' type="normalized">' + escapeXml(a.label) + '</' + nameTag + '>\n';
+    for (const [t, v] of Object.entries(a.ids || {})) {
+      const uri = t === 'wikidata' ? 'https://www.wikidata.org/entity/' + v
+        : t === 'kima' ? 'https://data.geo-kima.org/Places/Details/' + v
+        : t === 'geonames' ? 'https://www.geonames.org/' + v
+        : t === 'VIAF' ? 'https://viaf.org/viaf/' + v : v;
+      x += pad + pad + pad + '<idno type="' + t + '">' + escapeXml(uri) + '</idno>\n';
+    }
+    if (a.kind === 'place' && a.lat !== undefined) x += pad + pad + pad + '<location><geo>' + a.lat + ' ' + a.lon + '</geo></location>\n';
+    if (a.born || a.died) x += pad + pad + pad + '<!-- ' + (a.born ? 'נולד ' + a.born : '') + (a.died ? ' · נפטר ' + a.died : '') + ' -->\n';
+    x += pad + pad + '</' + elTag + '>';
+    (a.kind === 'place' ? places : a.kind === 'org' ? orgs : persons).push(x);
+  }
+  if (!persons.length && !places.length && !orgs.length) return '';
+  let s = '<standOff>\n';
+  if (persons.length) s += pad + '<listPerson>\n' + persons.join('\n') + '\n' + pad + '</listPerson>\n';
+  if (places.length)  s += pad + '<listPlace>\n' + places.join('\n') + '\n' + pad + '</listPlace>\n';
+  if (orgs.length)    s += pad + '<listOrg>\n' + orgs.join('\n') + '\n' + pad + '</listOrg>\n';
+  s += '</standOff>';
+  return s;
+}
+function injectStandOff() {
+  const so = buildStandOffXml('  ');
+  let src = TEI.replace(/\n?\s*<standOff>[\s\S]*?<\/standOff>/, '');
+  if (so) src = src.replace(/(<\/teiHeader>)/, '$1\n  ' + so.replace(/\n/g, '\n  '));
+  if (src !== TEI) setTEI(src);
+}
+function renderAuthorityPane() {
+  injectStandOff();
+  const so = buildStandOffXml('  ');
+  document.getElementById('authority-code').innerHTML = so
+    ? highlightXml(so)
+    : '<span style="color:var(--muted)">— עדיין ריק. קשרו ישות ראשונה ותראו אותה נרשמת כאן. —</span>';
+}
+function renderDonations() {
+  const box = document.getElementById('donatebox');
+  if (!DONATIONS.length) { box.style.display = 'none'; return; }
+  box.style.display = '';
+  box.innerHTML = '<div class="d-title">🎁 קובץ התרומות שלכם ל־Kima — ' + DONATIONS.length + ' כתיבים חדשים</div><ul>' +
+    DONATIONS.map(d => '<li>«' + escapeHtml(d.variant) + '» ← ' + escapeHtml(d.kima_name) + ' (<code>kima:' + d.kima_id + '</code>)</li>').join('') +
+    '</ul><div class="hint">בעולם האמיתי הקובץ הזה נמסר לצוות Kima לבדיקה — התרומה הקטנה ביותר למאגר משותף היא כתיב שרק אתם ראיתם.</div>';
+}
+
+/* ---- corpus queue (step 3) ---- */
+const CASE_NOTES = {
+  'אודיסא': 'אותו שם — שלוש יבשות. ההקשר מכריע: מכתבים עבריים סביב 1900 · והפרויקט אכן קישר לאודסה שעל הים השחור, על 820 מכתבים.',
+  'ירושלים': 'כאן כל המועמדים הם ״אותו מקום״ — בשכבות היסטוריות שונות (סנג׳ק עות׳מאני, ממלכה צלבנית, העיר של היום). הגזטיר ההיסטורי מבחין ביניהן בכוונה.',
+  'וורשה': 'שימו לב למלכודת: בין המועמדים מסתתרת פולין המדינה, ומחוז ורשה, ודוכסות ורשה — היררכיה שלמה חולקת שם אחד.',
+  'רוסיה': 'מדינה בגזטיר של יישובים — שאלת גבולות הסכֵמה. הפרויקט השאיר את השם הזה בתור הבדיקה האנושית.',
+  'קושטא': 'שם היסטורי עברי לעיר שנקראת היום איסטנבול. הרשומה הנכונה היא העיר — גם אם שמה הראשי שונה.',
+  'בריסק': 'בריסק דליטא של הספרות הרבנית היא Brest שבבלארוס — לא Brest שבצרפת. פונטיקה בלבד לא תכריע כאן; ידע היסטורי כן.'
+};
+function renderCorpusQueue() {
+  const box = document.getElementById('corpus-queue');
+  box.innerHTML = QUEUE.map((c, ci) =>
+    '<div class="qcase" data-c="' + ci + '">' +
+    '<div class="q-head"><span class="q-name">' + escapeHtml(c.name) + '</span>' +
+    '<span class="grade grade-C">C · דרוש אדם</span>' +
+    '<span class="q-count">' + c.count + ' מכתבים תלויים בהכרעה</span></div>' +
+    '<div class="q-cands">' + c.cands.map((k, ki) =>
+      '<button class="q-cand" data-k="' + ki + '">' + escapeHtml(k.heb || k.rom) + '<br><span style="font-size:11px;direction:ltr;unicode-bidi:embed;color:inherit;opacity:.75">' + escapeHtml(k.rom) + (k.wikidata ? ' · ' + k.wikidata : '') + '</span></button>').join('') +
+    '<button class="q-cand" data-k="none">אף אחד מהם</button></div>' +
+    '<div class="q-reveal" id="q-reveal-' + ci + '"></div></div>').join('');
+  box.querySelectorAll('.qcase').forEach(caseEl => {
+    caseEl.querySelectorAll('.q-cand').forEach(btn => btn.addEventListener('click', () => {
+      caseEl.querySelectorAll('.q-cand').forEach(b => b.classList.remove('picked'));
+      btn.classList.add('picked');
+      const c = QUEUE[+caseEl.dataset.c];
+      const rev = caseEl.querySelector('.q-reveal');
+      let h = '';
+      if (c.project) {
+        const pickedRom = btn.dataset.k === 'none' ? null : c.cands[+btn.dataset.k].kima_id;
+        const agree = pickedRom === c.project.kima_id;
+        h += (agree ? '✅ <b>כמו הפרויקט.</b> ' : '🤔 <b>הפרויקט הכריע אחרת:</b> ') +
+             'בפרויקט אגרת קושר השם ל־<b>' + escapeHtml(c.project.rom) + '</b> (Kima ' + c.project.kima_id + '). ';
+      } else {
+        h += '📌 בפרויקט השם הזה נותר בתור הבדיקה — יש שאלות שגם המנוע לא מכריע. ';
+      }
+      h += CASE_NOTES[c.name] || '';
+      rev.innerHTML = h;
+      rev.classList.add('open');
+    }));
+  });
+}
+
+/* ================= tab 4: LOD ================= */
+function collectLinked() {
+  const out = [];
+  for (const [key, a] of AUTH) out.push({ key, text: key.split('|').slice(1).join('|'), ...a });
+  return out;
+}
+function buildTurtle() {
+  const doc = parseTei(TEI);
+  const gg = (p, s, attr) => { const el = p && p.querySelector(s); return el ? (attr ? el.getAttribute(attr) || '' : el.textContent.trim()) : ''; };
+  const sent = doc && doc.querySelector('correspAction[type="sent"]');
+  const recd = doc && doc.querySelector('correspAction[type="received"]');
+  const title = gg(doc, 'titleStmt > title');
+  const linked = collectLinked();
+  const findAuth = (text) => linked.find(a => a.text === text || a.label === text);
+  const L = [];
+  L.push('@prefix :     <https://egeret.example/letter40830#> .');
+  L.push('@prefix wd:   <http://www.wikidata.org/entity/> .');
+  L.push('@prefix gn:   <https://sws.geonames.org/> .');
+  L.push('@prefix kima: <https://data.geo-kima.org/Places/Details/> .');
+  L.push('@prefix owl:  <http://www.w3.org/2002/07/owl#> .');
+  L.push('');
+  let letter = ':letter a :Letter ;\n    :title "' + title.replace(/"/g, '\\"') + '"@he';
+  const sName = gg(sent, 'persName'), rName = gg(recd, 'persName'), plName = gg(sent, 'placeName');
+  const when = gg(sent, 'date', 'when');
+  const sA = findAuth(sName), rA = findAuth(rName), pA = findAuth(plName);
+  if (sA) letter += ' ;\n    :sentBy :' + sA.authId;
+  if (rA) letter += ' ;\n    :sentTo :' + rA.authId;
+  if (pA) letter += ' ;\n    :sentFrom :' + pA.authId;
+  if (when) letter += ' ;\n    :sentOn "' + when + '"^^xsd:date';
+  const mentions = linked.filter(a => a !== sA && a !== rA && a !== pA);
+  if (mentions.length) letter += ' ;\n    :mentions ' + mentions.map(a => ':' + a.authId).join(' , ');
+  L.push(letter + ' .');
+  L.push('');
+  for (const a of linked) {
+    let row = ':' + a.authId + ' rdfs:label "' + a.text.replace(/"/g, '\\"') + '"@he';
+    const same = [];
+    if (a.ids && a.ids.wikidata) same.push('wd:' + a.ids.wikidata);
+    if (a.ids && a.ids.kima) same.push('kima:' + a.ids.kima);
+    if (a.ids && a.ids.geonames) same.push('gn:' + a.ids.geonames);
+    if (same.length) row += ' ;\n    owl:sameAs ' + same.join(' , ');
+    if (a.ids && a.ids.VIAF) row += ' ;\n    :viaf "' + a.ids.VIAF + '"';
+    if (a.lat !== undefined && a.lat !== null) row += ' ;\n    :lat ' + a.lat + ' ; :lon ' + a.lon;
+    L.push(row + ' .');
+  }
+  return L.join('\n');
+}
+function highlightTtl(s) {
+  return escapeHtml(s)
+    .replace(/^(@prefix[^\n]*)$/gm, '<span class="t-pfx">$1</span>')
+    .replace(/(wd:Q\d+|kima:\d+|gn:\d+|:[A-Za-z_][\w]*)/g, '<span class="t-uri">$1</span>')
+    .replace(/(&quot;[^&]*?&quot;(@he|\^\^xsd:date)?)/g, '<span class="t-lit">$1</span>');
+}
+function renderGraph() {
+  const box = document.getElementById('graph-box');
+  const linked = collectLinked();
+  if (!linked.length) { box.innerHTML = '<div class="pv-empty" style="padding:20px">קשרו ישויות בלשונית 3 — והגרף יופיע כאן.</div>'; return; }
+  const W = 640, H = 420, cx = W / 2, cy = H / 2;
+  const colors = { person: '#2d5a5a', place: '#a0780f', org: '#7a5a86', date: '#8a2418' };
+  let s = '<svg class="graph-svg" viewBox="0 0 ' + W + ' ' + H + '" style="max-height:420px">';
+  const R = 130, R2 = 195;
+  linked.forEach((a, i) => {
+    const ang = (2 * Math.PI * i) / linked.length - Math.PI / 2;
+    const x = cx + R * Math.cos(ang), y = cy + R * Math.sin(ang);
+    s += '<line x1="' + cx + '" y1="' + cy + '" x2="' + x + '" y2="' + y + '" stroke="#c9bfa6" stroke-width="1.2"/>';
+    const ext = a.ids && (a.ids.wikidata || a.ids.kima);
+    if (ext) {
+      const x2 = cx + R2 * Math.cos(ang), y2 = cy + R2 * Math.sin(ang);
+      s += '<line x1="' + x + '" y1="' + y + '" x2="' + x2 + '" y2="' + y2 + '" stroke="#c9bfa6" stroke-width="1" stroke-dasharray="3 3"/>';
+      s += '<rect x="' + (x2 - 34) + '" y="' + (y2 - 10) + '" width="68" height="20" rx="4" fill="#fff" stroke="' + colors[a.kind] + '" stroke-width="1"/>' +
+           '<text x="' + x2 + '" y="' + (y2 + 4) + '" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" fill="#3a3a3a">' +
+           (a.ids.wikidata ? a.ids.wikidata : 'kima:' + a.ids.kima) + '</text>';
+    }
+    s += '<circle cx="' + x + '" cy="' + y + '" r="7" fill="' + colors[a.kind] + '"/>' +
+         '<text x="' + x + '" y="' + (y - 12) + '" text-anchor="middle" font-family="Heebo" font-size="11.5" fill="#1a1a1a">' + escapeHtml(a.text.length > 16 ? a.text.slice(0, 15) + '…' : a.text) + '</text>';
+  });
+  s += '<circle cx="' + cx + '" cy="' + cy + '" r="26" fill="#8a2418"/>' +
+       '<text x="' + cx + '" y="' + (cy + 4) + '" text-anchor="middle" font-family="Heebo" font-weight="700" font-size="12" fill="#fff">המכתב</text>';
+  s += '</svg>';
+  box.innerHTML = s;
+}
+document.getElementById('lod-build').addEventListener('click', () => {
+  document.getElementById('lod-panes').style.display = '';
+  const ttl = buildTurtle();
+  document.getElementById('ttl-out').innerHTML = highlightTtl(ttl);
+  renderGraph();
+  const n = collectLinked().length;
+  flash('lod-status', 'ok', n ? '✓ נבנה גרף עם ' + n + ' ישויות. כל שורת owl:sameAs היא גשר למאגר עולמי.' :
+    'הגרף ריק כמעט — חזרו ללשונית 3 וקשרו ישויות, ואז בנו שוב.');
+});
+
+/* ---- enrichment ---- */
+function populateEnrichPick() {
+  const sel = document.getElementById('enrich-pick');
+  const opts = collectLinked().filter(a => a.ids && a.ids.wikidata);
+  const cur = sel.value;
+  sel.innerHTML = opts.length
+    ? opts.map(a => '<option value="' + a.ids.wikidata + '">' + escapeHtml(a.label || a.text) + ' — ' + a.ids.wikidata + '</option>').join('')
+    : '<option value="">— קשרו קודם ישות ל־Wikidata בלשונית 3 —</option>';
+  if (cur) sel.value = cur;
+}
+document.getElementById('enrich-go').addEventListener('click', async () => {
+  const qid = document.getElementById('enrich-pick').value;
+  const out = document.getElementById('enrich-out');
+  if (!qid) { out.innerHTML = '<div class="hint">אין עדיין ישות מקושרת ל־Wikidata.</div>'; return; }
+  out.innerHTML = '<div class="hint">שואל את Wikidata על ' + qid + '…</div>';
+  const ids = await wdIds(qid);
+  const a = collectLinked().find(x => x.ids && x.ids.wikidata === qid) || {};
+  let h = '<div class="wdcard">';
+  if (ids.image) h += '<img src="https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent(ids.image) + '?width=200" alt="">';
+  h += '<div><div class="w-label">' + escapeHtml(a.label || qid) + '</div>' +
+    '<div class="w-desc">' + escapeHtml(ids.desc || a.desc || '') + '</div>';
+  if (ids.born || ids.died) h += '<div class="w-desc">🕯 ' + (ids.born || '?') + ' — ' + (ids.died || '?') + '</div>';
+  h += '<div class="w-ids">' +
+    '<a class="badge" href="https://www.wikidata.org/wiki/' + qid + '" target="_blank" rel="noopener">Wikidata ' + qid + '</a>' +
+    (ids.viaf ? '<a class="badge" href="https://viaf.org/viaf/' + ids.viaf + '" target="_blank" rel="noopener">VIAF ' + ids.viaf + '</a>' : '') +
+    (ids.nli ? '<a class="badge" href="https://www.nli.org.il/he/authorities/' + ids.nli + '" target="_blank" rel="noopener">הספרייה הלאומית</a>' : '') +
+    (ids.gnd ? '<span class="badge">GND ' + ids.gnd + '</span>' : '') +
+    '</div>' +
+    '<div class="hint" style="margin-top:8px">כל מה שכאן הגיע ממזהה אחד. לא הקלדנו ביוגרפיה — שאלנו את הרשת.</div>' +
+    '</div></div>';
+  out.innerHTML = h;
+});
+
+/* ---- map ---- */
+let mapEurope = true;
+function renderMap() {
+  const box = document.getElementById('map-box');
+  const mine = collectLinked().filter(a => a.kind === 'place' && a.lat !== undefined && a.lat !== null);
+  const vb = mapEurope ? '450 62 200 118' : '0 0 1000 500';
+  let s = '<svg class="map-svg" id="the-map" viewBox="' + vb + '" style="max-height:480px">';
+  s += '<path class="coast" d="' + COAST.d + '"/>';
+  for (const p of MAPPTS) {
+    const x = (p.lon + 180) / 360 * 1000, y = (90 - p.lat) / 180 * 500;
+    const r = Math.min(6, 0.9 + Math.sqrt(p.c) * 0.42);
+    s += '<circle class="dot" cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + r.toFixed(1) + '"><title>' + escapeHtml(p.n) + (p.r ? ' · ' + escapeHtml(p.r) : '') + ' — ' + p.c + ' מכתבים</title></circle>';
+  }
+  for (const a of mine) {
+    const x = (a.lon + 180) / 360 * 1000, y = (90 - a.lat) / 180 * 500;
+    s += '<circle class="dot mine" cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="4.2"><title>' + escapeHtml(a.label) + ' — קושר על ידכם</title></circle>';
+  }
+  s += '</svg>';
+  box.innerHTML = s;
+}
+document.getElementById('map-zoom').addEventListener('click', () => { mapEurope = !mapEurope; renderMap(); });
+
+/* ---- downloads ---- */
+function download(name, content, mime) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content], { type: mime || 'text/plain;charset=utf-8' }));
+  a.download = name;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+document.getElementById('dl-authority').addEventListener('click', () => {
+  const so = buildStandOffXml('  ');
+  download('authority-egeret.xml', '<?xml version="1.0" encoding="UTF-8"?>\n' + (so || '<standOff/>'), 'application/xml');
+});
+document.getElementById('dl-auth2').addEventListener('click', () => document.getElementById('dl-authority').click());
+document.getElementById('dl-tei').addEventListener('click', () => download('letter-enriched.xml', TEI, 'application/xml'));
+document.getElementById('dl-ttl').addEventListener('click', () => download('letter.ttl', buildTurtle(), 'text/turtle'));
+document.getElementById('dl-donations').addEventListener('click', () => {
+  download('kima-donations.json', JSON.stringify(DONATIONS, null, 2), 'application/json');
+});
+document.getElementById('dl-cmif').addEventListener('click', () => {
+  const doc = parseTei(TEI);
+  const gg = (p, s, attr) => { const el = p && p.querySelector(s); return el ? (attr ? el.getAttribute(attr) || '' : el.textContent.trim()) : ''; };
+  const sent = doc && doc.querySelector('correspAction[type="sent"]');
+  const recd = doc && doc.querySelector('correspAction[type="received"]');
+  const linked = collectLinked();
+  const ref = (t) => { const a = linked.find(x => x.text === t || x.label === t); return a && a.ids && a.ids.wikidata ? ' ref="http://www.wikidata.org/entity/' + a.ids.wikidata + '"' : ''; };
+  const cmif = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<!-- CMIF — Correspondence Metadata Interchange Format · https://correspsearch.net -->\n' +
+    '<correspDesc>\n' +
+    '  <correspAction type="sent">\n' +
+    '    <persName' + ref(gg(sent, 'persName')) + '>' + escapeXml(gg(sent, 'persName')) + '</persName>\n' +
+    '    <placeName' + ref(gg(sent, 'placeName')) + '>' + escapeXml(gg(sent, 'placeName')) + '</placeName>\n' +
+    '    <date when="' + gg(sent, 'date', 'when') + '"/>\n' +
+    '  </correspAction>\n' +
+    '  <correspAction type="received">\n' +
+    '    <persName' + ref(gg(recd, 'persName')) + '>' + escapeXml(gg(recd, 'persName')) + '</persName>\n' +
+    '  </correspAction>\n' +
+    '</correspDesc>';
+  download('letter-cmif.xml', cmif, 'application/xml');
+});
+
+/* ================= corpus queue + init ================= */
+renderCorpusQueue();
+teiSrc.value = TEI;
+refreshAll();
+renderMap();
+
+/* test hooks (harmless in production) */
+window.LAB2 = { kimaLookup, tagInTei, tagAllInTei, collectEntities, buildStandOffXml, buildTurtle, suggestions, normHe, skeleton, setTEI, AUTH, DONATIONS, confirmPlace, get TEI() { return TEI; } };
+</script>
+</body>
+</html>
