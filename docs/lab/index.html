@@ -333,6 +333,12 @@
     border-top: 1px dashed var(--rule-2);
   }
   .stepline:first-of-type { border-top: none; padding-top: 0; margin-top: 8px; }
+  .tab-next {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px dashed var(--rule-2);
+  }
+  .tab-next .btn { font-size: 15px; padding: 9px 26px; }
 
   /* ---- tag anatomy box ---- */
   .anatomy {
@@ -563,6 +569,9 @@
           <li>הורידו מכאן גם את גרסת ה־<code>.html</code>, העלו ופתחו גם אותה עם Docs — הפעם הכיוון נכון מעצמו. למה? חזרו לתצוגה המקדימה של Drive, שמציגה את הקובץ כטקסט פשוט, ומצאו את התשובה: <code>dir="rtl"</code>. זו בדיוק היכולת ש־HTML מוסיף על Markdown — לא רק לעצב, אלא להצהיר.</li>
         </ol>
       </div>
+      <div class="tab-next">
+        <button class="btn primary" data-next="html">המשך: HTML ←</button>
+      </div>
     </section>
 
     <!-- ============================================================ -->
@@ -628,6 +637,9 @@
         יש כאן — כותרת, ציטוט, הדגשה; העיצוב (CSS, ״גיליון הסגנון״) קובע <i>איך</i> זה ייראה.
         אותה כותרת בדיוק יכולה ללבוש צורת ספר, עיתון או מכונת כתיבה — והסימון נשאר אחד.
         מי שמסמן היטב את <i>המבנה</i>, מקבל את כל הלבושים בחינם.
+      </div>
+      <div class="tab-next">
+        <button class="btn primary" data-next="xml">המשך: מ־HTML ל־XML ←</button>
       </div>
     </section>
 
@@ -731,6 +743,9 @@
         <span class="hint">אפשר (ורצוי) לבחור את כל הקבצים בבת אחת</span>
       </div>
       <div id="cmp-out"></div>
+      <div class="tab-next">
+        <button class="btn primary" data-next="tei">המשך: לקראת TEI ←</button>
+      </div>
     </section>
 
     <!-- ============================================================ -->
@@ -905,6 +920,13 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+  });
+});
+document.querySelectorAll('.tab-next .btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.querySelector('.tab-btn[data-tab="' + btn.dataset.next + '"]');
+    if (target) target.click();
+    window.scrollTo({ top: 0 });
   });
 });
 
