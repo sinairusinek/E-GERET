@@ -142,6 +142,9 @@
   .btn.primary:hover { background: #6f1d13; }
   .btn.small { font-size: 13px; padding: 4px 12px; }
   .btn.tag { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; direction: ltr; }
+  .tagbtn.active { background: var(--teal); border-color: var(--teal); color: #fff; font-weight: 700; }
+  .tagbtn.del { color: var(--err); }
+  .tagbtn.del.active { background: var(--err); border-color: var(--err); color: #fff; }
   .seg {
     display: inline-flex;
     border: 1.5px solid var(--rule-2);
@@ -581,20 +584,20 @@
         </label>
         <button class="btn small" id="html-reset">חזרה לדוגמה</button>
         <button class="btn small" id="html-from-md">ייבוא: ה־Markdown שלי כ־HTML ←</button>
-        <span class="spacer"></span>
-        <select id="html-wrap-el">
-          <option value="h1">h1 — כותרת ראשית</option>
-          <option value="h2">h2 — כותרת משנית</option>
-          <option value="p">p — פסקה</option>
-          <option value="strong">strong — הדגשה</option>
-          <option value="em">em — הטיה</option>
-          <option value="mark">mark — סימון בצהוב</option>
-          <option value="u">u — קו תחתון</option>
-          <option value="blockquote">blockquote — ציטוט</option>
-          <option value="li">li — פריט רשימה</option>
-          <option value="code">code — קוד/מכונת כתיבה</option>
-        </select>
-        <button class="btn small" id="html-wrap">עטפו את הבחירה</button>
+      </div>
+
+      <div class="toolbar" id="html-tagbar">
+        <button class="btn small tagbtn" data-el="h1">h1 — כותרת ראשית</button>
+        <button class="btn small tagbtn" data-el="h2">h2 — כותרת משנית</button>
+        <button class="btn small tagbtn" data-el="p">p — פסקה</button>
+        <button class="btn small tagbtn" data-el="strong">strong — הדגשה</button>
+        <button class="btn small tagbtn" data-el="em">em — הטיה</button>
+        <button class="btn small tagbtn" data-el="mark">mark — סימון בצהוב</button>
+        <button class="btn small tagbtn" data-el="u">u — קו תחתון</button>
+        <button class="btn small tagbtn" data-el="blockquote">blockquote — ציטוט</button>
+        <button class="btn small tagbtn" data-el="li">li — פריט רשימה</button>
+        <button class="btn small tagbtn" data-el="code">code — קוד/מכונת כתיבה</button>
+        <button class="btn small tagbtn del" data-el="__del">✂ הסרת תגית</button>
       </div>
 
       <div class="split">
@@ -613,6 +616,19 @@
         שימו לב: התגיות, התכונות והערכים — תמיד באנגלית (<code>&lt;h1&gt;</code>, <code>dir="rtl"</code>);
         התוכן שביניהן — בכל שפה. נסו למחוק תגית סוגרת וראו מה קורה לתצוגה.
       </p>
+
+      <div class="toolbar" style="margin-top:16px">
+        <button class="btn" id="html-theme">החלפת לבוש ⇄</button>
+        <span class="hint" id="html-theme-name">הלבוש הנוכחי: ספר</span>
+      </div>
+      <div class="explain" style="border-inline-start-color: var(--teal)">
+        <b>אותו סימון — לבוש אחר.</b>
+        לחצו על ״החלפת לבוש״ והתבוננו היטב: הקוד שמימין לא השתנה באות אחת — ובכל זאת הטקסט
+        שמשמאל מחליף את פניו. זו חלוקת העבודה שביסוד הרשת כולה: הסימון (HTML) אומר <i>מה</i>
+        יש כאן — כותרת, ציטוט, הדגשה; העיצוב (CSS, ״גיליון הסגנון״) קובע <i>איך</i> זה ייראה.
+        אותה כותרת בדיוק יכולה ללבוש צורת ספר, עיתון או מכונת כתיבה — והסימון נשאר אחד.
+        מי שמסמן היטב את <i>המבנה</i>, מקבל את כל הלבושים בחינם.
+      </div>
     </section>
 
     <!-- ============================================================ -->
@@ -1063,13 +1079,69 @@ document.getElementById('html-from-md').addEventListener('click', () => {
   htmlSrc.value = '<article dir="rtl">\n\n' + renderMarkdown(mdSrc.value) + '\n\n</article>';
   updateHtmlView();
 });
-document.getElementById('html-wrap').addEventListener('click', () => {
-  const tag = document.getElementById('html-wrap-el').value;
+/* tag buttons: click arms a tag, selecting text in the editor applies it */
+let htmlActiveTag = null;
+const htmlTagbar = document.getElementById('html-tagbar');
+htmlTagbar.addEventListener('click', e => {
+  const btn = e.target.closest('.tagbtn');
+  if (!btn) return;
+  htmlActiveTag = (htmlActiveTag === btn.dataset.el) ? null : btn.dataset.el;
+  htmlTagbar.querySelectorAll('.tagbtn').forEach(b => b.classList.toggle('active', b.dataset.el === htmlActiveTag));
+});
+function htmlApplySelection() {
+  if (!htmlActiveTag) return;
   const s = htmlSrc.selectionStart, e = htmlSrc.selectionEnd;
+  if (htmlActiveTag === '__del') { htmlRemoveTag(s, e); return; }
+  if (s === e) return;
   const sel = htmlSrc.value.slice(s, e);
-  htmlSrc.setRangeText('<' + tag + '>' + sel + '</' + tag + '>', s, e, 'end');
-  htmlSrc.focus();
+  htmlSrc.setRangeText('<' + htmlActiveTag + '>' + sel + '</' + htmlActiveTag + '>', s, e, 'end');
   updateHtmlView();
+}
+htmlSrc.addEventListener('mouseup', () => setTimeout(htmlApplySelection, 0));
+htmlSrc.addEventListener('keyup', e => {
+  if (e.key === 'Shift' && htmlSrc.selectionStart !== htmlSrc.selectionEnd) htmlApplySelection();
+});
+/* delete mode: unwrap the innermost element enclosing the caret/selection */
+function htmlRemoveTag(s, e) {
+  const src = htmlSrc.value;
+  const VOID = new Set(['br', 'hr', 'img', 'input', 'meta', 'link']);
+  const KEEP = new Set(['article', 'body', 'html', 'head']);
+  const re = /<(\/?)([a-zA-Z][a-zA-Z0-9]*)([^>]*)>/g;
+  const stack = [];
+  let best = null, m;
+  while ((m = re.exec(src)) !== null) {
+    const name = m[2].toLowerCase();
+    if (VOID.has(name) || m[3].endsWith('/')) continue;
+    if (m[1] !== '/') {
+      stack.push({ name, openStart: m.index, openEnd: re.lastIndex });
+    } else {
+      for (let i = stack.length - 1; i >= 0; i--) {
+        if (stack[i].name === name) {
+          const o = stack[i];
+          stack.length = i;
+          if (o.openEnd <= s && e <= m.index && !KEEP.has(name) &&
+              (!best || o.openStart > best.openStart)) {
+            best = { openStart: o.openStart, openEnd: o.openEnd, closeStart: m.index, closeEnd: re.lastIndex };
+          }
+          break;
+        }
+      }
+    }
+  }
+  if (!best) return;
+  htmlSrc.value = src.slice(0, best.openStart) + src.slice(best.openEnd, best.closeStart) + src.slice(best.closeEnd);
+  const caret = Math.max(best.openStart, s - (best.openEnd - best.openStart));
+  htmlSrc.setSelectionRange(caret, caret);
+  updateHtmlView();
+}
+/* theme toggle: same markup, different "clothes" */
+const HTML_THEMES = [['theme-book', 'ספר'], ['theme-news', 'עיתון'], ['theme-type', 'מכונת כתיבה']];
+let htmlThemeIdx = 0;
+document.getElementById('html-theme').addEventListener('click', () => {
+  htmlThemeIdx = (htmlThemeIdx + 1) % HTML_THEMES.length;
+  HTML_THEMES.forEach(([c]) => htmlOut.classList.remove(c));
+  htmlOut.classList.add(HTML_THEMES[htmlThemeIdx][0]);
+  document.getElementById('html-theme-name').textContent = 'הלבוש הנוכחי: ' + HTML_THEMES[htmlThemeIdx][1];
 });
 
 /* ================= TAB 2: HTML -> XML ================= */
