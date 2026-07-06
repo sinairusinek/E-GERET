@@ -277,6 +277,7 @@
   .mk-person { background: color-mix(in srgb, var(--c-person) 55%, transparent); box-shadow: 0 1.5px 0 var(--teal); }
   .mk-place  { background: color-mix(in srgb, var(--c-place) 55%, transparent);  box-shadow: 0 1.5px 0 var(--gold); }
   .mk-org    { background: color-mix(in srgb, var(--c-org) 50%, transparent);    box-shadow: 0 1.5px 0 #7a5a86; }
+  .mk-work   { background: color-mix(in srgb, var(--c-org) 50%, transparent);    box-shadow: 0 1.5px 0 #7a5a86; }
   .mk-date   { background: color-mix(in srgb, var(--c-date) 55%, transparent);   box-shadow: 0 1.5px 0 var(--brick); }
   .mk.linked::after { content: ' ✓'; font-family: 'Heebo'; font-size: 11px; color: var(--ok); }
 
@@ -302,9 +303,40 @@
   }
   .fb-person { background: var(--c-person); }
   .fb-place  { background: var(--c-place); }
-  .fb-org    { background: var(--c-org); }
+  .fb-work   { background: var(--c-org); }
   .fb-date   { background: var(--c-date); }
   .fb-x { background: var(--paper-2); color: var(--muted); }
+  .fb-sub { background: #f3ecf6; }
+
+  /* ---- continue button ---- */
+  .tab-next {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px dashed var(--rule-2);
+  }
+  .tab-next .btn { font-size: 15px; padding: 9px 26px; }
+
+  /* ---- certainty segmented control ---- */
+  .certseg { display: inline-flex; border: 1.5px solid var(--rule-2); border-radius: 4px; overflow: hidden; }
+  .certseg button {
+    font-family: 'Heebo', sans-serif; font-size: 12.5px;
+    padding: 4px 12px; border: none; background: var(--paper-3);
+    cursor: pointer; color: var(--ink-soft);
+  }
+  .certseg button + button { border-inline-start: 1px solid var(--rule); }
+  .certseg button.active { background: var(--teal); color: #fff; font-weight: 600; }
+
+  /* ---- copyable LLM prompt ---- */
+  .copybox {
+    background: #fff;
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    padding: 14px 18px;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    white-space: pre-wrap;
+    margin-bottom: 10px;
+  }
 
   /* ---- legend ---- */
   .legend { font-size: 13px; color: var(--muted); display: flex; gap: 16px; flex-wrap: wrap; margin: 8px 2px; }
@@ -329,6 +361,7 @@
   .dot-person { background: var(--teal); }
   .dot-place { background: var(--gold); }
   .dot-org { background: #7a5a86; }
+  .dot-work { background: #7a5a86; }
   .dot-date { background: var(--brick); }
 
   /* ---- suggestions ---- */
@@ -522,6 +555,9 @@
         הסופרים שמשנים כתיב של שמות — ״קובנר (תחת קאוונער), גיטה (תחת גאטהע), מטרלינק (תחת מעטטערלינק)״.
         הבעיה שנפתור היום בעזרת מזהים — מטרידה את הכותבים עצמם כבר מאה ועשרים שנה.
       </div>
+      <div class="tab-next">
+        <button class="btn primary" data-next="ner">המשך: זיהוי ישויות · NER ←</button>
+      </div>
     </section>
 
     <!-- ============================================================ -->
@@ -530,22 +566,23 @@
     <section class="tab-panel" id="panel-ner">
       <div class="explain">
         <b>זיהוי ישויות בשם — NER (Named Entity Recognition).</b>
-        המשימה: למצוא בטקסט כל אזכור של <b>אדם</b>, <b>מקום</b>, <b>ארגון</b> או <b>תאריך</b>, ולסמן אותו.
+        המשימה: למצוא בטקסט כל אזכור של <b>אדם</b>, <b>מקום</b>, <b>יצירה</b> (ספר, מאמר, כתב־עת)
+        או <b>תאריך</b>, ולסמן אותו.
         בצד שמאל הטקסט עצמו: סמנו קטע בעכבר, ובחרו סוג בסרגל שיקפוץ. כל סימון נכתב מיד
-        כתגית TEI בקוד שמימין — <code>persName</code>, <code>placeName</code>, <code>orgName</code>, <code>date</code>.
+        כתגית TEI בקוד שמימין — <code>persName</code>, <code>placeName</code>, <code>title</code>, <code>date</code>.
       </div>
 
-      <div class="stepline"><span class="stepnum">1</span>תיוג ידני — קראו וסמנו</div>
+      <div class="stepline"><span class="stepnum">1</span>תיוג ידני — הפסקה הראשונה בלבד</div>
       <div class="explain q">
-        התחילו בשורת התאריך שבראש המכתב. מה יש בה? ואז המשיכו פנימה:
-        מי הם האנשים המוזכרים במכתב? אילו שמות מסתתרים מאחורי כתיב יידי (״היינע״, ״גאגאל״)?
-        האם ״הצופה״ הוא אדם? האם ״חקר־דבר״ הוא ארגון? ומה עושים עם ״בשפת רוסיה״ —
-        האם זה אזכור של <i>מקום</i>?
+        כדי להרגיש את המלאכה, סמנו ביד רק את <b>שורת התאריך ואת הפסקה הראשונה</b> של המכתב.
+        מה יש בשורת התאריך? ובפסקה — מי האנשים? האם ״הצופה״ הוא אדם?
+        ומה בדיוק המאמר ״א. א. קובנר״ — אדם או יצירה?
+        את שאר המכתב נשאיר בכוונה למכונה, בשלב הבא.
       </div>
       <div class="legend">
         <span><span class="swatch" style="background:var(--c-person)"></span>persName — אדם</span>
         <span><span class="swatch" style="background:var(--c-place)"></span>placeName — מקום</span>
-        <span><span class="swatch" style="background:var(--c-org)"></span>orgName — ארגון/כתב־עת</span>
+        <span><span class="swatch" style="background:var(--c-org)"></span>title — יצירה: ספר · מאמר · כתב־עת</span>
         <span><span class="swatch" style="background:var(--c-date)"></span>date — תאריך</span>
       </div>
 
@@ -561,7 +598,7 @@
             <div class="floatbar" id="floatbar">
               <button class="fb-person" data-t="person">אדם</button>
               <button class="fb-place" data-t="place">מקום</button>
-              <button class="fb-org" data-t="org">ארגון</button>
+              <button class="fb-work" data-t="workmenu">יצירה</button>
               <button class="fb-date" data-t="date">תאריך</button>
               <button class="fb-x" data-t="x">✕</button>
             </div>
@@ -572,29 +609,53 @@
 
       <div class="stepline"><span class="stepnum">2</span>תיוג חצי־אוטומטי — המכונה מציעה, אתם מכריעים</div>
       <div class="explain">
-        כך עובד NER מבוסס־מילון: המחשב משווה את הטקסט לרשימות שמות מוכרים — כאן, השמות השכיחים
-        שחולצו מ־4,721 מכתבי הפרויקט — ומציע מועמדים. לחצו והשוו לעבודה הידנית שלכם:
-        <b>מה הוא מצא שפספסתם? ומה הוא פספס</b> — או מצא בטעות? שימו לב במיוחד ל״לאמזשא״
-        ול״בשפת רוסיה״.
+        עכשיו נשחרר את המכונה על שאר המכתב. כך עובד NER מבוסס־מילון: המחשב משווה את הטקסט
+        לרשימות שמות מוכרים — כאן, השמות השכיחים שחולצו מ־4,721 מכתבי הפרויקט — ומציע מועמדים.
+        עברו על ההצעות אחת־אחת: אשרו את הנכונות, דחו את המוטעות.
       </div>
       <div class="toolbar">
         <button class="btn primary" id="ner-suggest">סריקה אוטומטית מבוססת מילון ←</button>
-        <span class="hint">בפרויקט האמיתי את השלב הזה עשה מודל שפה (Gemini) על כל 4,721 המכתבים — אותו עיקרון, מילון גדול בהרבה</span>
       </div>
       <div class="pane short" id="sugg-pane" style="display:none">
         <div class="pane-head">הצעות המכונה — אשרו או דחו כל אחת</div>
         <div class="pane-body"><div class="sugg-list" id="sugg-list"></div></div>
       </div>
+      <div class="explain q" id="ner-reflect" style="display:none">
+        <b>רגע של חשבון נפש — מה למדנו על המכונה?</b><br>
+        <b>מה היא פספסה?</b> השוו לפסקה שסימנתם ביד: ״לאמזשא״ אינו ברשימות — כתיב יידי שהמילון
+        מעולם לא ראה. וגם ״י. ל. גארדאן״ בכתיב הישן נעלם ממנה, אף ש״גורדון״ המודרני מוכר לה היטב.
+        מילון מזהה רק את מה שכבר ראה.<br>
+        <b>ומה היא מצאה בטעות?</b> אלה <b>זיהויי־שווא</b>: המילון סימן ״רוסיה״ בתוך ״בשפת רוסיה״ —
+        אבל האם המכתב מדבר כאן על <i>מקום</i>, או על שפה? המילה לבדה לא מספרת; רק <b>ההקשר</b> מכריע.
+        זה ההבדל בין למצוא מחרוזת ובין להבין אזכור — והסיבה שגם אחרי כל אוטומציה, ההכרעה חוזרת אליכם.
+      </div>
 
-      <div class="stepline"><span class="stepnum">3</span>הישויות שנמצאו</div>
+      <div class="stepline"><span class="stepnum">3</span>ניסוי השוואה: מה מודל שפה היה עושה?</div>
+      <div class="explain">
+        מילון קורא מילים; מודל שפה קורא <b>הקשר</b>. בפרויקט אגרת את הזיהוי המלא עשה מודל שפה
+        (Gemini) על כל 4,721 המכתבים. נסו בעצמכם: הכפתור מעתיק ללוח הנחיה מוכנה + נוסח המכתב —
+        הדביקו בצ׳אט של מודל שפה (Gemini, ChatGPT, Claude…) והשוו את הרשימה שלו לשלכם ולשל המילון.
+        מה הוא תפס שהמילון פספס? והאם גם הוא טעה — רק אחרת?
+      </div>
+      <div class="toolbar">
+        <button class="btn primary" id="llm-copy">העתקת ההנחיה + המכתב ללוח ←</button>
+        <span class="hint" id="llm-copied"></span>
+      </div>
+      <div class="copybox" id="llm-prompt-view" dir="rtl"></div>
+
+      <div class="stepline"><span class="stepnum">4</span>השמות שנמצאו — מועמדים לישויות</div>
       <div class="explain q">
-        זהו יבול ה־NER שלכם — כל שורה היא <b>ישות מועמדת</b>, עם מספר המופעים שלה בטקסט.
-        לתאריכים הוסיפו ערך קריא־למכונה (<code>when</code>) בלחיצה על השבב.
-        הרשימה הזו עוברת איתנו לשלב הבא: הקישור.
+        זהו היבול: רשימת <b>השמות</b> שסומנו, עם מספר המופעים של כל אחד.
+        שימו לב ללשון: אלה עדיין לא ישויות — כל שם הוא בינתיים רק <b>מועמד לישות</b>.
+        ״בריינין״ הוא מחרוזת; מי שיקבע <i>איזה</i> בריינין — זה שלב הקישור, בלשונית הבאה.
+        לתאריכים הוסיפו כבר עכשיו ערך קריא־למכונה (<code>when</code>) בלחיצה על השבב.
       </div>
       <div class="pane short">
-        <div class="pane-head">רשימת הישויות <span class="spacer"></span><span class="hint" id="ent-count"></span></div>
+        <div class="pane-head">רשימת השמות שסומנו <span class="spacer"></span><span class="hint" id="ent-count"></span></div>
         <div class="pane-body"><div class="entlist" id="entlist"></div></div>
+      </div>
+      <div class="tab-next">
+        <button class="btn primary" data-next="link">המשך: קישור ומאגרי זהויות ←</button>
       </div>
     </section>
 
@@ -604,17 +665,18 @@
     <section class="tab-panel" id="panel-link">
       <div class="explain">
         <b>מן השם אל הישות: קישור למאגרי ידע.</b>
-        לכל תחום יש מאגר זהויות (authority file) משלו: <b>Wikidata</b> לאנשים ולכל דבר אחר,
+        כאן שם הופך לישות: כשאנחנו מכריעים <i>למי או למה</i> הוא מתייחס.
+        לכל תחום יש מאגר זהויות (authority file) משלו: <b>Wikidata</b> לאנשים, ליצירות ולכל דבר אחר,
         <b>Kima</b> — הגזטיר ההיסטורי של שמות מקומות בכתב עברי, <b>GeoNames</b> למקומות בכלל,
-        <b>VIAF</b> לרשומות ספרייתיות. בחרו ישות מהרשימה, חפשו אותה במאגר המתאים, והכריעו:
-        איזו רשומה היא <i>הישות שלכם</i>? כל הכרעה נרשמת בקובץ הזהויות המקומי שלכם —
-        ה־<code>standOff</code> שבסוף המסמך.
+        <b>VIAF</b> לרשומות ספרייתיות. בחרו שם מהרשימה, חפשו אותו במאגר המתאים, והכריעו:
+        איזו רשומה היא הישות שלכם — <b>ועד כמה אתם בטוחים</b>. כל הכרעה, על רמת הוודאות שלה,
+        נרשמת בקובץ הזהויות המקומי שלכם — ה־<code>standOff</code> שבראש המסמך.
       </div>
 
-      <div class="stepline"><span class="stepnum">1</span>קשרו את הישויות שלכם</div>
+      <div class="stepline"><span class="stepnum">1</span>קשרו את השמות שסימנתם</div>
       <div class="workrow">
         <div class="pane short">
-          <div class="pane-head">תור העבודה — לחצו על ישות</div>
+          <div class="pane-head">תור העבודה — לחצו על שם</div>
           <div class="pane-body"><div class="entlist" id="linklist"></div></div>
         </div>
         <div>
@@ -660,6 +722,9 @@
         חובה אדם. לפניכם שישה שמות אמיתיים מהמאגר שקיבלו ציון C. הכריעו — ואז השוו להכרעת הפרויקט.
       </div>
       <div id="corpus-queue"></div>
+      <div class="tab-next">
+        <button class="btn primary" data-next="lod">המשך: נתונים מקושרים · LOD ←</button>
+      </div>
     </section>
 
     <!-- ============================================================ -->
@@ -815,6 +880,14 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   });
 });
 if (/^#(tei|ner|link|lod)$/.test(location.hash)) activateTab(location.hash.slice(1));
+document.querySelectorAll('.tab-next .btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    activateTab(btn.dataset.next);
+    history.replaceState(null, '', '#' + btn.dataset.next);
+    refreshAll();
+    window.scrollTo({ top: 0 });
+  });
+});
 
 /* ================= embedded data ================= */
 const GAZ    = JSON.parse(document.getElementById('data-gaz').textContent);
@@ -845,13 +918,15 @@ const WD_FALLBACK = {
 
 /* ================= shared state ================= */
 let TEI = document.getElementById('sample-tei').textContent.trim();
-const ENT_TAGS = { person: 'persName', place: 'placeName', org: 'orgName', date: 'date' };
-const TAG2TYPE = { persName: 'person', placeName: 'place', orgName: 'org', date: 'date' };
-const TYPE_HEB = { person: 'אדם', place: 'מקום', org: 'ארגון', date: 'תאריך' };
+const ENT_TAGS = { person: 'persName', place: 'placeName', work: 'title', org: 'orgName', date: 'date' };
+const TAG2TYPE = { persName: 'person', placeName: 'place', title: 'work', orgName: 'org', date: 'date' };
+const TYPE_HEB = { person: 'אדם', place: 'מקום', work: 'יצירה', org: 'ארגון', date: 'תאריך' };
+const WORK_LEVELS = { m: 'ספר', a: 'מאמר', j: 'כתב־עת' };
 const AUTH = new Map();       // entKey -> {authId, kind, label, desc, ids:{}, lat, lon, local}
 const DONATIONS = [];         // {kima_id, kima_name, variant, source}
-let authSeq = { person: 0, place: 0, org: 0 };
+let authSeq = { person: 0, place: 0, org: 0, work: 0 };
 let selectedEnt = null;       // entKey selected in tab 3
+let currentCert = 'high';     // certainty chosen in the search panel (high|medium|low)
 
 function escapeHtml(s) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -918,7 +993,7 @@ function countOccurrences(nodes, phrase) {
 }
 
 /* wrap the n-th plain occurrence of phrase inside block #bi with an entity tag */
-function tagInTei(bi, phrase, occ, type) {
+function tagInTei(bi, phrase, occ, type, attrs) {
   const doc = parseTei(TEI);
   if (!doc) return { ok: false, msg: 'ה־XML אינו תקין — תקנו אותו בלשונית 1' };
   const blocks = bodyBlocks(doc);
@@ -928,13 +1003,14 @@ function tagInTei(bi, phrase, occ, type) {
   const tail = hit.node.splitText(hit.idx);
   tail.splitText(phrase.length);
   const el = doc.createElementNS('http://www.tei-c.org/ns/1.0', ENT_TAGS[type]);
+  for (const [k, v] of Object.entries(attrs || {})) el.setAttribute(k, v);
   hit.node.parentNode.insertBefore(el, tail);
   el.appendChild(tail);
   setTEI(serializeTei(doc));
   return { ok: true };
 }
 /* tag every remaining plain occurrence of phrase in the whole body */
-function tagAllInTei(phrase, type) {
+function tagAllInTei(phrase, type, attrs) {
   let total = 0, guard = 0;
   while (guard++ < 60) {
     const doc = parseTei(TEI);
@@ -942,7 +1018,7 @@ function tagAllInTei(phrase, type) {
     let done = true;
     for (let bi = 0; bi < blocks.length; bi++) {
       if (countOccurrences(plainTextNodes(blocks[bi]), phrase) > 0) {
-        const r = tagInTei(bi, phrase, 0, type);
+        const r = tagInTei(bi, phrase, 0, type, attrs);
         if (r.ok) { total++; done = false; }
         break;
       }
@@ -964,11 +1040,12 @@ function collectEntities() {
     const text = el.textContent.replace(/\s+/g, ' ').trim();
     if (!text) continue;
     const key = type + '|' + text;
-    if (!map.has(key)) map.set(key, { key, type, text, count: 0, refs: 0, when: '' });
+    if (!map.has(key)) map.set(key, { key, type, text, count: 0, refs: 0, when: '', level: '' });
     const e = map.get(key);
     e.count++;
     if (el.getAttribute('ref')) e.refs++;
     if (type === 'date' && el.getAttribute('when')) e.when = el.getAttribute('when');
+    if (type === 'work' && el.getAttribute('level')) e.level = el.getAttribute('level');
   }
   return [...map.values()];
 }
@@ -1074,19 +1151,22 @@ function renderEntityLists() {
   const ents = collectEntities();
   const mk = (e, forLink) => {
     const linked = AUTH.has(e.key);
+    const a = linked ? AUTH.get(e.key) : null;
+    const certMark = a && a.cert === 'medium' ? ' (סביר)' : a && a.cert === 'low' ? ' (בספק)' : '';
     return '<span class="ent-chip' + (selectedEnt === e.key && forLink ? ' sel' : '') + '" data-k="' + escapeHtml(e.key) + '">' +
       '<span class="dot dot-' + e.type + '"></span>' + escapeHtml(e.text) +
+      (e.type === 'work' && e.level ? ' <span class="cnt">' + (WORK_LEVELS[e.level] || e.level) + '</span>' : '') +
       (e.type === 'date' && e.when ? ' <span class="cnt">when=' + escapeHtml(e.when) + '</span>' : '') +
       ' <span class="cnt">×' + e.count + '</span>' +
-      (linked ? ' <span class="lnk">✓ ' + escapeHtml(AUTH.get(e.key).authId) + '</span>' : '') +
+      (linked ? ' <span class="lnk">✓ ' + escapeHtml(a.authId) + certMark + '</span>' : '') +
       '</span>';
   };
   document.getElementById('entlist').innerHTML =
-    ents.length ? ents.map(e => mk(e, false)).join('') : '<span class="hint">עדיין לא סומנו ישויות — חזרו לטקסט וסמנו.</span>';
+    ents.length ? ents.map(e => mk(e, false)).join('') : '<span class="hint">עדיין לא סומן דבר — חזרו לטקסט וסמנו.</span>';
   document.getElementById('ent-count').textContent =
-    ents.length ? ents.length + ' ישויות · ' + ents.reduce((a, e) => a + e.count, 0) + ' מופעים' : '';
+    ents.length ? ents.length + ' שמות · ' + ents.reduce((a, e) => a + e.count, 0) + ' מופעים' : '';
   document.getElementById('linklist').innerHTML =
-    ents.length ? ents.map(e => mk(e, true)).join('') : '<span class="hint">אין ישויות עדיין — סמנו בלשונית 2.</span>';
+    ents.length ? ents.map(e => mk(e, true)).join('') : '<span class="hint">אין שמות עדיין — סמנו בלשונית 2.</span>';
 }
 
 function refreshAll() {
@@ -1141,6 +1221,7 @@ annotext.addEventListener('mouseup', () => {
   setTimeout(() => {
     const sel = window.getSelection();
     floatbar.classList.remove('open');
+    floatbar.innerHTML = FLOATBAR_MAIN;
     pendingSel = null;
     if (!sel || sel.isCollapsed) return;
     const s = sel.toString().replace(/\s+/g, ' ').trim();
@@ -1176,15 +1257,28 @@ annotext.addEventListener('mouseup', () => {
     floatbar.classList.add('open');
   }, 0);
 });
+const FLOATBAR_MAIN = floatbar.innerHTML;
 floatbar.addEventListener('click', e => {
   const t = e.target.dataset && e.target.dataset.t;
   if (!t) return;
+  if (t === 'workmenu') {
+    /* second stage: which kind of work? -> title/@level */
+    floatbar.innerHTML =
+      '<button class="fb-work fb-sub" data-t="work" data-level="m">ספר</button>' +
+      '<button class="fb-work fb-sub" data-t="work" data-level="a">מאמר</button>' +
+      '<button class="fb-work fb-sub" data-t="work" data-level="j">עיתון · כתב־עת</button>' +
+      '<button class="fb-x" data-t="x">✕</button>';
+    return;
+  }
+  const level = e.target.dataset.level;
   floatbar.classList.remove('open');
+  floatbar.innerHTML = FLOATBAR_MAIN;
   if (t === 'x' || !pendingSel) { pendingSel = null; return; }
   const { bi, phrase, occ } = pendingSel;
   pendingSel = null;
   window.getSelection().removeAllRanges();
-  const r = tagInTei(bi, phrase, occ, t);
+  const attrs = t === 'work' && level ? { level } : null;
+  const r = tagInTei(bi, phrase, occ, t, attrs);
   if (!r.ok) { flash('ner-status', 'err', r.msg); return; }
   /* offer to tag remaining identical occurrences */
   const doc = parseTei(TEI);
@@ -1194,7 +1288,7 @@ floatbar.addEventListener('click', e => {
     flash('ner-status', 'ok', '✓ סומן ‎<' + ENT_TAGS[t] + '>‎. נמצאו עוד ' + rest + ' מופעים זהים של «' + escapeHtml(phrase) + '» — ' +
       '<button class="btn small" id="tag-rest">לתייג את כולם</button>');
     document.getElementById('tag-rest').addEventListener('click', () => {
-      const n = tagAllInTei(phrase, t);
+      const n = tagAllInTei(phrase, t, attrs);
       flash('ner-status', 'ok', '✓ תויגו עוד ' + n + ' מופעים. כך עובד תיוג חצי־אוטומטי: החלטה אנושית אחת, יישום מכני על כל המופעים.');
     });
   } else {
@@ -1249,7 +1343,7 @@ function suggestions() {
   };
   for (const t of LEX.personsFull) tryTerm(t, 'person');
   for (const t of LEX.personsSurname) tryTerm(t, 'person');
-  for (const t of LEX.orgs) tryTerm(t, 'org');
+  for (const t of LEX.orgs) tryTerm(t, 'work');   /* corpus "org" list is mostly periodicals */
   for (const t of LEX.places) tryTerm(t, 'place');
   /* years */
   const yearRe = /\b1[89]\d\d\b/g;
@@ -1269,28 +1363,54 @@ document.getElementById('ner-suggest').addEventListener('click', () => {
     list.innerHTML = '<div class="hint">המילון לא מצא מועמדים חדשים — או שכבר תייגתם הכול. מה זה אומר על שיטת המילון?</div>';
     return;
   }
-  const tcol = { person: 'var(--c-person)', place: 'var(--c-place)', org: 'var(--c-org)', date: 'var(--c-date)' };
+  const tcol = { person: 'var(--c-person)', place: 'var(--c-place)', work: 'var(--c-org)', org: 'var(--c-org)', date: 'var(--c-date)' };
   list.innerHTML = sug.map((s, i) =>
     '<div class="sugg" data-i="' + i + '">' +
-    '<span class="stype" style="background:' + tcol[s.type] + '">' + ENT_TAGS[s.type] + '</span>' +
+    '<span class="stype" style="background:' + tcol[s.type] + '">' + ENT_TAGS[s.type] + (s.type === 'work' ? '?' : '') + '</span>' +
     '<b>' + escapeHtml(s.term) + '</b><span class="cnt">×' + s.count + ' מופעים</span>' +
     '<span class="spacer"></span>' +
     '<button class="btn small" data-act="ok">אשרו — תייגו הכול</button>' +
     '<button class="btn small" data-act="no">דחו</button>' +
-    '</div>').join('') +
-    '<div class="hint" style="padding:4px 2px">שימו לב מה <b>אין</b> ברשימה: ״לאמזשא״ — הכתיב הזה אינו במילון. מילון מזהה רק את מה שכבר ראה; זה ההבדל בינו לבין מודל שפה — וגם מודל שפה טועה, רק אחרת.</div>';
+    '</div>').join('');
   const items = sug;
   list.querySelectorAll('.sugg button').forEach(btn => btn.addEventListener('click', () => {
     const row = btn.closest('.sugg');
     const s = items[+row.dataset.i];
     if (btn.dataset.act === 'ok') {
-      const n = tagAllInTei(s.term, s.type);
+      const n = tagAllInTei(s.term, s.type, s.type === 'work' ? { level: 'j' } : null);
       flash('ner-status', n ? 'ok' : 'err', n ? '✓ «' + escapeHtml(s.term) + '» תויג ב־' + n + ' מופעים' : 'לא נותרו מופעים חופשיים לתיוג');
     }
     row.classList.add('done');
     row.querySelectorAll('button').forEach(b => b.disabled = true);
   }));
+  document.getElementById('ner-reflect').style.display = '';
 });
+
+/* ================= tab 2: LLM comparison ================= */
+function letterPlainText() {
+  const doc = parseTei(TEI);
+  if (!doc) return '';
+  return bodyBlocks(doc).map(b => b.textContent.replace(/\s+/g, ' ').trim()).filter(Boolean).join('\n\n');
+}
+const LLM_PROMPT = 'לפניך מכתב עברי משנת 1904. אתר בו את כל השמות: אנשים, מקומות, יצירות (ספרים, מאמרים, כתבי־עת) ותאריכים.\n' +
+  'עבור כל שם החזר שורה בטבלה: הכתיב כפי שמופיע בטקסט · הצורה המודרנית המקובלת · הסוג · והערה קצרה על ההקשר.\n' +
+  'אל תשמיט שמות בכתיב יידי או היסטורי, ואל תכלול מילים שאינן שמות (למשל שם של שפה אינו שם של מקום).\n\nהמכתב:\n\n';
+document.getElementById('llm-prompt-view').textContent = LLM_PROMPT + '[נוסח המכתב יצורף אוטומטית מן העורך]';
+document.getElementById('llm-copy').addEventListener('click', () => {
+  const payload = LLM_PROMPT + letterPlainText();
+  const done = () => { document.getElementById('llm-copied').textContent = '✓ הועתק — הדביקו בצ׳אט של מודל שפה'; };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(payload).then(done, () => fallbackCopy(payload, done));
+  } else fallbackCopy(payload, done);
+});
+function fallbackCopy(text, done) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); done(); } catch (e) {}
+  ta.remove();
+}
 
 /* ================= mini-Kima matcher ================= */
 function normHe(s) {
@@ -1426,6 +1546,7 @@ function openSearchPanel(key) {
     return;
   }
   const isPlace = type === 'place';
+  currentCert = 'high';
   head.innerHTML = (isPlace ? 'חיפוש בגזטיר Kima — ' : 'חיפוש ב־Wikidata — ') + '<b>' + escapeHtml(text) + '</b>';
   body.innerHTML =
     '<div class="toolbar" style="margin-bottom:10px">' +
@@ -1434,8 +1555,26 @@ function openSearchPanel(key) {
     '</div>' +
     '<div class="hint" style="margin-bottom:8px">' + (isPlace
       ? 'Kima מכיר כתיבים היסטוריים רבים — אבל לא את כולם. אם החיפוש המדויק ייכשל, המנוע ינסה התאמה קירובית.'
+      : type === 'work'
+      ? 'ליצירות היסטוריות רבות — ובהן ״הצופה״ של 1904 וספרי קובנר — אין עדיין רשומה ב־Wikidata. אם לא נמצא: ״רשמו כישות מקומית״ — הרשומה המקומית שלכם היא־היא תעודת הזהות שלהן, וייתכן שתתרמו אותה יום אחד למאגר העולמי.'
       : 'טיפ: מאגרי זהויות מדברים עברית מודרנית. אם הכתיב שבמכתב לא נמצא — נסו לנרמל אותו (למשל ״גאגאל״ ← ״גוגול״). זה בדיוק האתגר בטקסטים היסטוריים.') +
-    '</div><div id="q-results"></div>';
+    '</div>' +
+    '<div class="toolbar" style="margin-bottom:8px">' +
+    '<span class="hint">עד כמה אתם בטוחים בהכרעה?</span>' +
+    '<span class="certseg" id="certseg">' +
+    '<button data-cert="high" class="active">ודאי</button>' +
+    '<button data-cert="medium">סביר</button>' +
+    '<button data-cert="low">בספק</button>' +
+    '</span>' +
+    '<span class="hint">— נרשם כ־<code>cert</code> על המזהה</span>' +
+    '</div>' +
+    '<div id="q-results"></div>';
+  document.getElementById('certseg').addEventListener('click', e => {
+    const c = e.target.dataset && e.target.dataset.cert;
+    if (!c) return;
+    currentCert = c;
+    document.querySelectorAll('#certseg button').forEach(b => b.classList.toggle('active', b.dataset.cert === c));
+  });
   document.getElementById('q-go').addEventListener('click', () => runSearch(key, type, text));
   document.getElementById('q-input').addEventListener('keydown', e => { if (e.key === 'Enter') runSearch(key, type, text); });
   if (isPlace) runSearch(key, type, text);
@@ -1506,7 +1645,7 @@ async function runSearch(key, type, origText) {
 
 function nextAuthId(type) {
   authSeq[type]++;
-  return (type === 'person' ? 'pers_' : type === 'place' ? 'place_' : 'org_') + authSeq[type];
+  return (type === 'person' ? 'pers_' : type === 'place' ? 'place_' : type === 'work' ? 'work_' : 'org_') + authSeq[type];
 }
 function applyRefs(key, authId) {
   const [type, ...rest] = key.split('|');
@@ -1520,7 +1659,7 @@ function applyRefs(key, authId) {
 
 async function confirmWikidata(key, type, text, cand) {
   const auth = AUTH.get(key) || { authId: nextAuthId(type) };
-  Object.assign(auth, { kind: type, label: cand.label, desc: cand.description, ids: { wikidata: cand.id }, local: false });
+  Object.assign(auth, { kind: type, label: cand.label, desc: cand.description, ids: { wikidata: cand.id }, local: false, cert: currentCert });
   AUTH.set(key, auth);
   applyRefs(key, auth.authId);
   flash('link-status', 'ok', '✓ «' + escapeHtml(text) + '» ⇐ <b>' + escapeHtml(cand.label) + '</b> (' + cand.id + '). מושך מזהים נוספים מן הרשת…');
@@ -1543,7 +1682,7 @@ function confirmPlace(key, origText, queried, place, how) {
   const auth = AUTH.get(key) || { authId: nextAuthId('place') };
   Object.assign(auth, {
     kind: 'place', label: place.heb, desc: place.rom,
-    ids: { kima: String(place.id) }, lat: place.lat, lon: place.lon, local: false
+    ids: { kima: String(place.id) }, lat: place.lat, lon: place.lon, local: false, cert: currentCert
   });
   if (place.wd) auth.ids.wikidata = place.wd;
   if (place.gn) auth.ids.geonames = place.gn;
@@ -1557,7 +1696,7 @@ function confirmPlace(key, origText, queried, place, how) {
             (place.wd ? ' · ' + place.wd : '') + (place.gn ? ' · GeoNames' : '');
   if (!known) {
     if (!DONATIONS.some(d => d.kima_id === place.id && d.variant === origText)) {
-      DONATIONS.push({ kima_id: place.id, kima_name: place.rom, variant: origText, source: 'benyehuda.org/read/40830 · סדנת אגרת' });
+      DONATIONS.push({ kima_id: place.id, kima_name: place.rom, variant: origText, certainty: currentCert, source: 'benyehuda.org/read/40830 · סדנת אגרת' });
     }
     msg += '<br>🎁 <b>מצאתם כתיב ש־Kima אינו מכיר!</b> «' + escapeHtml(origText) + '» נרשם בקובץ התרומות — בדיוק כך נתרמו לפרויקט 425 כתיבים חדשים.';
   }
@@ -1570,7 +1709,7 @@ function confirmPlace(key, origText, queried, place, how) {
 
 function confirmLocalOnly(key, type, text) {
   const auth = AUTH.get(key) || { authId: nextAuthId(type) };
-  Object.assign(auth, { kind: type, label: text, desc: '', ids: {}, local: true });
+  Object.assign(auth, { kind: type, label: text, desc: '', ids: {}, local: true, cert: currentCert });
   AUTH.set(key, auth);
   applyRefs(key, auth.authId);
   flash('link-status', 'ok', '✓ «' + escapeHtml(text) + '» נרשם כישות <b>מקומית</b> — ' + auth.authId +
@@ -1579,35 +1718,39 @@ function confirmLocalOnly(key, type, text) {
   renderEntityLists();
 }
 
-/* ---- standOff builder ---- */
+/* ---- standOff builder ----
+   NB element order inside <place> is fixed by the TEI schema:
+   placeName(s), then location, then idno(s) — idno before location does not validate. */
 function buildStandOffXml(indent) {
   const pad = indent || '  ';
-  const persons = [], places = [], orgs = [];
+  const persons = [], places = [], orgs = [], works = [];
   for (const [key, a] of AUTH) {
     const text = key.split('|').slice(1).join('|');
     let x = '';
-    const nameTag = a.kind === 'place' ? 'placeName' : a.kind === 'org' ? 'orgName' : 'persName';
-    const elTag = a.kind === 'place' ? 'place' : a.kind === 'org' ? 'org' : 'person';
+    const nameTag = a.kind === 'place' ? 'placeName' : a.kind === 'work' ? 'title' : a.kind === 'org' ? 'orgName' : 'persName';
+    const elTag = a.kind === 'place' ? 'place' : a.kind === 'work' ? 'bibl' : a.kind === 'org' ? 'org' : 'person';
+    const certAttr = a.cert && a.cert !== 'high' ? ' cert="' + a.cert + '"' : '';
     x += pad + pad + '<' + elTag + ' xml:id="' + a.authId + '">\n';
     x += pad + pad + pad + '<' + nameTag + '>' + escapeXml(text) + '</' + nameTag + '>\n';
     if (a.label && a.label !== text) x += pad + pad + pad + '<' + nameTag + ' type="normalized">' + escapeXml(a.label) + '</' + nameTag + '>\n';
+    if (a.kind === 'place' && a.lat !== undefined) x += pad + pad + pad + '<location><geo>' + a.lat + ' ' + a.lon + '</geo></location>\n';
     for (const [t, v] of Object.entries(a.ids || {})) {
       const uri = t === 'wikidata' ? 'https://www.wikidata.org/entity/' + v
         : t === 'kima' ? 'https://data.geo-kima.org/Places/Details/' + v
         : t === 'geonames' ? 'https://www.geonames.org/' + v
         : t === 'VIAF' ? 'https://viaf.org/viaf/' + v : v;
-      x += pad + pad + pad + '<idno type="' + t + '">' + escapeXml(uri) + '</idno>\n';
+      x += pad + pad + pad + '<idno type="' + t + '"' + certAttr + '>' + escapeXml(uri) + '</idno>\n';
     }
-    if (a.kind === 'place' && a.lat !== undefined) x += pad + pad + pad + '<location><geo>' + a.lat + ' ' + a.lon + '</geo></location>\n';
     if (a.born || a.died) x += pad + pad + pad + '<!-- ' + (a.born ? 'נולד ' + a.born : '') + (a.died ? ' · נפטר ' + a.died : '') + ' -->\n';
     x += pad + pad + '</' + elTag + '>';
-    (a.kind === 'place' ? places : a.kind === 'org' ? orgs : persons).push(x);
+    (a.kind === 'place' ? places : a.kind === 'work' ? works : a.kind === 'org' ? orgs : persons).push(x);
   }
-  if (!persons.length && !places.length && !orgs.length) return '';
+  if (!persons.length && !places.length && !orgs.length && !works.length) return '';
   let s = '<standOff>\n';
   if (persons.length) s += pad + '<listPerson>\n' + persons.join('\n') + '\n' + pad + '</listPerson>\n';
   if (places.length)  s += pad + '<listPlace>\n' + places.join('\n') + '\n' + pad + '</listPlace>\n';
   if (orgs.length)    s += pad + '<listOrg>\n' + orgs.join('\n') + '\n' + pad + '</listOrg>\n';
+  if (works.length)   s += pad + '<listBibl>\n' + works.join('\n') + '\n' + pad + '</listBibl>\n';
   s += '</standOff>';
   return s;
 }
@@ -1717,6 +1860,7 @@ function buildTurtle() {
     if (same.length) row += ' ;\n    owl:sameAs ' + same.join(' , ');
     if (a.ids && a.ids.VIAF) row += ' ;\n    :viaf "' + a.ids.VIAF + '"';
     if (a.lat !== undefined && a.lat !== null) row += ' ;\n    :lat ' + a.lat + ' ; :lon ' + a.lon;
+    if (a.cert && a.cert !== 'high') row += ' ;\n    :certainty "' + a.cert + '"';
     L.push(row + ' .');
   }
   return L.join('\n');
@@ -1732,7 +1876,7 @@ function renderGraph() {
   const linked = collectLinked();
   if (!linked.length) { box.innerHTML = '<div class="pv-empty" style="padding:20px">קשרו ישויות בלשונית 3 — והגרף יופיע כאן.</div>'; return; }
   const W = 640, H = 420, cx = W / 2, cy = H / 2;
-  const colors = { person: '#2d5a5a', place: '#a0780f', org: '#7a5a86', date: '#8a2418' };
+  const colors = { person: '#2d5a5a', place: '#a0780f', org: '#7a5a86', work: '#7a5a86', date: '#8a2418' };
   let s = '<svg class="graph-svg" viewBox="0 0 ' + W + ' ' + H + '" style="max-height:420px">';
   const R = 130, R2 = 195;
   linked.forEach((a, i) => {
@@ -1867,7 +2011,7 @@ refreshAll();
 renderMap();
 
 /* test hooks (harmless in production) */
-window.LAB2 = { kimaLookup, tagInTei, tagAllInTei, collectEntities, buildStandOffXml, buildTurtle, suggestions, normHe, skeleton, setTEI, AUTH, DONATIONS, confirmPlace, get TEI() { return TEI; } };
+window.LAB2 = { kimaLookup, tagInTei, tagAllInTei, collectEntities, buildStandOffXml, buildTurtle, suggestions, normHe, skeleton, setTEI, AUTH, DONATIONS, confirmPlace, confirmLocalOnly, letterPlainText, setCert(v) { currentCert = v; }, get TEI() { return TEI; } };
 </script>
 </body>
 </html>
