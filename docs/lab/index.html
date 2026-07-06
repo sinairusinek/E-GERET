@@ -1738,10 +1738,37 @@ function askNext() {
 }
 
 /* ---- step 2: structure ---- */
+const TEI_LINE_TAGS = ['dateline', 'salute', 'signed'];   // replace the enclosing <p> — a dateline is not a paragraph
+const TEI_BLOCK_TAGS = ['opener', 'closer'];               // wrap whole lines
 function wrapTei(tag, attrs) {
-  const s = teiEditor.selectionStart, e = teiEditor.selectionEnd;
+  let s = teiEditor.selectionStart, e = teiEditor.selectionEnd;
   if (s === e) { bot('קודם סמנו בעורך את קטע הטקסט, ואז לחצו על התגית.'); return; }
-  const sel = teiEditor.value.slice(s, e);
+  const src = teiEditor.value;
+  while (e > s && /\s/.test(src[e - 1])) e--;
+  while (s < e && /\s/.test(src[s])) s++;
+  if (TEI_LINE_TAGS.includes(tag)) {
+    const open = src.lastIndexOf('<p>', s);
+    const close = src.indexOf('</p>', Math.max(s, e - 4));
+    if (open !== -1 && close !== -1 && !src.slice(open + 3, s).includes('</p>')) {
+      const inner = src.slice(open + 3, close);
+      teiEditor.setRangeText('<' + tag + (attrs || '') + '>' + inner + '</' + tag + '>', open, close + 4, 'end');
+      renderPreview();
+      bot('✓ השורה הפכה ל־<code>&lt;' + tag + '&gt;</code>. שימו לב: התגית <b>החליפה</b> את ה־<code>&lt;p&gt;</code> — בתקן, שורת פתיחה או חתימה אינה פסקה אלא יחידה משל עצמה.');
+      return;
+    }
+  }
+  if (TEI_BLOCK_TAGS.includes(tag)) {
+    const ns = src.lastIndexOf('\n', s - 1) + 1;
+    let ne = src.indexOf('\n', e);
+    if (ne === -1) ne = src.length;
+    const block = src.slice(ns, ne);
+    const indent = (block.match(/^\s*/) || [''])[0];
+    teiEditor.setRangeText(indent + '<' + tag + '>\n' + block + '\n' + indent + '</' + tag + '>', ns, ne, 'end');
+    renderPreview();
+    bot('✓ השורות נעטפו ב־<code>&lt;' + tag + '&gt;</code>. אפשר להמשיך לסמן, או להתקדם.');
+    return;
+  }
+  const sel = src.slice(s, e);
   teiEditor.setRangeText('<' + tag + (attrs || '') + '>' + sel + '</' + tag + '>', s, e, 'end');
   renderPreview();
   bot('✓ נעטף ב־<code>&lt;' + tag + '&gt;</code>. אפשר להמשיך לסמן, או להתקדם.');
