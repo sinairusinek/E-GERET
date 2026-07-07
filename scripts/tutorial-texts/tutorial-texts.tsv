@@ -252,274 +252,287 @@ LAB1-250	lab1	script	js	1	תאריך
 LAB1-251	lab1	script	js	1	<b>לא well-formed.</b> <code>
 LAB1-252	lab1	script	js	1	<b>תקין טכנית, אבל חסר:</b>
 LAB1-253	lab1	script	js	1	<b>מצוין!</b> המסמך תקין ועומד בכל בדיקות הסדנה.
-LAB2-021	lab2	כללי	text	1	מעבדת ישויות וקישור — מן התיוג אל המחקר
-LAB2-022	lab2	כללי	text	1	→ חזרה לדף הסדנה
-LAB2-023	lab2	כללי	text	1	מן התיוג אל המחקר — ישויות, קישור ונתונים פתוחים
-LAB2-024	lab2	כללי	text	1	מפגש שני · מ־TEI דרך זיהוי ישויות (NER) אל נתונים מקושרים (Linked Open Data)
-LAB2-025	lab2	כללי	text	1	שם המתייג/ת:
-LAB2-020	lab2	כללי	attr:placeholder	1	למשל: moshe או משה
-LAB2-026	lab2	כללי	text	1	חובה לפני כל הורדה — השם ייכתב בקובץ (
-LAB2-027	lab2	כללי	text	1	) ובשם הקובץ עצמו
-LAB2-028	lab2	כללי	text	1	המסמך כנתונים · TEI
-LAB2-029	lab2	כללי	text	1	זיהוי ישויות · NER
-LAB2-030	lab2	כללי	text	1	קישור ומאגרי זהויות
-LAB2-031	lab2	כללי	text	1	נתונים מקושרים · LOD
+LAB2-022	lab2	כללי	text	1	מעבדת ישויות וקישור — מן התיוג אל המחקר
+LAB2-023	lab2	כללי	text	1	→ חזרה לדף הסדנה
+LAB2-024	lab2	כללי	text	1	מן התיוג אל המחקר — ישויות, קישור ונתונים פתוחים
+LAB2-025	lab2	כללי	text	1	מפגש שני · מ־TEI דרך זיהוי ישויות (NER) אל נתונים מקושרים (Linked Open Data)
+LAB2-026	lab2	כללי	text	1	שם המתייג/ת:
+LAB2-021	lab2	כללי	attr:placeholder	1	למשל: moshe או משה
+LAB2-027	lab2	כללי	text	1	חובה לפני כל הורדה — השם ייכתב בקובץ (
+LAB2-028	lab2	כללי	text	1	) ובשם הקובץ עצמו
+LAB2-029	lab2	כללי	text	1	המסמך כנתונים · TEI
+LAB2-030	lab2	כללי	text	1	זיהוי ישויות · NER
+LAB2-031	lab2	כללי	text	1	קישור ומאגרי זהויות
+LAB2-032	lab2	כללי	text	1	נתונים מקושרים · LOD
 LAB2-001	lab2	1 המסמך·TEI	strip	1	<b>נקודת הפתיחה: המסמך שקידדתם במפגש הקודם.</b> בעורך שמימין — מכתבו של א״א קובנר לראובן בריינין (1904), כבר עטוף ב־TEI: תעודת זהות (<code>teiHeader</code>) עם <code>correspDesc</code>, ומבנה מכתב מסומן. משמאל — תצוגת קריאה שנבנית מן הקידוד. מי שיש בידיו קובץ משלו מהמפגש הקודם — מוזמן להעלות אותו במקום הדוגמה.
-LAB2-032	lab2	1 המסמך·TEI	text	1	העלאת ה־TEI שלי מהמפגש הקודם…
-LAB2-033	lab2	1 המסמך·TEI	text	1	חזרה לקובץ הדוגמה
-LAB2-034	lab2	1 המסמך·TEI	text	1	בדיקת תקינות ✓
-LAB2-035	lab2	1 המסמך·TEI	text	1	קובץ הדוגמה: א. קובנר לר. בריינין
-LAB2-036	lab2	1 המסמך·TEI	text	1	קוד ה־TEI — אפשר לערוך
-LAB2-037	lab2	1 המסמך·TEI	text	1	תצוגת קריאה
-LAB2-038	lab2	1 המסמך·TEI	text	1	מה המחשב כבר יודע לקרוא מכאן?
+LAB2-033	lab2	1 המסמך·TEI	text	1	העלאת ה־TEI שלי מהמפגש הקודם…
+LAB2-034	lab2	1 המסמך·TEI	text	1	חזרה לקובץ הדוגמה
+LAB2-035	lab2	1 המסמך·TEI	text	1	בדיקת תקינות ✓
+LAB2-036	lab2	1 המסמך·TEI	text	1	קובץ הדוגמה: א. קובנר לר. בריינין
+LAB2-037	lab2	1 המסמך·TEI	text	1	קוד ה־TEI — אפשר לערוך
+LAB2-038	lab2	1 המסמך·TEI	text	1	תצוגת קריאה
+LAB2-039	lab2	1 המסמך·TEI	text	1	מה המחשב כבר יודע לקרוא מכאן?
 LAB2-002	lab2	1 המסמך·TEI	strip	1	בזכות ה־<code>correspDesc</code> המחשב שולף לבדו את הכרטיס הקטלוגי של המכתב. הביטו בו רגע — ואז שאלו: <b>מה בדיוק המחשב <u>יודע</u> כאן?</b> הוא יודע שהמכתב נשלח מ״לאמזשא״. אבל היכן זה לאמזשא? על איזו מפה? ומי זה ״ראובן בריינין״ — מבין כל האנשים שנשאו את השם הזה אי־פעם?
 LAB2-003	lab2	1 המסמך·TEI	strip	1	<b>וכמה מקומות יש כאן?</b> אלה כתיבים אמיתיים של שמות־מקום מתוך 4,721 המכתבים שחילצנו בפרויקט אגרת: <b>אודיסא · אדעסא · אודסה · אדעס · אודיסה</b>. חמש מחרוזות שונות — כמה מקומות? ומה עם <b>ווארשא</b> ו<b>וורשה</b> ו<b>Warsaw</b>? למחשב אלו מחרוזות זרות זו לזו. כדי שהטקסט יהפוך לנתונים, כל שם צריך להפוך מ<b>מחרוזת</b> ל<b>ישות</b> — עם זהות אחת ומזהה אחד. זה בדיוק מסע המפגש הזה: קודם <b>נזהה</b> את השמות בטקסט (NER), אחר כך <b>נקשר</b> כל שם לישות במאגר ידע — ונראה מה זה פותח.
 LAB2-004	lab2	1 המסמך·TEI	strip	1	<b>אגב, קובנר כבר התלונן על זה ב־1904.</b> קראו את הפסקה האחרונה במכתב: הוא מתרעם על הסופרים שמשנים כתיב של שמות — ״קובנר (תחת קאוונער), גיטה (תחת גאטהע), מטרלינק (תחת מעטטערלינק)״. הבעיה שנפתור היום בעזרת מזהים — מטרידה את הכותבים עצמם כבר מאה ועשרים שנה.
-LAB2-039	lab2	1 המסמך·TEI	text	1	המשך: זיהוי ישויות · NER ←
+LAB2-040	lab2	1 המסמך·TEI	text	1	המשך: זיהוי ישויות · NER ←
 LAB2-005	lab2	2 זיהוי·NER	strip	1	<b>זיהוי ישויות בשם — NER (Named Entity Recognition).</b> המשימה: למצוא בטקסט כל אזכור של <b>אדם</b>, <b>מקום</b>, <b>יצירה</b> (ספר, מאמר, כתב־עת) או <b>תאריך</b>, ולסמן אותו. בצד שמאל הטקסט עצמו: סמנו קטע בעכבר, ובחרו סוג בסרגל שיקפוץ. כל סימון נכתב מיד כתגית TEI בקוד שמימין — <code>persName</code>, <code>placeName</code>, <code>title</code>, <code>date</code>.
-LAB2-040	lab2	2 זיהוי·NER	text	1	תיוג ידני — הפסקה הראשונה בלבד
+LAB2-041	lab2	2 זיהוי·NER	text	1	תיוג ידני — הפסקה הראשונה בלבד
 LAB2-006	lab2	2 זיהוי·NER	strip	1	כדי להרגיש את המלאכה, סמנו ביד רק את <b>שורת התאריך ואת הפסקה הראשונה</b> של המכתב. מה יש בשורת התאריך? ובפסקה — מי האנשים? האם ״הצופה״ הוא אדם? ומה בדיוק המאמר ״א. א. קובנר״ — אדם או יצירה? את שאר המכתב נשאיר בכוונה למכונה, בשלב הבא.
-LAB2-041	lab2	2 זיהוי·NER	text	1	persName — אדם
-LAB2-042	lab2	2 זיהוי·NER	text	1	placeName — מקום
-LAB2-043	lab2	2 זיהוי·NER	text	1	title — יצירה: ספר · מאמר · כתב־עת
-LAB2-044	lab2	2 זיהוי·NER	text	1	date — תאריך
-LAB2-045	lab2	2 זיהוי·NER	text	1	קוד ה־TEI — מתעדכן עם כל סימון
-LAB2-046	lab2	2 זיהוי·NER	text	1	הטקסט — סמנו קטע בעכבר
-LAB2-047	lab2	2 זיהוי·NER	text	1	אדם
-LAB2-048	lab2	2 זיהוי·NER	text	1	מקום
-LAB2-049	lab2	2 זיהוי·NER	text	1	יצירה
-LAB2-050	lab2	2 זיהוי·NER	text	1	תאריך
-LAB2-051	lab2	2 זיהוי·NER	text	1	תיוג חצי־אוטומטי — המכונה מציעה, אתם מכריעים
-LAB2-007	lab2	2 זיהוי·NER	strip	1	עכשיו נשחרר את המכונה על שאר המכתב. כך עובד NER מבוסס־מילון: המחשב משווה את הטקסט לרשימות שמות מוכרים — כאן, השמות השכיחים שחולצו מ־4,721 מכתבי הפרויקט — ומציע מועמדים. עברו על ההצעות אחת־אחת: אשרו את הנכונות, דחו את המוטעות.
-LAB2-052	lab2	2 זיהוי·NER	text	1	סריקה אוטומטית מבוססת מילון ←
-LAB2-053	lab2	2 זיהוי·NER	text	1	הצעות המכונה — אשרו או דחו כל אחת
-LAB2-008	lab2	2 זיהוי·NER	strip	1	<b>רגע של חשבון נפש — מה למדנו על המכונה?</b><br> <b>מה היא פספסה?</b> השוו לפסקה שסימנתם ביד: ״לאמזשא״ אינו ברשימות — כתיב יידי שהמילון מעולם לא ראה. וגם ״י. ל. גארדאן״ בכתיב הישן נעלם ממנה, אף ש״גורדון״ המודרני מוכר לה היטב. מילון מזהה רק את מה שכבר ראה.<br> <b>ומה היא מצאה בטעות?</b> אלה <b>זיהויי־שווא</b>: המילון סימן ״רוסיה״ בתוך ״בשפת רוסיה״ — אבל האם המכתב מדבר כאן על <i>מקום</i>, או על שפה? המילה לבדה לא מספרת; רק <b>ההקשר</b> מכריע. זה ההבדל בין למצוא מחרוזת ובין להבין אזכור — והסיבה שגם אחרי כל אוטומציה, ההכרעה חוזרת אליכם.
-LAB2-054	lab2	2 זיהוי·NER	text	1	ניסוי השוואה: מה מודל שפה היה עושה?
-LAB2-009	lab2	2 זיהוי·NER	strip	1	מילון קורא מילים; מודל שפה קורא <b>הקשר</b>. בפרויקט אגרת את הזיהוי המלא עשה מודל שפה (Gemini) על כל 4,721 המכתבים. נסו בעצמכם: הכפתור מעתיק ללוח הנחיה מוכנה + נוסח המכתב — הדביקו בצ׳אט של מודל שפה (Gemini, ChatGPT, Claude…) והשוו את הרשימה שלו לשלכם ולשל המילון. מה הוא תפס שהמילון פספס? והאם גם הוא טעה — רק אחרת?
-LAB2-055	lab2	2 זיהוי·NER	text	1	העתקת ההנחיה + המכתב ללוח ←
-LAB2-056	lab2	2 זיהוי·NER	text	1	השמות שנמצאו — מועמדים לישויות
-LAB2-010	lab2	2 זיהוי·NER	strip	1	זהו היבול: רשימת <b>השמות</b> שסומנו, עם מספר המופעים של כל אחד. שימו לב ללשון: אלה עדיין לא ישויות — כל שם הוא בינתיים רק <b>מועמד לישות</b>. ״בריינין״ הוא מחרוזת; מי שיקבע <i>איזה</i> בריינין — זה שלב הקישור, בלשונית הבאה. לתאריכים הוסיפו כבר עכשיו ערך קריא־למכונה (<code>when</code>) בלחיצה על השבב.
-LAB2-057	lab2	2 זיהוי·NER	text	1	רשימת השמות שסומנו
-LAB2-058	lab2	2 זיהוי·NER	text	1	המשך: קישור ומאגרי זהויות ←
-LAB2-011	lab2	3 קישור	strip	1	<b>מן השם אל הישות: קישור למאגרי ידע.</b> כאן שם הופך לישות: כשאנחנו מכריעים <i>למי או למה</i> הוא מתייחס. לכל תחום יש מאגר זהויות (authority file) משלו: <b>Wikidata</b> לאנשים, ליצירות ולכל דבר אחר, <b>Kima</b> — הגזטיר ההיסטורי של שמות מקומות בכתב עברי, <b>GeoNames</b> למקומות בכלל, <b>VIAF</b> לרשומות ספרייתיות. בחרו שם מהרשימה, חפשו אותו במאגר המתאים, והכריעו: איזו רשומה היא הישות שלכם — <b>ועד כמה אתם בטוחים</b>. כל הכרעה, על רמת הוודאות שלה, נרשמת בקובץ הזהויות המקומי שלכם — ה־<code>standOff</code> שבראש המסמך.
-LAB2-059	lab2	3 קישור	text	1	קשרו את השמות שסימנתם
-LAB2-060	lab2	3 קישור	text	1	תור העבודה — לחצו על שם
-LAB2-061	lab2	3 קישור	text	1	חיפוש במאגר
-LAB2-062	lab2	3 קישור	text	1	בחרו ישות מתור העבודה שמימין.
-LAB2-063	lab2	3 קישור	text	1	קובץ הזהויות המקומי שלכם
-LAB2-012	lab2	3 קישור	strip	1	כל הכרעה נכתבת פעמיים: בגוף הטקסט — <code>ref="#pers_1"</code> על כל מופע; וברשומת זהות אחת ב־<code>standOff</code>, שאוספת את כל המזהים החיצוניים: <code>&lt;idno type="wikidata"&gt;</code>, <code>&lt;idno type="VIAF"&gt;</code>, <code>&lt;idno type="geonames"&gt;</code>… שם אחד בטקסט — ישות אחת ברשומה — מזהים רבים בעולם.
-LAB2-064	lab2	3 קישור	text	1	standOff — קובץ הזהויות
-LAB2-065	lab2	3 קישור	text	2	הורדת קובץ הזהויות ⤓
-LAB2-066	lab2	3 קישור	text	1	המסמך המלא — עם ההפניות
-LAB2-067	lab2	3 קישור	text	1	ועכשיו בקנה מידה: 4,721 מכתבים
-LAB2-013	lab2	3 קישור	strip	1	במכתב אחד הכרעתם ביד. בפרויקט אגרת חולצו <b>1,877 שמות מקומות</b> — אי אפשר להכריע יד אחר יד. מנוע ההתאמה (Kimatch) מדרג כל שם: <span class="grade grade-A">A</span> התאמה מדויקת ויחידה — מקושרת אוטומטית · <span class="grade grade-B">B</span> התאמה יחידה אך מקורבת — ראויה למבט אנושי · <span class="grade grade-C">C</span> כמה מועמדים או אף אחד — חובה אדם. לפניכם שישה שמות אמיתיים מהמאגר שקיבלו ציון C. הכריעו — ואז השוו להכרעת הפרויקט.
-LAB2-068	lab2	3 קישור	text	1	המשך: נתונים מקושרים · LOD ←
-LAB2-014	lab2	4 LOD	strip	1	<b>נתונים מקושרים — Linked Open Data.</b> ברגע שכל ישות קיבלה מזהה, המסמך חדל להיות טקסט בודד: הוא נהפך לצומת ברשת. העיקרון פשוט — כל דבר מקבל כתובת (URI), וכל קשר בין שני דברים הוא משפט בן שלושה חלקים: נושא ← יחס ← מושא. הנה המכתב שלכם, מפורק למשפטים כאלה.
-LAB2-069	lab2	4 LOD	text	1	המכתב שלכם כגרף ידע
-LAB2-070	lab2	4 LOD	text	1	בנו את הגרף מן המסמך שלי ←
-LAB2-071	lab2	4 LOD	text	1	נבנה מתוך ה־correspDesc, הישויות והקישורים שיצרתם בשלבים הקודמים
-LAB2-072	lab2	4 LOD	text	1	המשפטים — תחביר Turtle
-LAB2-073	lab2	4 LOD	text	1	הורדה ⤓
-LAB2-074	lab2	4 LOD	text	1	אותם משפטים — כתמונה
-LAB2-075	lab2	4 LOD	text	1	מה מזהה אחד קונה — שאלו את הרשת
-LAB2-015	lab2	4 LOD	strip	1	קישרתם שם ל־QID. עכשיו נלך בכיוון ההפוך: ניקח את המזהה ונשאל את Wikidata מה <i>היא</i> יודעת עליו. שימו לב מה חוזר: תאריכים, תמונה, תיאור — וגם מזהים במאגרים <i>אחרים</i> (VIAF, הספרייה הלאומית). מזהה אחד הוא מפתח לשרשרת מאגרים שלמה.
-LAB2-076	lab2	4 LOD	text	1	שאלו את Wikidata ←
-LAB2-077	lab2	4 LOD	text	1	וזה נראה כך בקנה מידה: מפת 4,721 המכתבים
-LAB2-016	lab2	4 LOD	strip	1	בפרויקט אגרת עבר כל שם־מקום את המסלול שעברתם זה עתה — NER, התאמה ב־Kimatch, הכרעה — וכל רשומת Kima נושאת קואורדינטות. התוצאה: אלפי מכתבים עבריים על מפה אחת. גודל הנקודה — מספר המכתבים. <b>המקומות שקישרתם היום מסומנים באדום.</b>
-LAB2-078	lab2	4 LOD	text	1	מפת המקומות המקושרים
-LAB2-079	lab2	4 LOD	text	1	עולם ⇄ אירופה
-LAB2-080	lab2	4 LOD	text	1	הסבב האישי — מכתב משלכם
-LAB2-017	lab2	4 LOD	strip	1	עברתם את המסלול פעם אחת, כולנו על אותו מכתב. עכשיו — מכתב <b>שלכם</b>: השם שבראש הדף מקצה לכם מכתב אמיתי מתוך 4,721 מכתבי המאגר (אותו שם ← אותו מכתב, כך שאפשר להמשיך גם בבית). תקבלו אותו עם תעודת זהות מלאה אך <b>בלי שום סימון בגוף הטקסט</b> — כל מסלול ה־NER והקישור לפניכם. שימו לב: קבלת מכתב חדש מנקה את רשימת הזהויות והתרומות של הסבב הקודם — הורידו קודם את הקבצים שלכם.
-LAB2-081	lab2	4 LOD	text	1	קבלו את המכתב שלכם ←
-LAB2-082	lab2	4 LOD	text	1	מיזוג בכיתה — הגרף המשותף
-LAB2-018	lab2	4 LOD	strip	1	כל אחד ואחת עבדו על מכתב אחר — ועכשיו הרגע של האמת: המנחה מעלה כאן את קובצי הזהויות (<code>_authority.xml</code> או <code>_tei-enriched.xml</code>) של כולם בבת אחת. אם שניים כתבו ״ווארשא״ ו״וורשה״ — הכתיב שונה, אבל המזהה זהה, והרשומות מתמזגות מעצמן. <b>המזהים עושים את המיזוג — לא הכתיב.</b> זה, במשפט אחד, כל הרעיון של נתונים מקושרים.
-LAB2-083	lab2	4 LOD	text	1	העלאת קובצי הזהויות של הקבוצה…
-LAB2-084	lab2	4 LOD	text	1	אפשר (ורצוי) לבחור את כל הקבצים בבת אחת
-LAB2-085	lab2	4 LOD	text	1	הצטרפות למארג: הורדות ותרומות
-LAB2-019	lab2	4 LOD	strip	1	המסמך שלכם מוכן להצטרף לתשתיות אמיתיות: ה־<code>correspDesc</code> המקושר הוא בדיוק הפורמט (CMIF) שאוסף שירות <a href="https://correspsearch.net" target="_blank" rel="noopener">correspSearch</a> המאגד רשתות התכתבות מכל אירופה; והכתיבים החדשים שמצאתם — כמו ״לאמזשא״ — הם תרומה לגזטיר Kima עצמו. בפרויקט אגרת נתרמו כך <b>425 כתיבים עבריים חדשים</b>.
-LAB2-086	lab2	4 LOD	text	1	הורדת ה־TEI המועשר ⤓
-LAB2-087	lab2	4 LOD	text	1	הורדת קובץ התרומות ל־Kima ⤓
-LAB2-088	lab2	4 LOD	text	1	הורדת רשומת CMIF ל־correspSearch ⤓
-LAB2-089	lab2	script	js	2	אדם
-LAB2-090	lab2	script	js	2	מקום
-LAB2-091	lab2	script	js	2	יצירה
-LAB2-092	lab2	script	js	2	ארגון
-LAB2-093	lab2	script	js	2	תאריך
-LAB2-094	lab2	script	js	1	ספר
-LAB2-095	lab2	script	js	1	מאמר
-LAB2-096	lab2	script	js	1	כתב־עת
-LAB2-097	lab2	script	js	1	ה־XML אינו תקין — תקנו אותו בלשונית 1
-LAB2-098	lab2	script	js	1	לא נמצאה הפסקה
-LAB2-099	lab2	script	js	1	הקטע חופף לסימון קיים או לא נמצא
-LAB2-100	lab2	script	js	1	<div class="pv-empty">ה־XML אינו תקין — בדקו את הקוד.</div>
-LAB2-101	lab2	script	js	1	<span>✉ מאת:
-LAB2-102	lab2	script	js	1	<span>מ־
-LAB2-103	lab2	script	js	1	<span>בתאריך
-LAB2-104	lab2	script	js	1	<span>אל:
-LAB2-105	lab2	script	js	1	<div class="pv-empty">ה־XML אינו תקין.</div>
-LAB2-106	lab2	script	js	1	כותרת
-LAB2-107	lab2	script	js	1	שולח
-LAB2-108	lab2	script	js	1	נמען
-LAB2-109	lab2	script	js	1	מקום הכתיבה
-LAB2-110	lab2	script	js	1	מחרוזת — עדיין לא ישות
-LAB2-111	lab2	script	js	1	מקור
-LAB2-112	lab2	script	js	1	<div class="cat-title">📇 הכרטיס הקטלוגי — חולץ אוטומטית מן ה־teiHeader</div><table>
-LAB2-113	lab2	script	js	1	<div class="pv-empty">ה־XML אינו תקין — תקנו בלשונית 1.</div>
-LAB2-114	lab2	script	js	1	(סביר)
-LAB2-115	lab2	script	js	1	(בספק)
-LAB2-116	lab2	script	js	1	<span class="hint">עדיין לא סומן דבר — חזרו לטקסט וסמנו.</span>
-LAB2-117	lab2	script	js	1	שמות ·
-LAB2-118	lab2	script	js	2	מופעים
-LAB2-119	lab2	script	js	1	<span class="hint">אין שמות עדיין — סמנו בלשונית 2.</span>
-LAB2-120	lab2	script	js	1	קובץ הדוגמה: א. קובנר לר. בריינין
-LAB2-121	lab2	script	js	1	הקובץ אינו נראה כמסמך TEI.
-LAB2-122	lab2	script	js	1	נטען:
-LAB2-123	lab2	script	js	1	✓ XML תקין.
-LAB2-124	lab2	script	js	1	נמצא correspDesc — הכרטיס הקטלוגי למטה.
-LAB2-125	lab2	script	js	1	לא נמצא correspDesc.
-LAB2-126	lab2	script	js	1	✗ ה־XML אינו תקין — חפשו תגית שלא נסגרה.
-LAB2-127	lab2	script	js	1	הקטע כבר מסומן (או חופף לסימון) — כדי לשנות סוג, מחקו את התגית בקוד.
-LAB2-128	lab2	script	js	1	<button class="fb-work fb-sub" data-t="work" data-level="m">ספר</button>
-LAB2-129	lab2	script	js	1	<button class="fb-work fb-sub" data-t="work" data-level="a">מאמר</button>
-LAB2-130	lab2	script	js	1	<button class="fb-work fb-sub" data-t="work" data-level="j">עיתון · כתב־עת</button>
-LAB2-131	lab2	script	js	2	✓ סומן ‎<
-LAB2-132	lab2	script	js	1	>‎. נמצאו עוד
-LAB2-133	lab2	script	js	1	מופעים זהים של «
-LAB2-134	lab2	script	js	1	<button class="btn small" id="tag-rest">לתייג את כולם</button>
-LAB2-135	lab2	script	js	1	✓ תויגו עוד
-LAB2-136	lab2	script	js	1	מופעים. כך עובד תיוג חצי־אוטומטי: החלטה אנושית אחת, יישום מכני על כל המופעים.
-LAB2-137	lab2	script	js	1	ערך קריא־למכונה עבור «
-LAB2-138	lab2	script	js	1	» (למשל 1904-02-27 או 1868):
-LAB2-139	lab2	script	js	1	הפורמט: YYYY או YYYY-MM-DD
-LAB2-140	lab2	script	js	1	✓ נוסף when="
-LAB2-141	lab2	script	js	1	" — עכשיו התאריך יושב על ציר זמן אוניברסלי (ISO 8601). זהו ה"מאגר" של תאריכים.
-LAB2-142	lab2	script	js	1	<div class="hint">המילון לא מצא מועמדים חדשים — או שכבר תייגתם הכול. מה זה אומר על שיטת המילון?</div>
-LAB2-143	lab2	script	js	1	מופעים</span>
-LAB2-144	lab2	script	js	1	<button class="btn small" data-act="ok">אשרו — תייגו הכול</button>
-LAB2-145	lab2	script	js	1	<button class="btn small" data-act="no">דחו</button>
-LAB2-146	lab2	script	js	1	» תויג ב־
-LAB2-147	lab2	script	js	1	לא נותרו מופעים חופשיים לתיוג
-LAB2-148	lab2	script	js	1	לפניך מכתב עברי משנת 1904. אתר בו את כל השמות: אנשים, מקומות, יצירות (ספרים, מאמרים, כתבי־עת) ותאריכים.
-LAB2-149	lab2	script	js	1	עבור כל שם החזר שורה בטבלה: הכתיב כפי שמופיע בטקסט · הצורה המודרנית המקובלת · הסוג · והערה קצרה על ההקשר.
-LAB2-150	lab2	script	js	1	אל תשמיט שמות בכתיב יידי או היסטורי, ואל תכלול מילים שאינן שמות (למשל שם של שפה אינו שם של מקום).
-LAB2-151	lab2	script	js	1	אחרי הטבלה, הצג את נוסח המכתב המלא כשכל שם שאיתרת מסומן בו — בתצוגה קריאה ומעוצבת, לא בקוד: אנשים בהדגשה, מקומות בהטיה, יצירות בהדגשה־והטיה, ותאריכים בקו תחתון. הוסף מקרא קצר לפני הטקסט. המכתב:
-LAB2-152	lab2	script	js	1	[נוסח המכתב יצורף אוטומטית מן העורך]
-LAB2-153	lab2	script	js	1	✓ הועתק — הדביקו בצ׳אט של מודל שפה
-LAB2-154	lab2	script	js	2	כ
-LAB2-155	lab2	script	js	2	מ
-LAB2-156	lab2	script	js	2	נ
-LAB2-157	lab2	script	js	2	פ
-LAB2-158	lab2	script	js	2	צ
-LAB2-159	lab2	script	js	1	א
-LAB2-160	lab2	script	js	1	ב
-LAB2-161	lab2	script	js	1	ג
-LAB2-162	lab2	script	js	1	ד
-LAB2-163	lab2	script	js	1	ה
-LAB2-164	lab2	script	js	1	ו
-LAB2-165	lab2	script	js	1	ז
-LAB2-166	lab2	script	js	1	ח
-LAB2-167	lab2	script	js	1	ט
-LAB2-168	lab2	script	js	1	י
-LAB2-169	lab2	script	js	1	ל
-LAB2-170	lab2	script	js	1	ס
-LAB2-171	lab2	script	js	1	ע
-LAB2-172	lab2	script	js	1	ק
-LAB2-173	lab2	script	js	1	ר
-LAB2-174	lab2	script	js	1	ש
-LAB2-175	lab2	script	js	1	ת
-LAB2-176	lab2	script	js	1	התאמה מדויקת לכתיב רשום
-LAB2-177	lab2	script	js	1	כתיב רשום — אך על יותר ממקום אחד
-LAB2-178	lab2	script	js	1	דמיון כתיב
-LAB2-179	lab2	script	js	1	התאמה פונטית (שלד עיצורים)
-LAB2-180	lab2	script	js	1	תאריך:
-LAB2-181	lab2	script	js	1	<div class="hint">תאריכים אינם זקוקים למאגר חיצוני: המזהה שלהם הוא הערך התקני עצמו — <code>when="1904-02-27"</code> בתקן ISO 8601. אם טרם מילאתם אותו, לחצו על השבב בלשונית 2. זה מה שמציב את המכתב על ציר זמן אחד עם כל מסמך אחר בעולם.</div>
-LAB2-182	lab2	script	js	1	חיפוש בגזטיר Kima —
-LAB2-183	lab2	script	js	1	חיפוש ב־Wikidata —
-LAB2-184	lab2	script	js	1	<button class="btn primary" id="q-go">חיפוש ←</button>
-LAB2-185	lab2	script	js	1	Kima מכיר כתיבים היסטוריים רבים — אבל לא את כולם. אם החיפוש המדויק ייכשל, המנוע ינסה התאמה קירובית.
-LAB2-186	lab2	script	js	1	ליצירות היסטוריות רבות — ובהן ״הצופה״ של 1904 וספרי קובנר — אין עדיין רשומה ב־Wikidata. אם לא נמצא: ״רשמו כישות מקומית״ — הרשומה המקומית שלכם היא־היא תעודת הזהות שלהן, וייתכן שתתרמו אותה יום אחד למאגר העולמי.
-LAB2-187	lab2	script	js	1	טיפ: מאגרי זהויות מדברים עברית מודרנית. אם הכתיב שבמכתב לא נמצא — נסו לנרמל אותו (למשל ״גאגאל״ ← ״גוגול״). זה בדיוק האתגר בטקסטים היסטוריים.
-LAB2-188	lab2	script	js	1	<span class="hint">עד כמה אתם בטוחים בהכרעה?</span>
-LAB2-189	lab2	script	js	1	<button data-cert="high" class="active">ודאי</button>
-LAB2-190	lab2	script	js	1	<button data-cert="medium">סביר</button>
-LAB2-191	lab2	script	js	1	<button data-cert="low">בספק</button>
-LAB2-192	lab2	script	js	1	<span class="hint">— נרשם כ־<code>cert</code> על המזהה</span>
-LAB2-193	lab2	script	js	1	<div class="cand"><div class="c-desc">לא נמצא — גם לא בקירוב. שתי אפשרויות: (א) זה מקום שאינו יישוב — לגזטיר של יישובים יש גבולות (נסו ״אירופא״…); (ב) זה כתיב או מקום שחסר ב־Kima — תגלית! סמנו אותו כתרומה עתידית.</div>
-LAB2-194	lab2	script	js	1	<button class="btn small" data-noext="1">רשמו כישות מקומית בלבד</button></div>
-LAB2-195	lab2	script	js	1	התאמה מדויקת · דרגה A
-LAB2-196	lab2	script	js	1	כתיב רשום על כמה מקומות — הכרעה אנושית · דרגה C
-LAB2-197	lab2	script	js	1	לא נמצא כתיב מדויק — מועמדים קירוביים · דרגה B
-LAB2-198	lab2	script	js	1	">זו הישות ←</button>
-LAB2-199	lab2	script	js	2	<button class="btn small" data-noext="1" style="margin-top:2px">אף אחד מהם — רשמו כישות מקומית בלבד</button>
-LAB2-200	lab2	script	js	1	<div class="hint">מחפש ב־Wikidata…</div>
-LAB2-201	lab2	script	js	1	לא נמצא. נסו כתיב אחר — שם מלא, כתיב מודרני, או צורה מקובלת אחרת.
-LAB2-202	lab2	script	js	1	אין חיבור לרשת — ואין תוצאה שמורה לכתיב הזה. נסו את הכתיב המודרני המלא.
-LAB2-203	lab2	script	js	1	</div><button class="btn small" data-noext="1">רשמו כישות מקומית בלבד</button></div>
-LAB2-204	lab2	script	js	1	<div class="hint" style="margin-bottom:6px">⚠ מצב לא־מקוון — תוצאות שמורות מראש</div>
-LAB2-205	lab2	script	js	1	(ללא תיאור)
-LAB2-206	lab2	script	js	1	">זו הישות ←</button></div></div>
-LAB2-207	lab2	script	js	1	). מושך מזהים נוספים מן הרשת…
-LAB2-208	lab2	script	js	1	· ומזהה אחד גרר עוד:
-LAB2-209	lab2	script	js	1	— שרשרת המאגרים בפעולה.
-LAB2-210	lab2	script	js	1	benyehuda.org/read/40830 · סדנת אגרת
-LAB2-211	lab2	script	js	1	<br>🎁 <b>מצאתם כתיב ש־Kima אינו מכיר!</b> «
-LAB2-212	lab2	script	js	1	» נרשם בקובץ התרומות — בדיוק כך נתרמו לפרויקט 425 כתיבים חדשים.
-LAB2-213	lab2	script	js	1	» נרשם כישות <b>מקומית</b> —
-LAB2-214	lab2	script	js	1	. גם בלי מזהה חיצוני יש לו עכשיו זהות אחת בקובץ שלכם: כל המופעים מצביעים לרשומה אחת. מאגר עולמי מתחיל כך בדיוק.
-LAB2-215	lab2	script	js	1	נולד
-LAB2-216	lab2	script	js	1	· נפטר
-LAB2-217	lab2	script	js	1	<span style="color:var(--muted)">— עדיין ריק. קשרו ישות ראשונה ותראו אותה נרשמת כאן. —</span>
-LAB2-218	lab2	script	js	1	<div class="d-title">🎁 קובץ התרומות שלכם ל־Kima —
-LAB2-219	lab2	script	js	1	כתיבים חדשים</div><ul>
-LAB2-220	lab2	script	js	1	</ul><div class="hint">בעולם האמיתי הקובץ הזה נמסר לצוות Kima לבדיקה — התרומה הקטנה ביותר למאגר משותף היא כתיב שרק אתם ראיתם.</div>
-LAB2-221	lab2	script	js	1	אודיסא
-LAB2-222	lab2	script	js	1	אותו שם — שלוש יבשות. ההקשר מכריע: מכתבים עבריים סביב 1900 · והפרויקט אכן קישר לאודסה שעל הים השחור, על 820 מכתבים.
-LAB2-223	lab2	script	js	1	ירושלים
-LAB2-224	lab2	script	js	1	כאן כל המועמדים הם ״אותו מקום״ — בשכבות היסטוריות שונות (סנג׳ק עות׳מאני, ממלכה צלבנית, העיר של היום). הגזטיר ההיסטורי מבחין ביניהן בכוונה.
-LAB2-225	lab2	script	js	1	וורשה
-LAB2-226	lab2	script	js	1	שימו לב למלכודת: בין המועמדים מסתתרת פולין המדינה, ומחוז ורשה, ודוכסות ורשה — היררכיה שלמה חולקת שם אחד.
-LAB2-227	lab2	script	js	1	רוסיה
-LAB2-228	lab2	script	js	1	מדינה בגזטיר של יישובים — שאלת גבולות הסכֵמה. הפרויקט השאיר את השם הזה בתור הבדיקה האנושית.
-LAB2-229	lab2	script	js	1	קושטא
-LAB2-230	lab2	script	js	1	שם היסטורי עברי לעיר שנקראת היום איסטנבול. הרשומה הנכונה היא העיר — גם אם שמה הראשי שונה.
-LAB2-231	lab2	script	js	1	בריסק
-LAB2-232	lab2	script	js	1	בריסק דליטא של הספרות הרבנית היא Brest שבבלארוס — לא Brest שבצרפת. פונטיקה בלבד לא תכריע כאן; ידע היסטורי כן.
-LAB2-233	lab2	script	js	1	<span class="grade grade-C">C · דרוש אדם</span>
-LAB2-234	lab2	script	js	1	מכתבים תלויים בהכרעה</span></div>
-LAB2-235	lab2	script	js	1	<button class="q-cand" data-k="none">אף אחד מהם</button></div>
-LAB2-236	lab2	script	js	1	✅ <b>כמו הפרויקט.</b>
-LAB2-237	lab2	script	js	1	🤔 <b>הפרויקט הכריע אחרת:</b>
-LAB2-238	lab2	script	js	1	בפרויקט אגרת קושר השם ל־<b>
-LAB2-239	lab2	script	js	1	📌 בפרויקט השם הזה נותר בתור הבדיקה — יש שאלות שגם המנוע לא מכריע.
-LAB2-240	lab2	script	js	1	<div class="pv-empty" style="padding:20px">קשרו ישויות בלשונית 3 — והגרף יופיע כאן.</div>
-LAB2-241	lab2	script	js	1	" text-anchor="middle" font-family="Heebo" font-weight="700" font-size="12" fill="#fff">המכתב</text>
-LAB2-242	lab2	script	js	1	✓ נבנה גרף עם
-LAB2-243	lab2	script	js	1	ישויות. כל שורת owl:sameAs היא גשר למאגר עולמי.
-LAB2-244	lab2	script	js	1	הגרף ריק כמעט — חזרו ללשונית 3 וקשרו ישויות, ואז בנו שוב.
-LAB2-245	lab2	script	js	1	<option value="">— קשרו קודם ישות ל־Wikidata בלשונית 3 —</option>
-LAB2-246	lab2	script	js	1	<div class="hint">אין עדיין ישות מקושרת ל־Wikidata.</div>
-LAB2-247	lab2	script	js	1	<div class="hint">שואל את Wikidata על
-LAB2-248	lab2	script	js	1	" target="_blank" rel="noopener">הספרייה הלאומית</a>
-LAB2-249	lab2	script	js	1	<div class="hint" style="margin-top:8px">כל מה שכאן הגיע ממזהה אחד. לא הקלדנו ביוגרפיה — שאלנו את הרשת.</div>
-LAB2-250	lab2	script	js	1	מכתבים</title></circle>
-LAB2-251	lab2	script	js	1	— קושר על ידכם</title></circle>
-LAB2-252	lab2	script	js	1	מכתב
-LAB2-253	lab2	script	js	1	<p>קידוד תרגול — סדנת אגרת</p>
-LAB2-254	lab2	script	js	1	<bibl>פרויקט בן־יהודה,
-LAB2-255	lab2	script	js	1	במסמך הנוכחי יש כבר סימונים. לקבל מכתב חדש ולנקות את רשימת הזהויות? (הורידו קודם את הקבצים שלכם אם טרם עשיתם זאת)
-LAB2-256	lab2	script	js	1	המכתב האישי:
-LAB2-257	lab2	script	js	1	המכתב שלכם: <b>
-LAB2-258	lab2	script	js	1	" target="_blank" rel="noopener" style="color:var(--teal)">במקור</a>
-LAB2-259	lab2	script	js	1	✉ קיבלתם את «
-LAB2-260	lab2	script	js	1	» — תעודת הזהות מלאה, הטקסט נקי מסימונים. כל המסלול שלכם: זיהוי ← קישור ← הורדה. (חזרה למכתב של קובנר: ״חזרה לקובץ הדוגמה״ בלשונית 1.)
-LAB2-261	lab2	script	js	1	<div class="status err" style="display:block">לא נמצאו רשומות זהות בקבצים — ודאו שאלה קובצי ה־authority או ה־TEI המועשר שהורדו מהמעבדה.</div>
-LAB2-262	lab2	script	js	1	קבצים ·
-LAB2-263	lab2	script	js	1	רשומות ← <b>
-LAB2-264	lab2	script	js	1	ישויות</b>
-LAB2-265	lab2	script	js	1	— שימו לב לשורות הירוקות: כתיבים שונים, ישות אחת.
-LAB2-266	lab2	script	js	1	<table class="merge"><tr><th>ישות</th><th>סוג</th><th>הכתיבים שנמצאו</th><th>מי</th><th>מזהים</th></tr>
-LAB2-267	lab2	script	js	1	רשומות מקומיות</b> נשארו בלתי־ממוזגות — בלי מזהה חיצוני אין למחשב דרך לדעת ששתי רשומות הן אותה ישות. זה בדיוק מה שמזהה קונה.</div>
-LAB2-268	lab2	script	js	1	⚠ לפני ההורדה — כתבו את שמכם בשדה שבראש הדף. השם נכנס לקובץ ולשם הקובץ: כך יודעים, גם בעוד שנה, מי קידד ומי הכריע.
-LAB2-269	lab2	script	js	1	<respStmt> <resp>תיוג, זיהוי ישויות וקישור</resp> <name>
-LAB2-270	lab2	script	js	1	<?xml version="1.0" encoding="UTF-8"?> <!-- קובץ הזהויות של
-LAB2-271	lab2	script	js	1	· סדנת אגרת -->
+LAB2-042	lab2	2 זיהוי·NER	text	1	persName — אדם
+LAB2-043	lab2	2 זיהוי·NER	text	1	placeName — מקום
+LAB2-044	lab2	2 זיהוי·NER	text	1	title — יצירה: ספר · מאמר · כתב־עת
+LAB2-045	lab2	2 זיהוי·NER	text	1	date — תאריך
+LAB2-046	lab2	2 זיהוי·NER	text	1	קוד ה־TEI — מתעדכן עם כל סימון
+LAB2-047	lab2	2 זיהוי·NER	text	1	הטקסט — סמנו קטע בעכבר
+LAB2-048	lab2	2 זיהוי·NER	text	1	אדם
+LAB2-049	lab2	2 זיהוי·NER	text	1	מקום
+LAB2-050	lab2	2 זיהוי·NER	text	1	יצירה
+LAB2-051	lab2	2 זיהוי·NER	text	1	תאריך
+LAB2-052	lab2	2 זיהוי·NER	text	1	מן התיוג אל הניתוח — שאילתה ראשונה
+LAB2-007	lab2	2 זיהוי·NER	strip	1	<b>למה בכלל לתייג? כי תיוג מאפשר ניתוח.</b> ברגע שהשמות עטופים בתגיות, הטקסט אינו רק מילים — הוא נתונים, ואפשר להפנות אליו שאלות. הביטוי שלמטה כתוב ב־<b>XPath</b>, שפת השאילתות של XML: ״תן לי כל תגית כזו־וכזו, בכל מקום בגוף המסמך״ — וזו בדיוק השאילתה שהדף מריץ כשלוחצים על הכפתור. בחרו מה לשלוף, הריצו, וקבלו את היבול ממוין לפי שכיחות. ועכשיו דמיינו את אותה שאילתה רצה לא על מכתב אחד — אלא על אלפים.
+LAB2-053	lab2	2 זיהוי·NER	text	1	כל השמות
+LAB2-054	lab2	2 זיהוי·NER	text	1	אנשים
+LAB2-055	lab2	2 זיהוי·NER	text	1	מקומות
+LAB2-056	lab2	2 זיהוי·NER	text	1	יצירות
+LAB2-057	lab2	2 זיהוי·NER	text	1	תאריכים
+LAB2-058	lab2	2 זיהוי·NER	text	1	הריצו את השאילתה ←
+LAB2-059	lab2	2 זיהוי·NER	text	1	תוצאת השאילתה
+LAB2-060	lab2	2 זיהוי·NER	text	1	תיוג חצי־אוטומטי — המכונה מציעה, אתם מכריעים
+LAB2-008	lab2	2 זיהוי·NER	strip	1	עכשיו נשחרר את המכונה על שאר המכתב. כך עובד NER מבוסס־מילון: המחשב משווה את הטקסט לרשימות שמות מוכרים — ומניין רשימות כאלה? בדיוק מהתהליך שראיתם זה עתה: שאילתות כמו שלכם, שהופעלו מראש על אוסף גדול של מכתבים מתויגים, אספו אוצר של שמות — ובו, בין השאר, קבוצה גדולה של שמות מקומות. המחשב משווה את הטקסט לאוצר הזה ומציע מועמדים. עברו על ההצעות אחת־אחת: אשרו את הנכונות, דחו את המוטעות.
+LAB2-061	lab2	2 זיהוי·NER	text	1	סריקה אוטומטית מבוססת מילון ←
+LAB2-062	lab2	2 זיהוי·NER	text	1	הצעות המכונה — אשרו או דחו כל אחת
+LAB2-009	lab2	2 זיהוי·NER	strip	1	<b>רגע של חשבון נפש — מה למדנו על המכונה?</b><br> <b>מה היא פספסה?</b> השוו לפסקה שסימנתם ביד: ״לאמזשא״ אינו ברשימות — כתיב יידי שהמילון מעולם לא ראה. וגם ״י. ל. גארדאן״ בכתיב הישן נעלם ממנה, אף ש״גורדון״ המודרני מוכר לה היטב. מילון מזהה רק את מה שכבר ראה.<br> <b>ומה היא מצאה בטעות?</b> אלה <b>זיהויי־שווא</b>: המילון סימן ״רוסיה״ בתוך ״בשפת רוסיה״ — אבל האם המכתב מדבר כאן על <i>מקום</i>, או על שפה? המילה לבדה לא מספרת; רק <b>ההקשר</b> מכריע. זה ההבדל בין למצוא מחרוזת ובין להבין אזכור — והסיבה שגם אחרי כל אוטומציה, ההכרעה חוזרת אליכם.
+LAB2-063	lab2	2 זיהוי·NER	text	1	ניסוי השוואה: מה מודל שפה היה עושה?
+LAB2-010	lab2	2 זיהוי·NER	strip	1	מילון קורא מילים; מודל שפה קורא <b>הקשר</b>. בפרויקט אגרת את הזיהוי המלא עשה מודל שפה (Gemini) על כל 4,721 המכתבים. נסו בעצמכם: הכפתור מעתיק ללוח הנחיה מוכנה + נוסח המכתב — הדביקו בצ׳אט של מודל שפה (Gemini, ChatGPT, Claude…) והשוו את הרשימה שלו לשלכם ולשל המילון. מה הוא תפס שהמילון פספס? והאם גם הוא טעה — רק אחרת?
+LAB2-064	lab2	2 זיהוי·NER	text	1	העתקת ההנחיה + המכתב ללוח ←
+LAB2-065	lab2	2 זיהוי·NER	text	1	השמות שנמצאו — מועמדים לישויות
+LAB2-011	lab2	2 זיהוי·NER	strip	1	זהו היבול: רשימת <b>השמות</b> שסומנו, עם מספר המופעים של כל אחד. שימו לב ללשון: אלה עדיין לא ישויות — כל שם הוא בינתיים רק <b>מועמד לישות</b>. ״בריינין״ הוא מחרוזת; מי שיקבע <i>איזה</i> בריינין — זה שלב הקישור, בלשונית הבאה. לתאריכים הוסיפו כבר עכשיו ערך קריא־למכונה (<code>when</code>) בלחיצה על השבב.
+LAB2-066	lab2	2 זיהוי·NER	text	1	רשימת השמות שסומנו
+LAB2-067	lab2	2 זיהוי·NER	text	1	המשך: קישור ומאגרי זהויות ←
+LAB2-012	lab2	3 קישור	strip	1	<b>מן השם אל הישות: קישור למאגרי ידע.</b> כאן שם הופך לישות: כשאנחנו מכריעים <i>למי או למה</i> הוא מתייחס. לכל תחום יש מאגר זהויות (authority file) משלו: <b>Wikidata</b> לאנשים, ליצירות ולכל דבר אחר, <b>Kima</b> — הגזטיר ההיסטורי של שמות מקומות בכתב עברי, <b>GeoNames</b> למקומות בכלל, <b>VIAF</b> לרשומות ספרייתיות. בחרו שם מהרשימה, חפשו אותו במאגר המתאים, והכריעו: איזו רשומה היא הישות שלכם — <b>ועד כמה אתם בטוחים</b>. כל הכרעה, על רמת הוודאות שלה, נרשמת בקובץ הזהויות המקומי שלכם — ה־<code>standOff</code> שבראש המסמך.
+LAB2-068	lab2	3 קישור	text	1	קשרו את השמות שסימנתם
+LAB2-069	lab2	3 קישור	text	1	תור העבודה — לחצו על שם
+LAB2-070	lab2	3 קישור	text	1	חיפוש במאגר
+LAB2-071	lab2	3 קישור	text	1	בחרו ישות מתור העבודה שמימין.
+LAB2-072	lab2	3 קישור	text	1	קובץ הזהויות המקומי שלכם
+LAB2-013	lab2	3 קישור	strip	1	כל הכרעה נכתבת פעמיים: בגוף הטקסט — <code>ref="#pers_1"</code> על כל מופע; וברשומת זהות אחת ב־<code>standOff</code>, שאוספת את כל המזהים החיצוניים: <code>&lt;idno type="wikidata"&gt;</code>, <code>&lt;idno type="VIAF"&gt;</code>, <code>&lt;idno type="geonames"&gt;</code>… שם אחד בטקסט — ישות אחת ברשומה — מזהים רבים בעולם.
+LAB2-073	lab2	3 קישור	text	1	standOff — קובץ הזהויות
+LAB2-074	lab2	3 קישור	text	2	הורדת קובץ הזהויות ⤓
+LAB2-075	lab2	3 קישור	text	1	המסמך המלא — עם ההפניות
+LAB2-076	lab2	3 קישור	text	1	ועכשיו בקנה מידה: 4,721 מכתבים
+LAB2-014	lab2	3 קישור	strip	1	במכתב אחד הכרעתם ביד. בפרויקט אגרת חולצו <b>1,877 שמות מקומות</b> — אי אפשר להכריע יד אחר יד. מנוע ההתאמה (Kimatch) מדרג כל שם: <span class="grade grade-A">A</span> התאמה מדויקת ויחידה — מקושרת אוטומטית · <span class="grade grade-B">B</span> התאמה יחידה אך מקורבת — ראויה למבט אנושי · <span class="grade grade-C">C</span> כמה מועמדים או אף אחד — חובה אדם. לפניכם שישה שמות אמיתיים מהמאגר שקיבלו ציון C. הכריעו — ואז השוו להכרעת הפרויקט.
+LAB2-077	lab2	3 קישור	text	1	המשך: נתונים מקושרים · LOD ←
+LAB2-015	lab2	4 LOD	strip	1	<b>נתונים מקושרים — Linked Open Data.</b> ברגע שכל ישות קיבלה מזהה, המסמך חדל להיות טקסט בודד: הוא נהפך לצומת ברשת. העיקרון פשוט — כל דבר מקבל כתובת (URI), וכל קשר בין שני דברים הוא משפט בן שלושה חלקים: נושא ← יחס ← מושא. הנה המכתב שלכם, מפורק למשפטים כאלה.
+LAB2-078	lab2	4 LOD	text	1	המכתב שלכם כגרף ידע
+LAB2-079	lab2	4 LOD	text	1	בנו את הגרף מן המסמך שלי ←
+LAB2-080	lab2	4 LOD	text	1	נבנה מתוך ה־correspDesc, הישויות והקישורים שיצרתם בשלבים הקודמים
+LAB2-081	lab2	4 LOD	text	1	המשפטים — תחביר Turtle
+LAB2-082	lab2	4 LOD	text	1	הורדה ⤓
+LAB2-083	lab2	4 LOD	text	1	אותם משפטים — כתמונה
+LAB2-084	lab2	4 LOD	text	1	מה מזהה אחד קונה — שאלו את הרשת
+LAB2-016	lab2	4 LOD	strip	1	קישרתם שם ל־QID. עכשיו נלך בכיוון ההפוך: ניקח את המזהה ונשאל את Wikidata מה <i>היא</i> יודעת עליו. שימו לב מה חוזר: תאריכים, תמונה, תיאור — וגם מזהים במאגרים <i>אחרים</i> (VIAF, הספרייה הלאומית). מזהה אחד הוא מפתח לשרשרת מאגרים שלמה.
+LAB2-085	lab2	4 LOD	text	1	שאלו את Wikidata ←
+LAB2-086	lab2	4 LOD	text	1	וזה נראה כך בקנה מידה: מפת 4,721 המכתבים
+LAB2-017	lab2	4 LOD	strip	1	בפרויקט אגרת עבר כל שם־מקום את המסלול שעברתם זה עתה — NER, התאמה ב־Kimatch, הכרעה — וכל רשומת Kima נושאת קואורדינטות. התוצאה: אלפי מכתבים עבריים על מפה אחת. גודל הנקודה — מספר המכתבים. <b>המקומות שקישרתם היום מסומנים באדום.</b>
+LAB2-087	lab2	4 LOD	text	1	מפת המקומות המקושרים
+LAB2-088	lab2	4 LOD	text	1	עולם ⇄ אירופה
+LAB2-089	lab2	4 LOD	text	1	הסבב האישי — מכתב משלכם
+LAB2-018	lab2	4 LOD	strip	1	עברתם את המסלול פעם אחת, כולנו על אותו מכתב. עכשיו — מכתב <b>שלכם</b>: השם שבראש הדף מקצה לכם מכתב אמיתי מתוך 4,721 מכתבי המאגר (אותו שם ← אותו מכתב, כך שאפשר להמשיך גם בבית). תקבלו אותו עם תעודת זהות מלאה אך <b>בלי שום סימון בגוף הטקסט</b> — כל מסלול ה־NER והקישור לפניכם. שימו לב: קבלת מכתב חדש מנקה את רשימת הזהויות והתרומות של הסבב הקודם — הורידו קודם את הקבצים שלכם.
+LAB2-090	lab2	4 LOD	text	1	קבלו את המכתב שלכם ←
+LAB2-091	lab2	4 LOD	text	1	מיזוג בכיתה — הגרף המשותף
+LAB2-019	lab2	4 LOD	strip	1	כל אחד ואחת עבדו על מכתב אחר — ועכשיו הרגע של האמת: המנחה מעלה כאן את קובצי הזהויות (<code>_authority.xml</code> או <code>_tei-enriched.xml</code>) של כולם בבת אחת. אם שניים כתבו ״ווארשא״ ו״וורשה״ — הכתיב שונה, אבל המזהה זהה, והרשומות מתמזגות מעצמן. <b>המזהים עושים את המיזוג — לא הכתיב.</b> זה, במשפט אחד, כל הרעיון של נתונים מקושרים.
+LAB2-092	lab2	4 LOD	text	1	העלאת קובצי הזהויות של הקבוצה…
+LAB2-093	lab2	4 LOD	text	1	אפשר (ורצוי) לבחור את כל הקבצים בבת אחת
+LAB2-094	lab2	4 LOD	text	1	הצטרפות למארג: הורדות ותרומות
+LAB2-020	lab2	4 LOD	strip	1	המסמך שלכם מוכן להצטרף לתשתיות אמיתיות: ה־<code>correspDesc</code> המקושר הוא בדיוק הפורמט (CMIF) שאוסף שירות <a href="https://correspsearch.net" target="_blank" rel="noopener">correspSearch</a> המאגד רשתות התכתבות מכל אירופה; והכתיבים החדשים שמצאתם — כמו ״לאמזשא״ — הם תרומה לגזטיר Kima עצמו. בפרויקט אגרת נתרמו כך <b>425 כתיבים עבריים חדשים</b>.
+LAB2-095	lab2	4 LOD	text	1	הורדת ה־TEI המועשר ⤓
+LAB2-096	lab2	4 LOD	text	1	הורדת קובץ התרומות ל־Kima ⤓
+LAB2-097	lab2	4 LOD	text	1	הורדת רשומת CMIF ל־correspSearch ⤓
+LAB2-098	lab2	script	js	2	אדם
+LAB2-099	lab2	script	js	2	מקום
+LAB2-100	lab2	script	js	2	יצירה
+LAB2-101	lab2	script	js	2	ארגון
+LAB2-102	lab2	script	js	2	תאריך
+LAB2-103	lab2	script	js	1	ספר
+LAB2-104	lab2	script	js	1	מאמר
+LAB2-105	lab2	script	js	1	כתב־עת
+LAB2-106	lab2	script	js	1	ה־XML אינו תקין — תקנו אותו בלשונית 1
+LAB2-107	lab2	script	js	1	לא נמצאה הפסקה
+LAB2-108	lab2	script	js	1	הקטע חופף לסימון קיים או לא נמצא
+LAB2-109	lab2	script	js	1	<div class="pv-empty">ה־XML אינו תקין — בדקו את הקוד.</div>
+LAB2-110	lab2	script	js	1	<span>✉ מאת:
+LAB2-111	lab2	script	js	1	<span>מ־
+LAB2-112	lab2	script	js	1	<span>בתאריך
+LAB2-113	lab2	script	js	1	<span>אל:
+LAB2-114	lab2	script	js	1	<div class="pv-empty">ה־XML אינו תקין.</div>
+LAB2-115	lab2	script	js	1	כותרת
+LAB2-116	lab2	script	js	1	שולח
+LAB2-117	lab2	script	js	1	נמען
+LAB2-118	lab2	script	js	1	מקום הכתיבה
+LAB2-119	lab2	script	js	1	מחרוזת — עדיין לא ישות
+LAB2-120	lab2	script	js	1	מקור
+LAB2-121	lab2	script	js	1	<div class="cat-title">📇 הכרטיס הקטלוגי — חולץ אוטומטית מן ה־teiHeader</div><table>
+LAB2-122	lab2	script	js	1	<div class="pv-empty">ה־XML אינו תקין — תקנו בלשונית 1.</div>
+LAB2-123	lab2	script	js	1	(סביר)
+LAB2-124	lab2	script	js	1	(בספק)
+LAB2-125	lab2	script	js	1	<span class="hint">עדיין לא סומן דבר — חזרו לטקסט וסמנו.</span>
+LAB2-126	lab2	script	js	1	שמות ·
+LAB2-127	lab2	script	js	2	מופעים
+LAB2-128	lab2	script	js	1	<span class="hint">אין שמות עדיין — סמנו בלשונית 2.</span>
+LAB2-129	lab2	script	js	1	קובץ הדוגמה: א. קובנר לר. בריינין
+LAB2-130	lab2	script	js	1	הקובץ אינו נראה כמסמך TEI.
+LAB2-131	lab2	script	js	1	נטען:
+LAB2-132	lab2	script	js	1	✓ XML תקין.
+LAB2-133	lab2	script	js	1	נמצא correspDesc — הכרטיס הקטלוגי למטה.
+LAB2-134	lab2	script	js	1	לא נמצא correspDesc.
+LAB2-135	lab2	script	js	1	✗ ה־XML אינו תקין — חפשו תגית שלא נסגרה.
+LAB2-136	lab2	script	js	1	הקטע כבר מסומן (או חופף לסימון) — כדי לשנות סוג, מחקו את התגית בקוד.
+LAB2-137	lab2	script	js	1	<button class="fb-work fb-sub" data-t="work" data-level="m">ספר</button>
+LAB2-138	lab2	script	js	1	<button class="fb-work fb-sub" data-t="work" data-level="a">מאמר</button>
+LAB2-139	lab2	script	js	1	<button class="fb-work fb-sub" data-t="work" data-level="j">עיתון · כתב־עת</button>
+LAB2-140	lab2	script	js	2	✓ סומן ‎<
+LAB2-141	lab2	script	js	1	>‎. נמצאו עוד
+LAB2-142	lab2	script	js	1	מופעים זהים של «
+LAB2-143	lab2	script	js	1	<button class="btn small" id="tag-rest">לתייג את כולם</button>
+LAB2-144	lab2	script	js	1	✓ תויגו עוד
+LAB2-145	lab2	script	js	1	מופעים. כך עובד תיוג חצי־אוטומטי: החלטה אנושית אחת, יישום מכני על כל המופעים.
+LAB2-146	lab2	script	js	1	ערך קריא־למכונה עבור «
+LAB2-147	lab2	script	js	1	» (למשל 1904-02-27 או 1868):
+LAB2-148	lab2	script	js	1	הפורמט: YYYY או YYYY-MM-DD
+LAB2-149	lab2	script	js	1	✓ נוסף when="
+LAB2-150	lab2	script	js	1	" — עכשיו התאריך יושב על ציר זמן אוניברסלי (ISO 8601). זהו ה"מאגר" של תאריכים.
+LAB2-151	lab2	script	js	1	<span class="hint">ה־XML אינו תקין — תקנו בלשונית 1.</span>
+LAB2-152	lab2	script	js	1	<span class="hint">אפס תוצאות — בגוף המכתב עדיין אין תגיות כאלה. חזרו לשלב 1, סמנו, והריצו שוב: שאילתה טובה רק כמו התיוג שמתחתיה.</span>
+LAB2-153	lab2	script	js	1	תגיות ·
+LAB2-154	lab2	script	js	1	ערכים שונים · ממוין לפי שכיחות
+LAB2-155	lab2	script	js	1	<div class="hint">המילון לא מצא מועמדים חדשים — או שכבר תייגתם הכול. מה זה אומר על שיטת המילון?</div>
+LAB2-156	lab2	script	js	1	מופעים</span>
+LAB2-157	lab2	script	js	1	<button class="btn small" data-act="ok">אשרו — תייגו הכול</button>
+LAB2-158	lab2	script	js	1	<button class="btn small" data-act="no">דחו</button>
+LAB2-159	lab2	script	js	1	» תויג ב־
+LAB2-160	lab2	script	js	1	לא נותרו מופעים חופשיים לתיוג
+LAB2-161	lab2	script	js	1	לפניך מכתב עברי משנת 1904. אתר בו את כל השמות: אנשים, מקומות, יצירות (ספרים, מאמרים, כתבי־עת) ותאריכים.
+LAB2-162	lab2	script	js	1	עבור כל שם החזר שורה בטבלה: הכתיב כפי שמופיע בטקסט · הצורה המודרנית המקובלת · הסוג · והערה קצרה על ההקשר.
+LAB2-163	lab2	script	js	1	אל תשמיט שמות בכתיב יידי או היסטורי, ואל תכלול מילים שאינן שמות (למשל שם של שפה אינו שם של מקום).
+LAB2-164	lab2	script	js	1	אחרי הטבלה, הצג את נוסח המכתב המלא כשכל שם שאיתרת מסומן בו — בתצוגה קריאה ומעוצבת, לא בקוד: אנשים בהדגשה, מקומות בהטיה, יצירות בהדגשה־והטיה, ותאריכים בקו תחתון. הוסף מקרא קצר לפני הטקסט. המכתב:
+LAB2-165	lab2	script	js	1	[נוסח המכתב יצורף אוטומטית מן העורך]
+LAB2-166	lab2	script	js	1	✓ הועתק — הדביקו בצ׳אט של מודל שפה
+LAB2-167	lab2	script	js	2	כ
+LAB2-168	lab2	script	js	2	מ
+LAB2-169	lab2	script	js	2	נ
+LAB2-170	lab2	script	js	2	פ
+LAB2-171	lab2	script	js	2	צ
+LAB2-172	lab2	script	js	1	א
+LAB2-173	lab2	script	js	1	ב
+LAB2-174	lab2	script	js	1	ג
+LAB2-175	lab2	script	js	1	ד
+LAB2-176	lab2	script	js	1	ה
+LAB2-177	lab2	script	js	1	ו
+LAB2-178	lab2	script	js	1	ז
+LAB2-179	lab2	script	js	1	ח
+LAB2-180	lab2	script	js	1	ט
+LAB2-181	lab2	script	js	1	י
+LAB2-182	lab2	script	js	1	ל
+LAB2-183	lab2	script	js	1	ס
+LAB2-184	lab2	script	js	1	ע
+LAB2-185	lab2	script	js	1	ק
+LAB2-186	lab2	script	js	1	ר
+LAB2-187	lab2	script	js	1	ש
+LAB2-188	lab2	script	js	1	ת
+LAB2-189	lab2	script	js	1	התאמה מדויקת לכתיב רשום
+LAB2-190	lab2	script	js	1	כתיב רשום — אך על יותר ממקום אחד
+LAB2-191	lab2	script	js	1	דמיון כתיב
+LAB2-192	lab2	script	js	1	התאמה פונטית (שלד עיצורים)
+LAB2-193	lab2	script	js	1	תאריך:
+LAB2-194	lab2	script	js	1	<div class="hint">תאריכים אינם זקוקים למאגר חיצוני: המזהה שלהם הוא הערך התקני עצמו — <code>when="1904-02-27"</code> בתקן ISO 8601. אם טרם מילאתם אותו, לחצו על השבב בלשונית 2. זה מה שמציב את המכתב על ציר זמן אחד עם כל מסמך אחר בעולם.</div>
+LAB2-195	lab2	script	js	1	חיפוש בגזטיר Kima —
+LAB2-196	lab2	script	js	1	חיפוש ב־Wikidata —
+LAB2-197	lab2	script	js	1	<button class="btn primary" id="q-go">חיפוש ←</button>
+LAB2-198	lab2	script	js	1	Kima מכיר כתיבים היסטוריים רבים — אבל לא את כולם. אם החיפוש המדויק ייכשל, המנוע ינסה התאמה קירובית.
+LAB2-199	lab2	script	js	1	ליצירות היסטוריות רבות — ובהן ״הצופה״ של 1904 וספרי קובנר — אין עדיין רשומה ב־Wikidata. אם לא נמצא: ״רשמו כישות מקומית״ — הרשומה המקומית שלכם היא־היא תעודת הזהות שלהן, וייתכן שתתרמו אותה יום אחד למאגר העולמי.
+LAB2-200	lab2	script	js	1	טיפ: מאגרי זהויות מדברים עברית מודרנית. אם הכתיב שבמכתב לא נמצא — נסו לנרמל אותו (למשל ״גאגאל״ ← ״גוגול״). זה בדיוק האתגר בטקסטים היסטוריים.
+LAB2-201	lab2	script	js	1	<span class="hint">עד כמה אתם בטוחים בהכרעה?</span>
+LAB2-202	lab2	script	js	1	<button data-cert="high" class="active">ודאי</button>
+LAB2-203	lab2	script	js	1	<button data-cert="medium">סביר</button>
+LAB2-204	lab2	script	js	1	<button data-cert="low">בספק</button>
+LAB2-205	lab2	script	js	1	<span class="hint">— נרשם כ־<code>cert</code> על המזהה</span>
+LAB2-206	lab2	script	js	1	<div class="cand"><div class="c-desc">לא נמצא — גם לא בקירוב. שתי אפשרויות: (א) זה מקום שאינו יישוב — לגזטיר של יישובים יש גבולות (נסו ״אירופא״…); (ב) זה כתיב או מקום שחסר ב־Kima — תגלית! סמנו אותו כתרומה עתידית.</div>
+LAB2-207	lab2	script	js	1	<button class="btn small" data-noext="1">רשמו כישות מקומית בלבד</button></div>
+LAB2-208	lab2	script	js	1	התאמה מדויקת · דרגה A
+LAB2-209	lab2	script	js	1	כתיב רשום על כמה מקומות — הכרעה אנושית · דרגה C
+LAB2-210	lab2	script	js	1	לא נמצא כתיב מדויק — מועמדים קירוביים · דרגה B
+LAB2-211	lab2	script	js	1	">זו הישות ←</button>
+LAB2-212	lab2	script	js	2	<button class="btn small" data-noext="1" style="margin-top:2px">אף אחד מהם — רשמו כישות מקומית בלבד</button>
+LAB2-213	lab2	script	js	1	<div class="hint">מחפש ב־Wikidata…</div>
+LAB2-214	lab2	script	js	1	לא נמצא. נסו כתיב אחר — שם מלא, כתיב מודרני, או צורה מקובלת אחרת.
+LAB2-215	lab2	script	js	1	אין חיבור לרשת — ואין תוצאה שמורה לכתיב הזה. נסו את הכתיב המודרני המלא.
+LAB2-216	lab2	script	js	1	</div><button class="btn small" data-noext="1">רשמו כישות מקומית בלבד</button></div>
+LAB2-217	lab2	script	js	1	<div class="hint" style="margin-bottom:6px">⚠ מצב לא־מקוון — תוצאות שמורות מראש</div>
+LAB2-218	lab2	script	js	1	(ללא תיאור)
+LAB2-219	lab2	script	js	1	">זו הישות ←</button></div></div>
+LAB2-220	lab2	script	js	1	). מושך מזהים נוספים מן הרשת…
+LAB2-221	lab2	script	js	1	· ומזהה אחד גרר עוד:
+LAB2-222	lab2	script	js	1	— שרשרת המאגרים בפעולה.
+LAB2-223	lab2	script	js	1	benyehuda.org/read/40830 · סדנת אגרת
+LAB2-224	lab2	script	js	1	<br>🎁 <b>מצאתם כתיב ש־Kima אינו מכיר!</b> «
+LAB2-225	lab2	script	js	1	» נרשם בקובץ התרומות — בדיוק כך נתרמו לפרויקט 425 כתיבים חדשים.
+LAB2-226	lab2	script	js	1	» נרשם כישות <b>מקומית</b> —
+LAB2-227	lab2	script	js	1	. גם בלי מזהה חיצוני יש לו עכשיו זהות אחת בקובץ שלכם: כל המופעים מצביעים לרשומה אחת. מאגר עולמי מתחיל כך בדיוק.
+LAB2-228	lab2	script	js	1	נולד
+LAB2-229	lab2	script	js	1	· נפטר
+LAB2-230	lab2	script	js	1	<span style="color:var(--muted)">— עדיין ריק. קשרו ישות ראשונה ותראו אותה נרשמת כאן. —</span>
+LAB2-231	lab2	script	js	1	<div class="d-title">🎁 קובץ התרומות שלכם ל־Kima —
+LAB2-232	lab2	script	js	1	כתיבים חדשים</div><ul>
+LAB2-233	lab2	script	js	1	</ul><div class="hint">בעולם האמיתי הקובץ הזה נמסר לצוות Kima לבדיקה — התרומה הקטנה ביותר למאגר משותף היא כתיב שרק אתם ראיתם.</div>
+LAB2-234	lab2	script	js	1	אודיסא
+LAB2-235	lab2	script	js	1	אותו שם — שלוש יבשות. ההקשר מכריע: מכתבים עבריים סביב 1900 · והפרויקט אכן קישר לאודסה שעל הים השחור, על 820 מכתבים.
+LAB2-236	lab2	script	js	1	ירושלים
+LAB2-237	lab2	script	js	1	כאן כל המועמדים הם ״אותו מקום״ — בשכבות היסטוריות שונות (סנג׳ק עות׳מאני, ממלכה צלבנית, העיר של היום). הגזטיר ההיסטורי מבחין ביניהן בכוונה.
+LAB2-238	lab2	script	js	1	וורשה
+LAB2-239	lab2	script	js	1	שימו לב למלכודת: בין המועמדים מסתתרת פולין המדינה, ומחוז ורשה, ודוכסות ורשה — היררכיה שלמה חולקת שם אחד.
+LAB2-240	lab2	script	js	1	רוסיה
+LAB2-241	lab2	script	js	1	מדינה בגזטיר של יישובים — שאלת גבולות הסכֵמה. הפרויקט השאיר את השם הזה בתור הבדיקה האנושית.
+LAB2-242	lab2	script	js	1	קושטא
+LAB2-243	lab2	script	js	1	שם היסטורי עברי לעיר שנקראת היום איסטנבול. הרשומה הנכונה היא העיר — גם אם שמה הראשי שונה.
+LAB2-244	lab2	script	js	1	בריסק
+LAB2-245	lab2	script	js	1	בריסק דליטא של הספרות הרבנית היא Brest שבבלארוס — לא Brest שבצרפת. פונטיקה בלבד לא תכריע כאן; ידע היסטורי כן.
+LAB2-246	lab2	script	js	1	<span class="grade grade-C">C · דרוש אדם</span>
+LAB2-247	lab2	script	js	1	מכתבים תלויים בהכרעה</span></div>
+LAB2-248	lab2	script	js	1	<button class="q-cand" data-k="none">אף אחד מהם</button></div>
+LAB2-249	lab2	script	js	1	✅ <b>כמו הפרויקט.</b>
+LAB2-250	lab2	script	js	1	🤔 <b>הפרויקט הכריע אחרת:</b>
+LAB2-251	lab2	script	js	1	בפרויקט אגרת קושר השם ל־<b>
+LAB2-252	lab2	script	js	1	📌 בפרויקט השם הזה נותר בתור הבדיקה — יש שאלות שגם המנוע לא מכריע.
+LAB2-253	lab2	script	js	1	<div class="pv-empty" style="padding:20px">קשרו ישויות בלשונית 3 — והגרף יופיע כאן.</div>
+LAB2-254	lab2	script	js	1	" text-anchor="middle" font-family="Heebo" font-weight="700" font-size="12" fill="#fff">המכתב</text>
+LAB2-255	lab2	script	js	1	✓ נבנה גרף עם
+LAB2-256	lab2	script	js	1	ישויות. כל שורת owl:sameAs היא גשר למאגר עולמי.
+LAB2-257	lab2	script	js	1	הגרף ריק כמעט — חזרו ללשונית 3 וקשרו ישויות, ואז בנו שוב.
+LAB2-258	lab2	script	js	1	<option value="">— קשרו קודם ישות ל־Wikidata בלשונית 3 —</option>
+LAB2-259	lab2	script	js	1	<div class="hint">אין עדיין ישות מקושרת ל־Wikidata.</div>
+LAB2-260	lab2	script	js	1	<div class="hint">שואל את Wikidata על
+LAB2-261	lab2	script	js	1	" target="_blank" rel="noopener">הספרייה הלאומית</a>
+LAB2-262	lab2	script	js	1	<div class="hint" style="margin-top:8px">כל מה שכאן הגיע ממזהה אחד. לא הקלדנו ביוגרפיה — שאלנו את הרשת.</div>
+LAB2-263	lab2	script	js	1	מכתבים</title></circle>
+LAB2-264	lab2	script	js	1	— קושר על ידכם</title></circle>
+LAB2-265	lab2	script	js	1	מכתב
+LAB2-266	lab2	script	js	1	<p>קידוד תרגול — סדנת אגרת</p>
+LAB2-267	lab2	script	js	1	<bibl>פרויקט בן־יהודה,
+LAB2-268	lab2	script	js	1	במסמך הנוכחי יש כבר סימונים. לקבל מכתב חדש ולנקות את רשימת הזהויות? (הורידו קודם את הקבצים שלכם אם טרם עשיתם זאת)
+LAB2-269	lab2	script	js	1	המכתב האישי:
+LAB2-270	lab2	script	js	1	המכתב שלכם: <b>
+LAB2-271	lab2	script	js	1	" target="_blank" rel="noopener" style="color:var(--teal)">במקור</a>
+LAB2-272	lab2	script	js	1	✉ קיבלתם את «
+LAB2-273	lab2	script	js	1	» — תעודת הזהות מלאה, הטקסט נקי מסימונים. כל המסלול שלכם: זיהוי ← קישור ← הורדה. (חזרה למכתב של קובנר: ״חזרה לקובץ הדוגמה״ בלשונית 1.)
+LAB2-274	lab2	script	js	1	<div class="status err" style="display:block">לא נמצאו רשומות זהות בקבצים — ודאו שאלה קובצי ה־authority או ה־TEI המועשר שהורדו מהמעבדה.</div>
+LAB2-275	lab2	script	js	1	קבצים ·
+LAB2-276	lab2	script	js	1	רשומות ← <b>
+LAB2-277	lab2	script	js	1	ישויות</b>
+LAB2-278	lab2	script	js	1	— שימו לב לשורות הירוקות: כתיבים שונים, ישות אחת.
+LAB2-279	lab2	script	js	1	<table class="merge"><tr><th>ישות</th><th>סוג</th><th>הכתיבים שנמצאו</th><th>מי</th><th>מזהים</th></tr>
+LAB2-280	lab2	script	js	1	רשומות מקומיות</b> נשארו בלתי־ממוזגות — בלי מזהה חיצוני אין למחשב דרך לדעת ששתי רשומות הן אותה ישות. זה בדיוק מה שמזהה קונה.</div>
+LAB2-281	lab2	script	js	1	⚠ לפני ההורדה — כתבו את שמכם בשדה שבראש הדף. השם נכנס לקובץ ולשם הקובץ: כך יודעים, גם בעוד שנה, מי קידד ומי הכריע.
+LAB2-282	lab2	script	js	1	<respStmt> <resp>תיוג, זיהוי ישויות וקישור</resp> <name>
+LAB2-283	lab2	script	js	1	<?xml version="1.0" encoding="UTF-8"?> <!-- קובץ הזהויות של
+LAB2-284	lab2	script	js	1	· סדנת אגרת -->

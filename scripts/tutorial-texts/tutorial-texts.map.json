@@ -1297,1324 +1297,1389 @@
 "LAB2-007": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "strip",
-"exact": "\n        עכשיו נשחרר את המכונה על שאר המכתב. כך עובד NER מבוסס־מילון: המחשב משווה את הטקסט\n        לרשימות שמות מוכרים — כאן, השמות השכיחים שחולצו מ־4,721 מכתבי הפרויקט — ומציע מועמדים.\n        עברו על ההצעות אחת־אחת: אשרו את הנכונות, דחו את המוטעות.\n      "
+"exact": "\n        <b>למה בכלל לתייג? כי תיוג מאפשר ניתוח.</b>\n        ברגע שהשמות עטופים בתגיות, הטקסט אינו רק מילים — הוא נתונים, ואפשר להפנות אליו שאלות.\n        הביטוי שלמטה כתוב ב־<b>XPath</b>, שפת השאילתות של XML: ״תן לי כל תגית כזו־וכזו,\n        בכל מקום בגוף המסמך״ — וזו בדיוק השאילתה שהדף מריץ כשלוחצים על הכפתור.\n        בחרו מה לשלוף, הריצו, וקבלו את היבול ממוין לפי שכיחות.\n        ועכשיו דמיינו את אותה שאילתה רצה לא על מכתב אחד — אלא על אלפים.\n      "
 },
 "LAB2-008": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "strip",
-"exact": "\n        <b>רגע של חשבון נפש — מה למדנו על המכונה?</b><br>\n        <b>מה היא פספסה?</b> השוו לפסקה שסימנתם ביד: ״לאמזשא״ אינו ברשימות — כתיב יידי שהמילון\n        מעולם לא ראה. וגם ״י. ל. גארדאן״ בכתיב הישן נעלם ממנה, אף ש״גורדון״ המודרני מוכר לה היטב.\n        מילון מזהה רק את מה שכבר ראה.<br>\n        <b>ומה היא מצאה בטעות?</b> אלה <b>זיהויי־שווא</b>: המילון סימן ״רוסיה״ בתוך ״בשפת רוסיה״ —\n        אבל האם המכתב מדבר כאן על <i>מקום</i>, או על שפה? המילה לבדה לא מספרת; רק <b>ההקשר</b> מכריע.\n        זה ההבדל בין למצוא מחרוזת ובין להבין אזכור — והסיבה שגם אחרי כל אוטומציה, ההכרעה חוזרת אליכם.\n      "
+"exact": "\n        עכשיו נשחרר את המכונה על שאר המכתב. כך עובד NER מבוסס־מילון: המחשב משווה את הטקסט\n        לרשימות שמות מוכרים — ומניין רשימות כאלה? בדיוק מהתהליך שראיתם זה עתה: שאילתות כמו\n        שלכם, שהופעלו מראש על אוסף גדול של מכתבים מתויגים, אספו אוצר של שמות — ובו, בין השאר,\n        קבוצה גדולה של שמות מקומות. המחשב משווה את הטקסט לאוצר הזה ומציע מועמדים.\n        עברו על ההצעות אחת־אחת: אשרו את הנכונות, דחו את המוטעות.\n      "
 },
 "LAB2-009": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "strip",
-"exact": "\n        מילון קורא מילים; מודל שפה קורא <b>הקשר</b>. בפרויקט אגרת את הזיהוי המלא עשה מודל שפה\n        (Gemini) על כל 4,721 המכתבים. נסו בעצמכם: הכפתור מעתיק ללוח הנחיה מוכנה + נוסח המכתב —\n        הדביקו בצ׳אט של מודל שפה (Gemini, ChatGPT, Claude…) והשוו את הרשימה שלו לשלכם ולשל המילון.\n        מה הוא תפס שהמילון פספס? והאם גם הוא טעה — רק אחרת?\n      "
+"exact": "\n        <b>רגע של חשבון נפש — מה למדנו על המכונה?</b><br>\n        <b>מה היא פספסה?</b> השוו לפסקה שסימנתם ביד: ״לאמזשא״ אינו ברשימות — כתיב יידי שהמילון\n        מעולם לא ראה. וגם ״י. ל. גארדאן״ בכתיב הישן נעלם ממנה, אף ש״גורדון״ המודרני מוכר לה היטב.\n        מילון מזהה רק את מה שכבר ראה.<br>\n        <b>ומה היא מצאה בטעות?</b> אלה <b>זיהויי־שווא</b>: המילון סימן ״רוסיה״ בתוך ״בשפת רוסיה״ —\n        אבל האם המכתב מדבר כאן על <i>מקום</i>, או על שפה? המילה לבדה לא מספרת; רק <b>ההקשר</b> מכריע.\n        זה ההבדל בין למצוא מחרוזת ובין להבין אזכור — והסיבה שגם אחרי כל אוטומציה, ההכרעה חוזרת אליכם.\n      "
 },
 "LAB2-010": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "strip",
-"exact": "\n        זהו היבול: רשימת <b>השמות</b> שסומנו, עם מספר המופעים של כל אחד.\n        שימו לב ללשון: אלה עדיין לא ישויות — כל שם הוא בינתיים רק <b>מועמד לישות</b>.\n        ״בריינין״ הוא מחרוזת; מי שיקבע <i>איזה</i> בריינין — זה שלב הקישור, בלשונית הבאה.\n        לתאריכים הוסיפו כבר עכשיו ערך קריא־למכונה (<code>when</code>) בלחיצה על השבב.\n      "
+"exact": "\n        מילון קורא מילים; מודל שפה קורא <b>הקשר</b>. בפרויקט אגרת את הזיהוי המלא עשה מודל שפה\n        (Gemini) על כל 4,721 המכתבים. נסו בעצמכם: הכפתור מעתיק ללוח הנחיה מוכנה + נוסח המכתב —\n        הדביקו בצ׳אט של מודל שפה (Gemini, ChatGPT, Claude…) והשוו את הרשימה שלו לשלכם ולשל המילון.\n        מה הוא תפס שהמילון פספס? והאם גם הוא טעה — רק אחרת?\n      "
 },
 "LAB2-011": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "strip",
-"exact": "\n        <b>מן השם אל הישות: קישור למאגרי ידע.</b>\n        כאן שם הופך לישות: כשאנחנו מכריעים <i>למי או למה</i> הוא מתייחס.\n        לכל תחום יש מאגר זהויות (authority file) משלו: <b>Wikidata</b> לאנשים, ליצירות ולכל דבר אחר,\n        <b>Kima</b> — הגזטיר ההיסטורי של שמות מקומות בכתב עברי, <b>GeoNames</b> למקומות בכלל,\n        <b>VIAF</b> לרשומות ספרייתיות. בחרו שם מהרשימה, חפשו אותו במאגר המתאים, והכריעו:\n        איזו רשומה היא הישות שלכם — <b>ועד כמה אתם בטוחים</b>. כל הכרעה, על רמת הוודאות שלה,\n        נרשמת בקובץ הזהויות המקומי שלכם — ה־<code>standOff</code> שבראש המסמך.\n      "
+"exact": "\n        זהו היבול: רשימת <b>השמות</b> שסומנו, עם מספר המופעים של כל אחד.\n        שימו לב ללשון: אלה עדיין לא ישויות — כל שם הוא בינתיים רק <b>מועמד לישות</b>.\n        ״בריינין״ הוא מחרוזת; מי שיקבע <i>איזה</i> בריינין — זה שלב הקישור, בלשונית הבאה.\n        לתאריכים הוסיפו כבר עכשיו ערך קריא־למכונה (<code>when</code>) בלחיצה על השבב.\n      "
 },
 "LAB2-012": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "strip",
-"exact": "\n        כל הכרעה נכתבת פעמיים: בגוף הטקסט — <code>ref=\"#pers_1\"</code> על כל מופע; וברשומת\n        זהות אחת ב־<code>standOff</code>, שאוספת את כל המזהים החיצוניים:\n        <code>&lt;idno type=\"wikidata\"&gt;</code>, <code>&lt;idno type=\"VIAF\"&gt;</code>,\n        <code>&lt;idno type=\"geonames\"&gt;</code>… שם אחד בטקסט — ישות אחת ברשומה — מזהים רבים בעולם.\n      "
+"exact": "\n        <b>מן השם אל הישות: קישור למאגרי ידע.</b>\n        כאן שם הופך לישות: כשאנחנו מכריעים <i>למי או למה</i> הוא מתייחס.\n        לכל תחום יש מאגר זהויות (authority file) משלו: <b>Wikidata</b> לאנשים, ליצירות ולכל דבר אחר,\n        <b>Kima</b> — הגזטיר ההיסטורי של שמות מקומות בכתב עברי, <b>GeoNames</b> למקומות בכלל,\n        <b>VIAF</b> לרשומות ספרייתיות. בחרו שם מהרשימה, חפשו אותו במאגר המתאים, והכריעו:\n        איזו רשומה היא הישות שלכם — <b>ועד כמה אתם בטוחים</b>. כל הכרעה, על רמת הוודאות שלה,\n        נרשמת בקובץ הזהויות המקומי שלכם — ה־<code>standOff</code> שבראש המסמך.\n      "
 },
 "LAB2-013": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "strip",
-"exact": "\n        במכתב אחד הכרעתם ביד. בפרויקט אגרת חולצו <b>1,877 שמות מקומות</b> — אי אפשר להכריע יד\n        אחר יד. מנוע ההתאמה (Kimatch) מדרג כל שם: <span class=\"grade grade-A\">A</span> התאמה\n        מדויקת ויחידה — מקושרת אוטומטית · <span class=\"grade grade-B\">B</span> התאמה יחידה אך\n        מקורבת — ראויה למבט אנושי · <span class=\"grade grade-C\">C</span> כמה מועמדים או אף אחד —\n        חובה אדם. לפניכם שישה שמות אמיתיים מהמאגר שקיבלו ציון C. הכריעו — ואז השוו להכרעת הפרויקט.\n      "
+"exact": "\n        כל הכרעה נכתבת פעמיים: בגוף הטקסט — <code>ref=\"#pers_1\"</code> על כל מופע; וברשומת\n        זהות אחת ב־<code>standOff</code>, שאוספת את כל המזהים החיצוניים:\n        <code>&lt;idno type=\"wikidata\"&gt;</code>, <code>&lt;idno type=\"VIAF\"&gt;</code>,\n        <code>&lt;idno type=\"geonames\"&gt;</code>… שם אחד בטקסט — ישות אחת ברשומה — מזהים רבים בעולם.\n      "
 },
 "LAB2-014": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "strip",
-"exact": "\n        <b>נתונים מקושרים — Linked Open Data.</b>\n        ברגע שכל ישות קיבלה מזהה, המסמך חדל להיות טקסט בודד: הוא נהפך לצומת ברשת.\n        העיקרון פשוט — כל דבר מקבל כתובת (URI), וכל קשר בין שני דברים הוא משפט בן שלושה\n        חלקים: נושא ← יחס ← מושא. הנה המכתב שלכם, מפורק למשפטים כאלה.\n      "
+"exact": "\n        במכתב אחד הכרעתם ביד. בפרויקט אגרת חולצו <b>1,877 שמות מקומות</b> — אי אפשר להכריע יד\n        אחר יד. מנוע ההתאמה (Kimatch) מדרג כל שם: <span class=\"grade grade-A\">A</span> התאמה\n        מדויקת ויחידה — מקושרת אוטומטית · <span class=\"grade grade-B\">B</span> התאמה יחידה אך\n        מקורבת — ראויה למבט אנושי · <span class=\"grade grade-C\">C</span> כמה מועמדים או אף אחד —\n        חובה אדם. לפניכם שישה שמות אמיתיים מהמאגר שקיבלו ציון C. הכריעו — ואז השוו להכרעת הפרויקט.\n      "
 },
 "LAB2-015": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "strip",
-"exact": "\n        קישרתם שם ל־QID. עכשיו נלך בכיוון ההפוך: ניקח את המזהה ונשאל את Wikidata מה <i>היא</i>\n        יודעת עליו. שימו לב מה חוזר: תאריכים, תמונה, תיאור — וגם מזהים במאגרים <i>אחרים</i>\n        (VIAF, הספרייה הלאומית). מזהה אחד הוא מפתח לשרשרת מאגרים שלמה.\n      "
+"exact": "\n        <b>נתונים מקושרים — Linked Open Data.</b>\n        ברגע שכל ישות קיבלה מזהה, המסמך חדל להיות טקסט בודד: הוא נהפך לצומת ברשת.\n        העיקרון פשוט — כל דבר מקבל כתובת (URI), וכל קשר בין שני דברים הוא משפט בן שלושה\n        חלקים: נושא ← יחס ← מושא. הנה המכתב שלכם, מפורק למשפטים כאלה.\n      "
 },
 "LAB2-016": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "strip",
-"exact": "\n        בפרויקט אגרת עבר כל שם־מקום את המסלול שעברתם זה עתה — NER, התאמה ב־Kimatch, הכרעה —\n        וכל רשומת Kima נושאת קואורדינטות. התוצאה: אלפי מכתבים עבריים על מפה אחת.\n        גודל הנקודה — מספר המכתבים. <b>המקומות שקישרתם היום מסומנים באדום.</b>\n      "
+"exact": "\n        קישרתם שם ל־QID. עכשיו נלך בכיוון ההפוך: ניקח את המזהה ונשאל את Wikidata מה <i>היא</i>\n        יודעת עליו. שימו לב מה חוזר: תאריכים, תמונה, תיאור — וגם מזהים במאגרים <i>אחרים</i>\n        (VIAF, הספרייה הלאומית). מזהה אחד הוא מפתח לשרשרת מאגרים שלמה.\n      "
 },
 "LAB2-017": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "strip",
-"exact": "\n        עברתם את המסלול פעם אחת, כולנו על אותו מכתב. עכשיו — מכתב <b>שלכם</b>:\n        השם שבראש הדף מקצה לכם מכתב אמיתי מתוך 4,721 מכתבי המאגר (אותו שם ← אותו מכתב,\n        כך שאפשר להמשיך גם בבית). תקבלו אותו עם תעודת זהות מלאה אך <b>בלי שום סימון בגוף\n        הטקסט</b> — כל מסלול ה־NER והקישור לפניכם. שימו לב: קבלת מכתב חדש מנקה את רשימת\n        הזהויות והתרומות של הסבב הקודם — הורידו קודם את הקבצים שלכם.\n      "
+"exact": "\n        בפרויקט אגרת עבר כל שם־מקום את המסלול שעברתם זה עתה — NER, התאמה ב־Kimatch, הכרעה —\n        וכל רשומת Kima נושאת קואורדינטות. התוצאה: אלפי מכתבים עבריים על מפה אחת.\n        גודל הנקודה — מספר המכתבים. <b>המקומות שקישרתם היום מסומנים באדום.</b>\n      "
 },
 "LAB2-018": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "strip",
-"exact": "\n        כל אחד ואחת עבדו על מכתב אחר — ועכשיו הרגע של האמת: המנחה מעלה כאן את קובצי\n        הזהויות (<code>_authority.xml</code> או <code>_tei-enriched.xml</code>) של כולם בבת אחת.\n        אם שניים כתבו ״ווארשא״ ו״וורשה״ — הכתיב שונה, אבל המזהה זהה, והרשומות מתמזגות\n        מעצמן. <b>המזהים עושים את המיזוג — לא הכתיב.</b> זה, במשפט אחד, כל הרעיון של\n        נתונים מקושרים.\n      "
+"exact": "\n        עברתם את המסלול פעם אחת, כולנו על אותו מכתב. עכשיו — מכתב <b>שלכם</b>:\n        השם שבראש הדף מקצה לכם מכתב אמיתי מתוך 4,721 מכתבי המאגר (אותו שם ← אותו מכתב,\n        כך שאפשר להמשיך גם בבית). תקבלו אותו עם תעודת זהות מלאה אך <b>בלי שום סימון בגוף\n        הטקסט</b> — כל מסלול ה־NER והקישור לפניכם. שימו לב: קבלת מכתב חדש מנקה את רשימת\n        הזהויות והתרומות של הסבב הקודם — הורידו קודם את הקבצים שלכם.\n      "
 },
 "LAB2-019": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "strip",
-"exact": "\n        המסמך שלכם מוכן להצטרף לתשתיות אמיתיות:\n        ה־<code>correspDesc</code> המקושר הוא בדיוק הפורמט (CMIF) שאוסף שירות\n        <a href=\"https://correspsearch.net\" target=\"_blank\" rel=\"noopener\">correspSearch</a>\n        המאגד רשתות התכתבות מכל אירופה; והכתיבים החדשים שמצאתם — כמו ״לאמזשא״ —\n        הם תרומה לגזטיר Kima עצמו. בפרויקט אגרת נתרמו כך <b>425 כתיבים עבריים חדשים</b>.\n      "
+"exact": "\n        כל אחד ואחת עבדו על מכתב אחר — ועכשיו הרגע של האמת: המנחה מעלה כאן את קובצי\n        הזהויות (<code>_authority.xml</code> או <code>_tei-enriched.xml</code>) של כולם בבת אחת.\n        אם שניים כתבו ״ווארשא״ ו״וורשה״ — הכתיב שונה, אבל המזהה זהה, והרשומות מתמזגות\n        מעצמן. <b>המזהים עושים את המיזוג — לא הכתיב.</b> זה, במשפט אחד, כל הרעיון של\n        נתונים מקושרים.\n      "
 },
 "LAB2-020": {
+"file": "scripts/build-lab2/index.template.html",
+"kind": "strip",
+"exact": "\n        המסמך שלכם מוכן להצטרף לתשתיות אמיתיות:\n        ה־<code>correspDesc</code> המקושר הוא בדיוק הפורמט (CMIF) שאוסף שירות\n        <a href=\"https://correspsearch.net\" target=\"_blank\" rel=\"noopener\">correspSearch</a>\n        המאגד רשתות התכתבות מכל אירופה; והכתיבים החדשים שמצאתם — כמו ״לאמזשא״ —\n        הם תרומה לגזטיר Kima עצמו. בפרויקט אגרת נתרמו כך <b>425 כתיבים עבריים חדשים</b>.\n      "
+},
+"LAB2-021": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "attr:placeholder",
 "exact": "placeholder=\"למשל: moshe או משה\""
 },
-"LAB2-021": {
+"LAB2-022": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">מעבדת ישויות וקישור — מן התיוג אל המחקר<"
 },
-"LAB2-022": {
+"LAB2-023": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">→ חזרה לדף הסדנה<"
 },
-"LAB2-023": {
+"LAB2-024": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">מן התיוג אל המחקר — ישויות, קישור ונתונים פתוחים<"
 },
-"LAB2-024": {
+"LAB2-025": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">מפגש שני · מ־TEI דרך זיהוי ישויות (NER) אל נתונים מקושרים (Linked Open Data)<"
 },
-"LAB2-025": {
+"LAB2-026": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">שם המתייג/ת:<"
 },
-"LAB2-026": {
+"LAB2-027": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">חובה לפני כל הורדה — השם ייכתב בקובץ (<"
 },
-"LAB2-027": {
+"LAB2-028": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">) ובשם הקובץ עצמו<"
 },
-"LAB2-028": {
+"LAB2-029": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">המסמך כנתונים · TEI<"
 },
-"LAB2-029": {
+"LAB2-030": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">זיהוי ישויות · NER<"
 },
-"LAB2-030": {
+"LAB2-031": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">קישור ומאגרי זהויות<"
 },
-"LAB2-031": {
+"LAB2-032": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">נתונים מקושרים · LOD<"
 },
-"LAB2-032": {
+"LAB2-033": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">\n          העלאת ה־TEI שלי מהמפגש הקודם…\n          <"
 },
-"LAB2-033": {
+"LAB2-034": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">חזרה לקובץ הדוגמה<"
 },
-"LAB2-034": {
+"LAB2-035": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">בדיקת תקינות ✓<"
 },
-"LAB2-035": {
+"LAB2-036": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">קובץ הדוגמה: א. קובנר לר. בריינין<"
 },
-"LAB2-036": {
+"LAB2-037": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">קוד ה־TEI — אפשר לערוך<"
 },
-"LAB2-037": {
+"LAB2-038": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">תצוגת קריאה<"
 },
-"LAB2-038": {
+"LAB2-039": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">מה המחשב כבר יודע לקרוא מכאן?<"
 },
-"LAB2-039": {
+"LAB2-040": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">המשך: זיהוי ישויות · NER ←<"
 },
-"LAB2-040": {
+"LAB2-041": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">תיוג ידני — הפסקה הראשונה בלבד<"
 },
-"LAB2-041": {
+"LAB2-042": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">persName — אדם<"
 },
-"LAB2-042": {
+"LAB2-043": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">placeName — מקום<"
 },
-"LAB2-043": {
+"LAB2-044": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">title — יצירה: ספר · מאמר · כתב־עת<"
 },
-"LAB2-044": {
+"LAB2-045": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">date — תאריך<"
 },
-"LAB2-045": {
+"LAB2-046": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">קוד ה־TEI — מתעדכן עם כל סימון<"
 },
-"LAB2-046": {
+"LAB2-047": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">הטקסט — סמנו קטע בעכבר<"
 },
-"LAB2-047": {
+"LAB2-048": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">אדם<"
 },
-"LAB2-048": {
+"LAB2-049": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">מקום<"
 },
-"LAB2-049": {
+"LAB2-050": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">יצירה<"
 },
-"LAB2-050": {
+"LAB2-051": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
 "exact": ">תאריך<"
 },
-"LAB2-051": {
-"file": "scripts/build-lab2/index.template.html",
-"kind": "text",
-"exact": ">תיוג חצי־אוטומטי — המכונה מציעה, אתם מכריעים<"
-},
 "LAB2-052": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">סריקה אוטומטית מבוססת מילון ←<"
+"exact": ">מן התיוג אל הניתוח — שאילתה ראשונה<"
 },
 "LAB2-053": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">הצעות המכונה — אשרו או דחו כל אחת<"
+"exact": ">כל השמות<"
 },
 "LAB2-054": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">ניסוי השוואה: מה מודל שפה היה עושה?<"
+"exact": ">אנשים<"
 },
 "LAB2-055": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">העתקת ההנחיה + המכתב ללוח ←<"
+"exact": ">מקומות<"
 },
 "LAB2-056": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">השמות שנמצאו — מועמדים לישויות<"
+"exact": ">יצירות<"
 },
 "LAB2-057": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">רשימת השמות שסומנו <"
+"exact": ">תאריכים<"
 },
 "LAB2-058": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">המשך: קישור ומאגרי זהויות ←<"
+"exact": ">הריצו את השאילתה ←<"
 },
 "LAB2-059": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">קשרו את השמות שסימנתם<"
+"exact": ">תוצאת השאילתה <"
 },
 "LAB2-060": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">תור העבודה — לחצו על שם<"
+"exact": ">תיוג חצי־אוטומטי — המכונה מציעה, אתם מכריעים<"
 },
 "LAB2-061": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">חיפוש במאגר<"
+"exact": ">סריקה אוטומטית מבוססת מילון ←<"
 },
 "LAB2-062": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">בחרו ישות מתור העבודה שמימין.<"
+"exact": ">הצעות המכונה — אשרו או דחו כל אחת<"
 },
 "LAB2-063": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">קובץ הזהויות המקומי שלכם<"
+"exact": ">ניסוי השוואה: מה מודל שפה היה עושה?<"
 },
 "LAB2-064": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">\n            standOff — קובץ הזהויות\n            <"
+"exact": ">העתקת ההנחיה + המכתב ללוח ←<"
 },
 "LAB2-065": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">הורדת קובץ הזהויות ⤓<"
+"exact": ">השמות שנמצאו — מועמדים לישויות<"
 },
 "LAB2-066": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">המסמך המלא — עם ההפניות<"
+"exact": ">רשימת השמות שסומנו <"
 },
 "LAB2-067": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">ועכשיו בקנה מידה: 4,721 מכתבים<"
+"exact": ">המשך: קישור ומאגרי זהויות ←<"
 },
 "LAB2-068": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">המשך: נתונים מקושרים · LOD ←<"
+"exact": ">קשרו את השמות שסימנתם<"
 },
 "LAB2-069": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">המכתב שלכם כגרף ידע<"
+"exact": ">תור העבודה — לחצו על שם<"
 },
 "LAB2-070": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">בנו את הגרף מן המסמך שלי ←<"
+"exact": ">חיפוש במאגר<"
 },
 "LAB2-071": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">נבנה מתוך ה־correspDesc, הישויות והקישורים שיצרתם בשלבים הקודמים<"
+"exact": ">בחרו ישות מתור העבודה שמימין.<"
 },
 "LAB2-072": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">\n            המשפטים — תחביר Turtle\n            <"
+"exact": ">קובץ הזהויות המקומי שלכם<"
 },
 "LAB2-073": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">הורדה ⤓<"
+"exact": ">\n            standOff — קובץ הזהויות\n            <"
 },
 "LAB2-074": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">אותם משפטים — כתמונה<"
+"exact": ">הורדת קובץ הזהויות ⤓<"
 },
 "LAB2-075": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">מה מזהה אחד קונה — שאלו את הרשת<"
+"exact": ">המסמך המלא — עם ההפניות<"
 },
 "LAB2-076": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">שאלו את Wikidata ←<"
+"exact": ">ועכשיו בקנה מידה: 4,721 מכתבים<"
 },
 "LAB2-077": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">וזה נראה כך בקנה מידה: מפת 4,721 המכתבים<"
+"exact": ">המשך: נתונים מקושרים · LOD ←<"
 },
 "LAB2-078": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">\n          מפת המקומות המקושרים\n          <"
+"exact": ">המכתב שלכם כגרף ידע<"
 },
 "LAB2-079": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">עולם ⇄ אירופה<"
+"exact": ">בנו את הגרף מן המסמך שלי ←<"
 },
 "LAB2-080": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">הסבב האישי — מכתב משלכם<"
+"exact": ">נבנה מתוך ה־correspDesc, הישויות והקישורים שיצרתם בשלבים הקודמים<"
 },
 "LAB2-081": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">קבלו את המכתב שלכם ←<"
+"exact": ">\n            המשפטים — תחביר Turtle\n            <"
 },
 "LAB2-082": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">מיזוג בכיתה — הגרף המשותף<"
+"exact": ">הורדה ⤓<"
 },
 "LAB2-083": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">\n          העלאת קובצי הזהויות של הקבוצה…\n          <"
+"exact": ">אותם משפטים — כתמונה<"
 },
 "LAB2-084": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">אפשר (ורצוי) לבחור את כל הקבצים בבת אחת<"
+"exact": ">מה מזהה אחד קונה — שאלו את הרשת<"
 },
 "LAB2-085": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">הצטרפות למארג: הורדות ותרומות<"
+"exact": ">שאלו את Wikidata ←<"
 },
 "LAB2-086": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">הורדת ה־TEI המועשר ⤓<"
+"exact": ">וזה נראה כך בקנה מידה: מפת 4,721 המכתבים<"
 },
 "LAB2-087": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">הורדת קובץ התרומות ל־Kima ⤓<"
+"exact": ">\n          מפת המקומות המקושרים\n          <"
 },
 "LAB2-088": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "text",
-"exact": ">הורדת רשומת CMIF ל־correspSearch ⤓<"
+"exact": ">עולם ⇄ אירופה<"
 },
 "LAB2-089": {
 "file": "scripts/build-lab2/index.template.html",
-"kind": "js",
-"exact": "'אדם'"
+"kind": "text",
+"exact": ">הסבב האישי — מכתב משלכם<"
 },
 "LAB2-090": {
 "file": "scripts/build-lab2/index.template.html",
-"kind": "js",
-"exact": "'מקום'"
+"kind": "text",
+"exact": ">קבלו את המכתב שלכם ←<"
 },
 "LAB2-091": {
 "file": "scripts/build-lab2/index.template.html",
-"kind": "js",
-"exact": "'יצירה'"
+"kind": "text",
+"exact": ">מיזוג בכיתה — הגרף המשותף<"
 },
 "LAB2-092": {
 "file": "scripts/build-lab2/index.template.html",
-"kind": "js",
-"exact": "'ארגון'"
+"kind": "text",
+"exact": ">\n          העלאת קובצי הזהויות של הקבוצה…\n          <"
 },
 "LAB2-093": {
 "file": "scripts/build-lab2/index.template.html",
-"kind": "js",
-"exact": "'תאריך'"
+"kind": "text",
+"exact": ">אפשר (ורצוי) לבחור את כל הקבצים בבת אחת<"
 },
 "LAB2-094": {
 "file": "scripts/build-lab2/index.template.html",
-"kind": "js",
-"exact": "'ספר'"
+"kind": "text",
+"exact": ">הצטרפות למארג: הורדות ותרומות<"
 },
 "LAB2-095": {
 "file": "scripts/build-lab2/index.template.html",
-"kind": "js",
-"exact": "'מאמר'"
+"kind": "text",
+"exact": ">הורדת ה־TEI המועשר ⤓<"
 },
 "LAB2-096": {
 "file": "scripts/build-lab2/index.template.html",
-"kind": "js",
-"exact": "'כתב־עת'"
+"kind": "text",
+"exact": ">הורדת קובץ התרומות ל־Kima ⤓<"
 },
 "LAB2-097": {
 "file": "scripts/build-lab2/index.template.html",
-"kind": "js",
-"exact": "'ה־XML אינו תקין — תקנו אותו בלשונית 1'"
+"kind": "text",
+"exact": ">הורדת רשומת CMIF ל־correspSearch ⤓<"
 },
 "LAB2-098": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'לא נמצאה הפסקה'"
+"exact": "'אדם'"
 },
 "LAB2-099": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'הקטע חופף לסימון קיים או לא נמצא'"
+"exact": "'מקום'"
 },
 "LAB2-100": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<div class=\"pv-empty\">ה־XML אינו תקין — בדקו את הקוד.</div>'"
+"exact": "'יצירה'"
 },
 "LAB2-101": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<span>✉ מאת: '"
+"exact": "'ארגון'"
 },
 "LAB2-102": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<span>מ־'"
+"exact": "'תאריך'"
 },
 "LAB2-103": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<span>בתאריך '"
+"exact": "'ספר'"
 },
 "LAB2-104": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<span>אל: '"
+"exact": "'מאמר'"
 },
 "LAB2-105": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<div class=\"pv-empty\">ה־XML אינו תקין.</div>'"
+"exact": "'כתב־עת'"
 },
 "LAB2-106": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'כותרת'"
+"exact": "'ה־XML אינו תקין — תקנו אותו בלשונית 1'"
 },
 "LAB2-107": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'שולח'"
+"exact": "'לא נמצאה הפסקה'"
 },
 "LAB2-108": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'נמען'"
+"exact": "'הקטע חופף לסימון קיים או לא נמצא'"
 },
 "LAB2-109": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'מקום הכתיבה'"
+"exact": "'<div class=\"pv-empty\">ה־XML אינו תקין — בדקו את הקוד.</div>'"
 },
 "LAB2-110": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'מחרוזת — עדיין לא ישות'"
+"exact": "'<span>✉ מאת: '"
 },
 "LAB2-111": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'מקור'"
+"exact": "'<span>מ־'"
 },
 "LAB2-112": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<div class=\"cat-title\">📇 הכרטיס הקטלוגי — חולץ אוטומטית מן ה־teiHeader</div><table>'"
+"exact": "'<span>בתאריך '"
 },
 "LAB2-113": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<div class=\"pv-empty\">ה־XML אינו תקין — תקנו בלשונית 1.</div>'"
+"exact": "'<span>אל: '"
 },
 "LAB2-114": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "' (סביר)'"
+"exact": "'<div class=\"pv-empty\">ה־XML אינו תקין.</div>'"
 },
 "LAB2-115": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "' (בספק)'"
+"exact": "'כותרת'"
 },
 "LAB2-116": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<span class=\"hint\">עדיין לא סומן דבר — חזרו לטקסט וסמנו.</span>'"
+"exact": "'שולח'"
 },
 "LAB2-117": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "' שמות · '"
+"exact": "'נמען'"
 },
 "LAB2-118": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "' מופעים'"
+"exact": "'מקום הכתיבה'"
 },
 "LAB2-119": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<span class=\"hint\">אין שמות עדיין — סמנו בלשונית 2.</span>'"
+"exact": "'מחרוזת — עדיין לא ישות'"
 },
 "LAB2-120": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'קובץ הדוגמה: א. קובנר לר. בריינין'"
+"exact": "'מקור'"
 },
 "LAB2-121": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'הקובץ אינו נראה כמסמך TEI.'"
+"exact": "'<div class=\"cat-title\">📇 הכרטיס הקטלוגי — חולץ אוטומטית מן ה־teiHeader</div><table>'"
 },
 "LAB2-122": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'נטען: '"
+"exact": "'<div class=\"pv-empty\">ה־XML אינו תקין — תקנו בלשונית 1.</div>'"
 },
 "LAB2-123": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'✓ XML תקין. '"
+"exact": "' (סביר)'"
 },
 "LAB2-124": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'נמצא correspDesc — הכרטיס הקטלוגי למטה.'"
+"exact": "' (בספק)'"
 },
 "LAB2-125": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'לא נמצא correspDesc.'"
+"exact": "'<span class=\"hint\">עדיין לא סומן דבר — חזרו לטקסט וסמנו.</span>'"
 },
 "LAB2-126": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'✗ ה־XML אינו תקין — חפשו תגית שלא נסגרה.'"
+"exact": "' שמות · '"
 },
 "LAB2-127": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'הקטע כבר מסומן (או חופף לסימון) — כדי לשנות סוג, מחקו את התגית בקוד.'"
+"exact": "' מופעים'"
 },
 "LAB2-128": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<button class=\"fb-work fb-sub\" data-t=\"work\" data-level=\"m\">ספר</button>'"
+"exact": "'<span class=\"hint\">אין שמות עדיין — סמנו בלשונית 2.</span>'"
 },
 "LAB2-129": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<button class=\"fb-work fb-sub\" data-t=\"work\" data-level=\"a\">מאמר</button>'"
+"exact": "'קובץ הדוגמה: א. קובנר לר. בריינין'"
 },
 "LAB2-130": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<button class=\"fb-work fb-sub\" data-t=\"work\" data-level=\"j\">עיתון · כתב־עת</button>'"
+"exact": "'הקובץ אינו נראה כמסמך TEI.'"
 },
 "LAB2-131": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'✓ סומן ‎<'"
+"exact": "'נטען: '"
 },
 "LAB2-132": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'>‎. נמצאו עוד '"
+"exact": "'✓ XML תקין. '"
 },
 "LAB2-133": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "' מופעים זהים של «'"
+"exact": "'נמצא correspDesc — הכרטיס הקטלוגי למטה.'"
 },
 "LAB2-134": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<button class=\"btn small\" id=\"tag-rest\">לתייג את כולם</button>'"
+"exact": "'לא נמצא correspDesc.'"
 },
 "LAB2-135": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'✓ תויגו עוד '"
+"exact": "'✗ ה־XML אינו תקין — חפשו תגית שלא נסגרה.'"
 },
 "LAB2-136": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "' מופעים. כך עובד תיוג חצי־אוטומטי: החלטה אנושית אחת, יישום מכני על כל המופעים.'"
+"exact": "'הקטע כבר מסומן (או חופף לסימון) — כדי לשנות סוג, מחקו את התגית בקוד.'"
 },
 "LAB2-137": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'ערך קריא־למכונה עבור «'"
+"exact": "'<button class=\"fb-work fb-sub\" data-t=\"work\" data-level=\"m\">ספר</button>'"
 },
 "LAB2-138": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'» (למשל 1904-02-27 או 1868):'"
+"exact": "'<button class=\"fb-work fb-sub\" data-t=\"work\" data-level=\"a\">מאמר</button>'"
 },
 "LAB2-139": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'הפורמט: YYYY או YYYY-MM-DD'"
+"exact": "'<button class=\"fb-work fb-sub\" data-t=\"work\" data-level=\"j\">עיתון · כתב־עת</button>'"
 },
 "LAB2-140": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'✓ נוסף when=\"'"
+"exact": "'✓ סומן ‎<'"
 },
 "LAB2-141": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'\" — עכשיו התאריך יושב על ציר זמן אוניברסלי (ISO 8601). זהו ה\"מאגר\" של תאריכים.'"
+"exact": "'>‎. נמצאו עוד '"
 },
 "LAB2-142": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<div class=\"hint\">המילון לא מצא מועמדים חדשים — או שכבר תייגתם הכול. מה זה אומר על שיטת המילון?</div>'"
+"exact": "' מופעים זהים של «'"
 },
 "LAB2-143": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "' מופעים</span>'"
+"exact": "'<button class=\"btn small\" id=\"tag-rest\">לתייג את כולם</button>'"
 },
 "LAB2-144": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<button class=\"btn small\" data-act=\"ok\">אשרו — תייגו הכול</button>'"
+"exact": "'✓ תויגו עוד '"
 },
 "LAB2-145": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<button class=\"btn small\" data-act=\"no\">דחו</button>'"
+"exact": "' מופעים. כך עובד תיוג חצי־אוטומטי: החלטה אנושית אחת, יישום מכני על כל המופעים.'"
 },
 "LAB2-146": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'» תויג ב־'"
+"exact": "'ערך קריא־למכונה עבור «'"
 },
 "LAB2-147": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'לא נותרו מופעים חופשיים לתיוג'"
+"exact": "'» (למשל 1904-02-27 או 1868):'"
 },
 "LAB2-148": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'לפניך מכתב עברי משנת 1904. אתר בו את כל השמות: אנשים, מקומות, יצירות (ספרים, מאמרים, כתבי־עת) ותאריכים.\\n'"
+"exact": "'הפורמט: YYYY או YYYY-MM-DD'"
 },
 "LAB2-149": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'עבור כל שם החזר שורה בטבלה: הכתיב כפי שמופיע בטקסט · הצורה המודרנית המקובלת · הסוג · והערה קצרה על ההקשר.\\n'"
+"exact": "'✓ נוסף when=\"'"
 },
 "LAB2-150": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'אל תשמיט שמות בכתיב יידי או היסטורי, ואל תכלול מילים שאינן שמות (למשל שם של שפה אינו שם של מקום).\\n'"
+"exact": "'\" — עכשיו התאריך יושב על ציר זמן אוניברסלי (ISO 8601). זהו ה\"מאגר\" של תאריכים.'"
 },
 "LAB2-151": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'אחרי הטבלה, הצג את נוסח המכתב המלא כשכל שם שאיתרת מסומן בו — בתצוגה קריאה ומעוצבת, לא בקוד: אנשים בהדגשה, מקומות בהטיה, יצירות בהדגשה־והטיה, ותאריכים בקו תחתון. הוסף מקרא קצר לפני הטקסט.\\n\\nהמכתב:\\n\\n'"
+"exact": "'<span class=\"hint\">ה־XML אינו תקין — תקנו בלשונית 1.</span>'"
 },
 "LAB2-152": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'[נוסח המכתב יצורף אוטומטית מן העורך]'"
+"exact": "'<span class=\"hint\">אפס תוצאות — בגוף המכתב עדיין אין תגיות כאלה. חזרו לשלב 1, סמנו, והריצו שוב: שאילתה טובה רק כמו התיוג שמתחתיה.</span>'"
 },
 "LAB2-153": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'✓ הועתק — הדביקו בצ׳אט של מודל שפה'"
+"exact": "' תגיות · '"
 },
 "LAB2-154": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'כ'"
+"exact": "' ערכים שונים · ממוין לפי שכיחות'"
 },
 "LAB2-155": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'מ'"
+"exact": "'<div class=\"hint\">המילון לא מצא מועמדים חדשים — או שכבר תייגתם הכול. מה זה אומר על שיטת המילון?</div>'"
 },
 "LAB2-156": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'נ'"
+"exact": "' מופעים</span>'"
 },
 "LAB2-157": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'פ'"
+"exact": "'<button class=\"btn small\" data-act=\"ok\">אשרו — תייגו הכול</button>'"
 },
 "LAB2-158": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'צ'"
+"exact": "'<button class=\"btn small\" data-act=\"no\">דחו</button>'"
 },
 "LAB2-159": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'א'"
+"exact": "'» תויג ב־'"
 },
 "LAB2-160": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'ב'"
+"exact": "'לא נותרו מופעים חופשיים לתיוג'"
 },
 "LAB2-161": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'ג'"
+"exact": "'לפניך מכתב עברי משנת 1904. אתר בו את כל השמות: אנשים, מקומות, יצירות (ספרים, מאמרים, כתבי־עת) ותאריכים.\\n'"
 },
 "LAB2-162": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'ד'"
+"exact": "'עבור כל שם החזר שורה בטבלה: הכתיב כפי שמופיע בטקסט · הצורה המודרנית המקובלת · הסוג · והערה קצרה על ההקשר.\\n'"
 },
 "LAB2-163": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'ה'"
+"exact": "'אל תשמיט שמות בכתיב יידי או היסטורי, ואל תכלול מילים שאינן שמות (למשל שם של שפה אינו שם של מקום).\\n'"
 },
 "LAB2-164": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'ו'"
+"exact": "'אחרי הטבלה, הצג את נוסח המכתב המלא כשכל שם שאיתרת מסומן בו — בתצוגה קריאה ומעוצבת, לא בקוד: אנשים בהדגשה, מקומות בהטיה, יצירות בהדגשה־והטיה, ותאריכים בקו תחתון. הוסף מקרא קצר לפני הטקסט.\\n\\nהמכתב:\\n\\n'"
 },
 "LAB2-165": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'ז'"
+"exact": "'[נוסח המכתב יצורף אוטומטית מן העורך]'"
 },
 "LAB2-166": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'ח'"
+"exact": "'✓ הועתק — הדביקו בצ׳אט של מודל שפה'"
 },
 "LAB2-167": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'ט'"
+"exact": "'כ'"
 },
 "LAB2-168": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'י'"
+"exact": "'מ'"
 },
 "LAB2-169": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'ל'"
+"exact": "'נ'"
 },
 "LAB2-170": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'ס'"
+"exact": "'פ'"
 },
 "LAB2-171": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'ע'"
+"exact": "'צ'"
 },
 "LAB2-172": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'ק'"
+"exact": "'א'"
 },
 "LAB2-173": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'ר'"
+"exact": "'ב'"
 },
 "LAB2-174": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'ש'"
+"exact": "'ג'"
 },
 "LAB2-175": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'ת'"
+"exact": "'ד'"
 },
 "LAB2-176": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'התאמה מדויקת לכתיב רשום'"
+"exact": "'ה'"
 },
 "LAB2-177": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'כתיב רשום — אך על יותר ממקום אחד'"
+"exact": "'ו'"
 },
 "LAB2-178": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'דמיון כתיב'"
+"exact": "'ז'"
 },
 "LAB2-179": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'התאמה פונטית (שלד עיצורים)'"
+"exact": "'ח'"
 },
 "LAB2-180": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'תאריך: '"
+"exact": "'ט'"
 },
 "LAB2-181": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<div class=\"hint\">תאריכים אינם זקוקים למאגר חיצוני: המזהה שלהם הוא הערך התקני עצמו — <code>when=\"1904-02-27\"</code> בתקן ISO 8601. אם טרם מילאתם אותו, לחצו על השבב בלשונית 2. זה מה שמציב את המכתב על ציר זמן אחד עם כל מסמך אחר בעולם.</div>'"
+"exact": "'י'"
 },
 "LAB2-182": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'חיפוש בגזטיר Kima — '"
+"exact": "'ל'"
 },
 "LAB2-183": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'חיפוש ב־Wikidata — '"
+"exact": "'ס'"
 },
 "LAB2-184": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<button class=\"btn primary\" id=\"q-go\">חיפוש ←</button>'"
+"exact": "'ע'"
 },
 "LAB2-185": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'Kima מכיר כתיבים היסטוריים רבים — אבל לא את כולם. אם החיפוש המדויק ייכשל, המנוע ינסה התאמה קירובית.'"
+"exact": "'ק'"
 },
 "LAB2-186": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'ליצירות היסטוריות רבות — ובהן ״הצופה״ של 1904 וספרי קובנר — אין עדיין רשומה ב־Wikidata. אם לא נמצא: ״רשמו כישות מקומית״ — הרשומה המקומית שלכם היא־היא תעודת הזהות שלהן, וייתכן שתתרמו אותה יום אחד למאגר העולמי.'"
+"exact": "'ר'"
 },
 "LAB2-187": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'טיפ: מאגרי זהויות מדברים עברית מודרנית. אם הכתיב שבמכתב לא נמצא — נסו לנרמל אותו (למשל ״גאגאל״ ← ״גוגול״). זה בדיוק האתגר בטקסטים היסטוריים.'"
+"exact": "'ש'"
 },
 "LAB2-188": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<span class=\"hint\">עד כמה אתם בטוחים בהכרעה?</span>'"
+"exact": "'ת'"
 },
 "LAB2-189": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<button data-cert=\"high\" class=\"active\">ודאי</button>'"
+"exact": "'התאמה מדויקת לכתיב רשום'"
 },
 "LAB2-190": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<button data-cert=\"medium\">סביר</button>'"
+"exact": "'כתיב רשום — אך על יותר ממקום אחד'"
 },
 "LAB2-191": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<button data-cert=\"low\">בספק</button>'"
+"exact": "'דמיון כתיב'"
 },
 "LAB2-192": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<span class=\"hint\">— נרשם כ־<code>cert</code> על המזהה</span>'"
+"exact": "'התאמה פונטית (שלד עיצורים)'"
 },
 "LAB2-193": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<div class=\"cand\"><div class=\"c-desc\">לא נמצא — גם לא בקירוב. שתי אפשרויות: (א) זה מקום שאינו יישוב — לגזטיר של יישובים יש גבולות (נסו ״אירופא״…); (ב) זה כתיב או מקום שחסר ב־Kima — תגלית! סמנו אותו כתרומה עתידית.</div>'"
+"exact": "'תאריך: '"
 },
 "LAB2-194": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<button class=\"btn small\" data-noext=\"1\">רשמו כישות מקומית בלבד</button></div>'"
+"exact": "'<div class=\"hint\">תאריכים אינם זקוקים למאגר חיצוני: המזהה שלהם הוא הערך התקני עצמו — <code>when=\"1904-02-27\"</code> בתקן ISO 8601. אם טרם מילאתם אותו, לחצו על השבב בלשונית 2. זה מה שמציב את המכתב על ציר זמן אחד עם כל מסמך אחר בעולם.</div>'"
 },
 "LAB2-195": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'התאמה מדויקת · דרגה A'"
+"exact": "'חיפוש בגזטיר Kima — '"
 },
 "LAB2-196": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'כתיב רשום על כמה מקומות — הכרעה אנושית · דרגה C'"
+"exact": "'חיפוש ב־Wikidata — '"
 },
 "LAB2-197": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'לא נמצא כתיב מדויק — מועמדים קירוביים · דרגה B'"
+"exact": "'<button class=\"btn primary\" id=\"q-go\">חיפוש ←</button>'"
 },
 "LAB2-198": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'\">זו הישות ←</button>'"
+"exact": "'Kima מכיר כתיבים היסטוריים רבים — אבל לא את כולם. אם החיפוש המדויק ייכשל, המנוע ינסה התאמה קירובית.'"
 },
 "LAB2-199": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<button class=\"btn small\" data-noext=\"1\" style=\"margin-top:2px\">אף אחד מהם — רשמו כישות מקומית בלבד</button>'"
+"exact": "'ליצירות היסטוריות רבות — ובהן ״הצופה״ של 1904 וספרי קובנר — אין עדיין רשומה ב־Wikidata. אם לא נמצא: ״רשמו כישות מקומית״ — הרשומה המקומית שלכם היא־היא תעודת הזהות שלהן, וייתכן שתתרמו אותה יום אחד למאגר העולמי.'"
 },
 "LAB2-200": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<div class=\"hint\">מחפש ב־Wikidata…</div>'"
+"exact": "'טיפ: מאגרי זהויות מדברים עברית מודרנית. אם הכתיב שבמכתב לא נמצא — נסו לנרמל אותו (למשל ״גאגאל״ ← ״גוגול״). זה בדיוק האתגר בטקסטים היסטוריים.'"
 },
 "LAB2-201": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'לא נמצא. נסו כתיב אחר — שם מלא, כתיב מודרני, או צורה מקובלת אחרת.'"
+"exact": "'<span class=\"hint\">עד כמה אתם בטוחים בהכרעה?</span>'"
 },
 "LAB2-202": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'אין חיבור לרשת — ואין תוצאה שמורה לכתיב הזה. נסו את הכתיב המודרני המלא.'"
+"exact": "'<button data-cert=\"high\" class=\"active\">ודאי</button>'"
 },
 "LAB2-203": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'</div><button class=\"btn small\" data-noext=\"1\">רשמו כישות מקומית בלבד</button></div>'"
+"exact": "'<button data-cert=\"medium\">סביר</button>'"
 },
 "LAB2-204": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<div class=\"hint\" style=\"margin-bottom:6px\">⚠ מצב לא־מקוון — תוצאות שמורות מראש</div>'"
+"exact": "'<button data-cert=\"low\">בספק</button>'"
 },
 "LAB2-205": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'(ללא תיאור)'"
+"exact": "'<span class=\"hint\">— נרשם כ־<code>cert</code> על המזהה</span>'"
 },
 "LAB2-206": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'\">זו הישות ←</button></div></div>'"
+"exact": "'<div class=\"cand\"><div class=\"c-desc\">לא נמצא — גם לא בקירוב. שתי אפשרויות: (א) זה מקום שאינו יישוב — לגזטיר של יישובים יש גבולות (נסו ״אירופא״…); (ב) זה כתיב או מקום שחסר ב־Kima — תגלית! סמנו אותו כתרומה עתידית.</div>'"
 },
 "LAB2-207": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'). מושך מזהים נוספים מן הרשת…'"
+"exact": "'<button class=\"btn small\" data-noext=\"1\">רשמו כישות מקומית בלבד</button></div>'"
 },
 "LAB2-208": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "' · ומזהה אחד גרר עוד: '"
+"exact": "'התאמה מדויקת · דרגה A'"
 },
 "LAB2-209": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "' — שרשרת המאגרים בפעולה.'"
+"exact": "'כתיב רשום על כמה מקומות — הכרעה אנושית · דרגה C'"
 },
 "LAB2-210": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'benyehuda.org/read/40830 · סדנת אגרת'"
+"exact": "'לא נמצא כתיב מדויק — מועמדים קירוביים · דרגה B'"
 },
 "LAB2-211": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<br>🎁 <b>מצאתם כתיב ש־Kima אינו מכיר!</b> «'"
+"exact": "'\">זו הישות ←</button>'"
 },
 "LAB2-212": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'» נרשם בקובץ התרומות — בדיוק כך נתרמו לפרויקט 425 כתיבים חדשים.'"
+"exact": "'<button class=\"btn small\" data-noext=\"1\" style=\"margin-top:2px\">אף אחד מהם — רשמו כישות מקומית בלבד</button>'"
 },
 "LAB2-213": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'» נרשם כישות <b>מקומית</b> — '"
+"exact": "'<div class=\"hint\">מחפש ב־Wikidata…</div>'"
 },
 "LAB2-214": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'. גם בלי מזהה חיצוני יש לו עכשיו זהות אחת בקובץ שלכם: כל המופעים מצביעים לרשומה אחת. מאגר עולמי מתחיל כך בדיוק.'"
+"exact": "'לא נמצא. נסו כתיב אחר — שם מלא, כתיב מודרני, או צורה מקובלת אחרת.'"
 },
 "LAB2-215": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'נולד '"
+"exact": "'אין חיבור לרשת — ואין תוצאה שמורה לכתיב הזה. נסו את הכתיב המודרני המלא.'"
 },
 "LAB2-216": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "' · נפטר '"
+"exact": "'</div><button class=\"btn small\" data-noext=\"1\">רשמו כישות מקומית בלבד</button></div>'"
 },
 "LAB2-217": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<span style=\"color:var(--muted)\">— עדיין ריק. קשרו ישות ראשונה ותראו אותה נרשמת כאן. —</span>'"
+"exact": "'<div class=\"hint\" style=\"margin-bottom:6px\">⚠ מצב לא־מקוון — תוצאות שמורות מראש</div>'"
 },
 "LAB2-218": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<div class=\"d-title\">🎁 קובץ התרומות שלכם ל־Kima — '"
+"exact": "'(ללא תיאור)'"
 },
 "LAB2-219": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "' כתיבים חדשים</div><ul>'"
+"exact": "'\">זו הישות ←</button></div></div>'"
 },
 "LAB2-220": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'</ul><div class=\"hint\">בעולם האמיתי הקובץ הזה נמסר לצוות Kima לבדיקה — התרומה הקטנה ביותר למאגר משותף היא כתיב שרק אתם ראיתם.</div>'"
+"exact": "'). מושך מזהים נוספים מן הרשת…'"
 },
 "LAB2-221": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'אודיסא'"
+"exact": "' · ומזהה אחד גרר עוד: '"
 },
 "LAB2-222": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'אותו שם — שלוש יבשות. ההקשר מכריע: מכתבים עבריים סביב 1900 · והפרויקט אכן קישר לאודסה שעל הים השחור, על 820 מכתבים.'"
+"exact": "' — שרשרת המאגרים בפעולה.'"
 },
 "LAB2-223": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'ירושלים'"
+"exact": "'benyehuda.org/read/40830 · סדנת אגרת'"
 },
 "LAB2-224": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'כאן כל המועמדים הם ״אותו מקום״ — בשכבות היסטוריות שונות (סנג׳ק עות׳מאני, ממלכה צלבנית, העיר של היום). הגזטיר ההיסטורי מבחין ביניהן בכוונה.'"
+"exact": "'<br>🎁 <b>מצאתם כתיב ש־Kima אינו מכיר!</b> «'"
 },
 "LAB2-225": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'וורשה'"
+"exact": "'» נרשם בקובץ התרומות — בדיוק כך נתרמו לפרויקט 425 כתיבים חדשים.'"
 },
 "LAB2-226": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'שימו לב למלכודת: בין המועמדים מסתתרת פולין המדינה, ומחוז ורשה, ודוכסות ורשה — היררכיה שלמה חולקת שם אחד.'"
+"exact": "'» נרשם כישות <b>מקומית</b> — '"
 },
 "LAB2-227": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'רוסיה'"
+"exact": "'. גם בלי מזהה חיצוני יש לו עכשיו זהות אחת בקובץ שלכם: כל המופעים מצביעים לרשומה אחת. מאגר עולמי מתחיל כך בדיוק.'"
 },
 "LAB2-228": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'מדינה בגזטיר של יישובים — שאלת גבולות הסכֵמה. הפרויקט השאיר את השם הזה בתור הבדיקה האנושית.'"
+"exact": "'נולד '"
 },
 "LAB2-229": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'קושטא'"
+"exact": "' · נפטר '"
 },
 "LAB2-230": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'שם היסטורי עברי לעיר שנקראת היום איסטנבול. הרשומה הנכונה היא העיר — גם אם שמה הראשי שונה.'"
+"exact": "'<span style=\"color:var(--muted)\">— עדיין ריק. קשרו ישות ראשונה ותראו אותה נרשמת כאן. —</span>'"
 },
 "LAB2-231": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'בריסק'"
+"exact": "'<div class=\"d-title\">🎁 קובץ התרומות שלכם ל־Kima — '"
 },
 "LAB2-232": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'בריסק דליטא של הספרות הרבנית היא Brest שבבלארוס — לא Brest שבצרפת. פונטיקה בלבד לא תכריע כאן; ידע היסטורי כן.'"
+"exact": "' כתיבים חדשים</div><ul>'"
 },
 "LAB2-233": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<span class=\"grade grade-C\">C · דרוש אדם</span>'"
+"exact": "'</ul><div class=\"hint\">בעולם האמיתי הקובץ הזה נמסר לצוות Kima לבדיקה — התרומה הקטנה ביותר למאגר משותף היא כתיב שרק אתם ראיתם.</div>'"
 },
 "LAB2-234": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "' מכתבים תלויים בהכרעה</span></div>'"
+"exact": "'אודיסא'"
 },
 "LAB2-235": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<button class=\"q-cand\" data-k=\"none\">אף אחד מהם</button></div>'"
+"exact": "'אותו שם — שלוש יבשות. ההקשר מכריע: מכתבים עבריים סביב 1900 · והפרויקט אכן קישר לאודסה שעל הים השחור, על 820 מכתבים.'"
 },
 "LAB2-236": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'✅ <b>כמו הפרויקט.</b> '"
+"exact": "'ירושלים'"
 },
 "LAB2-237": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'🤔 <b>הפרויקט הכריע אחרת:</b> '"
+"exact": "'כאן כל המועמדים הם ״אותו מקום״ — בשכבות היסטוריות שונות (סנג׳ק עות׳מאני, ממלכה צלבנית, העיר של היום). הגזטיר ההיסטורי מבחין ביניהן בכוונה.'"
 },
 "LAB2-238": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'בפרויקט אגרת קושר השם ל־<b>'"
+"exact": "'וורשה'"
 },
 "LAB2-239": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'📌 בפרויקט השם הזה נותר בתור הבדיקה — יש שאלות שגם המנוע לא מכריע. '"
+"exact": "'שימו לב למלכודת: בין המועמדים מסתתרת פולין המדינה, ומחוז ורשה, ודוכסות ורשה — היררכיה שלמה חולקת שם אחד.'"
 },
 "LAB2-240": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<div class=\"pv-empty\" style=\"padding:20px\">קשרו ישויות בלשונית 3 — והגרף יופיע כאן.</div>'"
+"exact": "'רוסיה'"
 },
 "LAB2-241": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'\" text-anchor=\"middle\" font-family=\"Heebo\" font-weight=\"700\" font-size=\"12\" fill=\"#fff\">המכתב</text>'"
+"exact": "'מדינה בגזטיר של יישובים — שאלת גבולות הסכֵמה. הפרויקט השאיר את השם הזה בתור הבדיקה האנושית.'"
 },
 "LAB2-242": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'✓ נבנה גרף עם '"
+"exact": "'קושטא'"
 },
 "LAB2-243": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "' ישויות. כל שורת owl:sameAs היא גשר למאגר עולמי.'"
+"exact": "'שם היסטורי עברי לעיר שנקראת היום איסטנבול. הרשומה הנכונה היא העיר — גם אם שמה הראשי שונה.'"
 },
 "LAB2-244": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'הגרף ריק כמעט — חזרו ללשונית 3 וקשרו ישויות, ואז בנו שוב.'"
+"exact": "'בריסק'"
 },
 "LAB2-245": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<option value=\"\">— קשרו קודם ישות ל־Wikidata בלשונית 3 —</option>'"
+"exact": "'בריסק דליטא של הספרות הרבנית היא Brest שבבלארוס — לא Brest שבצרפת. פונטיקה בלבד לא תכריע כאן; ידע היסטורי כן.'"
 },
 "LAB2-246": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<div class=\"hint\">אין עדיין ישות מקושרת ל־Wikidata.</div>'"
+"exact": "'<span class=\"grade grade-C\">C · דרוש אדם</span>'"
 },
 "LAB2-247": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<div class=\"hint\">שואל את Wikidata על '"
+"exact": "' מכתבים תלויים בהכרעה</span></div>'"
 },
 "LAB2-248": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'\" target=\"_blank\" rel=\"noopener\">הספרייה הלאומית</a>'"
+"exact": "'<button class=\"q-cand\" data-k=\"none\">אף אחד מהם</button></div>'"
 },
 "LAB2-249": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<div class=\"hint\" style=\"margin-top:8px\">כל מה שכאן הגיע ממזהה אחד. לא הקלדנו ביוגרפיה — שאלנו את הרשת.</div>'"
+"exact": "'✅ <b>כמו הפרויקט.</b> '"
 },
 "LAB2-250": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "' מכתבים</title></circle>'"
+"exact": "'🤔 <b>הפרויקט הכריע אחרת:</b> '"
 },
 "LAB2-251": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "' — קושר על ידכם</title></circle>'"
+"exact": "'בפרויקט אגרת קושר השם ל־<b>'"
 },
 "LAB2-252": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'מכתב'"
+"exact": "'📌 בפרויקט השם הזה נותר בתור הבדיקה — יש שאלות שגם המנוע לא מכריע. '"
 },
 "LAB2-253": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'        <p>קידוד תרגול — סדנת אגרת</p>\\n'"
+"exact": "'<div class=\"pv-empty\" style=\"padding:20px\">קשרו ישויות בלשונית 3 — והגרף יופיע כאן.</div>'"
 },
 "LAB2-254": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'        <bibl>פרויקט בן־יהודה, '"
+"exact": "'\" text-anchor=\"middle\" font-family=\"Heebo\" font-weight=\"700\" font-size=\"12\" fill=\"#fff\">המכתב</text>'"
 },
 "LAB2-255": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'במסמך הנוכחי יש כבר סימונים. לקבל מכתב חדש ולנקות את רשימת הזהויות? (הורידו קודם את הקבצים שלכם אם טרם עשיתם זאת)'"
+"exact": "'✓ נבנה גרף עם '"
 },
 "LAB2-256": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'המכתב האישי: '"
+"exact": "' ישויות. כל שורת owl:sameAs היא גשר למאגר עולמי.'"
 },
 "LAB2-257": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'המכתב שלכם: <b>'"
+"exact": "'הגרף ריק כמעט — חזרו ללשונית 3 וקשרו ישויות, ואז בנו שוב.'"
 },
 "LAB2-258": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'\" target=\"_blank\" rel=\"noopener\" style=\"color:var(--teal)\">במקור</a>'"
+"exact": "'<option value=\"\">— קשרו קודם ישות ל־Wikidata בלשונית 3 —</option>'"
 },
 "LAB2-259": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'✉ קיבלתם את «'"
+"exact": "'<div class=\"hint\">אין עדיין ישות מקושרת ל־Wikidata.</div>'"
 },
 "LAB2-260": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'» — תעודת הזהות מלאה, הטקסט נקי מסימונים. כל המסלול שלכם: זיהוי ← קישור ← הורדה. (חזרה למכתב של קובנר: ״חזרה לקובץ הדוגמה״ בלשונית 1.)'"
+"exact": "'<div class=\"hint\">שואל את Wikidata על '"
 },
 "LAB2-261": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<div class=\"status err\" style=\"display:block\">לא נמצאו רשומות זהות בקבצים — ודאו שאלה קובצי ה־authority או ה־TEI המועשר שהורדו מהמעבדה.</div>'"
+"exact": "'\" target=\"_blank\" rel=\"noopener\">הספרייה הלאומית</a>'"
 },
 "LAB2-262": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "' קבצים · '"
+"exact": "'<div class=\"hint\" style=\"margin-top:8px\">כל מה שכאן הגיע ממזהה אחד. לא הקלדנו ביוגרפיה — שאלנו את הרשת.</div>'"
 },
 "LAB2-263": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "' רשומות ← <b>'"
+"exact": "' מכתבים</title></circle>'"
 },
 "LAB2-264": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "' ישויות</b>'"
+"exact": "' — קושר על ידכם</title></circle>'"
 },
 "LAB2-265": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "' — שימו לב לשורות הירוקות: כתיבים שונים, ישות אחת.'"
+"exact": "'מכתב'"
 },
 "LAB2-266": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<table class=\"merge\"><tr><th>ישות</th><th>סוג</th><th>הכתיבים שנמצאו</th><th>מי</th><th>מזהים</th></tr>'"
+"exact": "'        <p>קידוד תרגול — סדנת אגרת</p>\\n'"
 },
 "LAB2-267": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "' רשומות מקומיות</b> נשארו בלתי־ממוזגות — בלי מזהה חיצוני אין למחשב דרך לדעת ששתי רשומות הן אותה ישות. זה בדיוק מה שמזהה קונה.</div>'"
+"exact": "'        <bibl>פרויקט בן־יהודה, '"
 },
 "LAB2-268": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'⚠ לפני ההורדה — כתבו את שמכם בשדה שבראש הדף. השם נכנס לקובץ ולשם הקובץ: כך יודעים, גם בעוד שנה, מי קידד ומי הכריע.'"
+"exact": "'במסמך הנוכחי יש כבר סימונים. לקבל מכתב חדש ולנקות את רשימת הזהויות? (הורידו קודם את הקבצים שלכם אם טרם עשיתם זאת)'"
 },
 "LAB2-269": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<respStmt>\\n          <resp>תיוג, זיהוי ישויות וקישור</resp>\\n          <name>'"
+"exact": "'המכתב האישי: '"
 },
 "LAB2-270": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
-"exact": "'<?xml version=\"1.0\" encoding=\"UTF-8\"?>\\n<!-- קובץ הזהויות של '"
+"exact": "'המכתב שלכם: <b>'"
 },
 "LAB2-271": {
+"file": "scripts/build-lab2/index.template.html",
+"kind": "js",
+"exact": "'\" target=\"_blank\" rel=\"noopener\" style=\"color:var(--teal)\">במקור</a>'"
+},
+"LAB2-272": {
+"file": "scripts/build-lab2/index.template.html",
+"kind": "js",
+"exact": "'✉ קיבלתם את «'"
+},
+"LAB2-273": {
+"file": "scripts/build-lab2/index.template.html",
+"kind": "js",
+"exact": "'» — תעודת הזהות מלאה, הטקסט נקי מסימונים. כל המסלול שלכם: זיהוי ← קישור ← הורדה. (חזרה למכתב של קובנר: ״חזרה לקובץ הדוגמה״ בלשונית 1.)'"
+},
+"LAB2-274": {
+"file": "scripts/build-lab2/index.template.html",
+"kind": "js",
+"exact": "'<div class=\"status err\" style=\"display:block\">לא נמצאו רשומות זהות בקבצים — ודאו שאלה קובצי ה־authority או ה־TEI המועשר שהורדו מהמעבדה.</div>'"
+},
+"LAB2-275": {
+"file": "scripts/build-lab2/index.template.html",
+"kind": "js",
+"exact": "' קבצים · '"
+},
+"LAB2-276": {
+"file": "scripts/build-lab2/index.template.html",
+"kind": "js",
+"exact": "' רשומות ← <b>'"
+},
+"LAB2-277": {
+"file": "scripts/build-lab2/index.template.html",
+"kind": "js",
+"exact": "' ישויות</b>'"
+},
+"LAB2-278": {
+"file": "scripts/build-lab2/index.template.html",
+"kind": "js",
+"exact": "' — שימו לב לשורות הירוקות: כתיבים שונים, ישות אחת.'"
+},
+"LAB2-279": {
+"file": "scripts/build-lab2/index.template.html",
+"kind": "js",
+"exact": "'<table class=\"merge\"><tr><th>ישות</th><th>סוג</th><th>הכתיבים שנמצאו</th><th>מי</th><th>מזהים</th></tr>'"
+},
+"LAB2-280": {
+"file": "scripts/build-lab2/index.template.html",
+"kind": "js",
+"exact": "' רשומות מקומיות</b> נשארו בלתי־ממוזגות — בלי מזהה חיצוני אין למחשב דרך לדעת ששתי רשומות הן אותה ישות. זה בדיוק מה שמזהה קונה.</div>'"
+},
+"LAB2-281": {
+"file": "scripts/build-lab2/index.template.html",
+"kind": "js",
+"exact": "'⚠ לפני ההורדה — כתבו את שמכם בשדה שבראש הדף. השם נכנס לקובץ ולשם הקובץ: כך יודעים, גם בעוד שנה, מי קידד ומי הכריע.'"
+},
+"LAB2-282": {
+"file": "scripts/build-lab2/index.template.html",
+"kind": "js",
+"exact": "'<respStmt>\\n          <resp>תיוג, זיהוי ישויות וקישור</resp>\\n          <name>'"
+},
+"LAB2-283": {
+"file": "scripts/build-lab2/index.template.html",
+"kind": "js",
+"exact": "'<?xml version=\"1.0\" encoding=\"UTF-8\"?>\\n<!-- קובץ הזהויות של '"
+},
+"LAB2-284": {
 "file": "scripts/build-lab2/index.template.html",
 "kind": "js",
 "exact": "' · סדנת אגרת -->\\n'"

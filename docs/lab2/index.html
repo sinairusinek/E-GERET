@@ -643,10 +643,37 @@
       </div>
       <div class="status" id="ner-status"></div>
 
-      <div class="stepline"><span class="stepnum">2</span>תיוג חצי־אוטומטי — המכונה מציעה, אתם מכריעים</div>
+      <div class="stepline"><span class="stepnum">2</span>מן התיוג אל הניתוח — שאילתה ראשונה</div>
+      <div class="explain">
+        <b>למה בכלל לתייג? כי תיוג מאפשר ניתוח.</b>
+        ברגע שהשמות עטופים בתגיות, הטקסט אינו רק מילים — הוא נתונים, ואפשר להפנות אליו שאלות.
+        הביטוי שלמטה כתוב ב־<b>XPath</b>, שפת השאילתות של XML: ״תן לי כל תגית כזו־וכזו,
+        בכל מקום בגוף המסמך״ — וזו בדיוק השאילתה שהדף מריץ כשלוחצים על הכפתור.
+        בחרו מה לשלוף, הריצו, וקבלו את היבול ממוין לפי שכיחות.
+        ועכשיו דמיינו את אותה שאילתה רצה לא על מכתב אחד — אלא על אלפים.
+      </div>
+      <div class="toolbar">
+        <span class="certseg" id="xq-seg">
+          <button data-q="all" class="active">כל השמות</button>
+          <button data-q="persName">אנשים</button>
+          <button data-q="placeName">מקומות</button>
+          <button data-q="title">יצירות</button>
+          <button data-q="date">תאריכים</button>
+        </span>
+        <code id="xq-expr" style="direction:ltr;unicode-bidi:embed;font-family:'IBM Plex Mono',monospace;font-size:13px;background:#fff;border:1px solid var(--rule);border-radius:4px;padding:5px 12px"></code>
+        <button class="btn primary" id="xq-run">הריצו את השאילתה ←</button>
+      </div>
+      <div class="pane short" id="xq-pane" style="display:none">
+        <div class="pane-head">תוצאת השאילתה <span class="spacer"></span><span class="hint" id="xq-count"></span></div>
+        <div class="pane-body"><div class="entlist" id="xq-out"></div></div>
+      </div>
+
+      <div class="stepline"><span class="stepnum">3</span>תיוג חצי־אוטומטי — המכונה מציעה, אתם מכריעים</div>
       <div class="explain">
         עכשיו נשחרר את המכונה על שאר המכתב. כך עובד NER מבוסס־מילון: המחשב משווה את הטקסט
-        לרשימות שמות מוכרים — כאן, השמות השכיחים שחולצו מ־4,721 מכתבי הפרויקט — ומציע מועמדים.
+        לרשימות שמות מוכרים — ומניין רשימות כאלה? בדיוק מהתהליך שראיתם זה עתה: שאילתות כמו
+        שלכם, שהופעלו מראש על אוסף גדול של מכתבים מתויגים, אספו אוצר של שמות — ובו, בין השאר,
+        קבוצה גדולה של שמות מקומות. המחשב משווה את הטקסט לאוצר הזה ומציע מועמדים.
         עברו על ההצעות אחת־אחת: אשרו את הנכונות, דחו את המוטעות.
       </div>
       <div class="toolbar">
@@ -666,7 +693,7 @@
         זה ההבדל בין למצוא מחרוזת ובין להבין אזכור — והסיבה שגם אחרי כל אוטומציה, ההכרעה חוזרת אליכם.
       </div>
 
-      <div class="stepline"><span class="stepnum">3</span>ניסוי השוואה: מה מודל שפה היה עושה?</div>
+      <div class="stepline"><span class="stepnum">4</span>ניסוי השוואה: מה מודל שפה היה עושה?</div>
       <div class="explain">
         מילון קורא מילים; מודל שפה קורא <b>הקשר</b>. בפרויקט אגרת את הזיהוי המלא עשה מודל שפה
         (Gemini) על כל 4,721 המכתבים. נסו בעצמכם: הכפתור מעתיק ללוח הנחיה מוכנה + נוסח המכתב —
@@ -679,7 +706,7 @@
       </div>
       <div class="copybox" id="llm-prompt-view" dir="rtl"></div>
 
-      <div class="stepline"><span class="stepnum">4</span>השמות שנמצאו — מועמדים לישויות</div>
+      <div class="stepline"><span class="stepnum">5</span>השמות שנמצאו — מועמדים לישויות</div>
       <div class="explain q">
         זהו היבול: רשימת <b>השמות</b> שסומנו, עם מספר המופעים של כל אחד.
         שימו לב ללשון: אלה עדיין לא ישויות — כל שם הוא בינתיים רק <b>מועמד לישות</b>.
@@ -1381,6 +1408,53 @@ document.getElementById('entlist').addEventListener('click', e => {
   setTEI(serializeTei(doc));
   flash('ner-status', 'ok', '✓ נוסף when="' + val.trim() + '" — עכשיו התאריך יושב על ציר זמן אוניברסלי (ISO 8601). זהו ה"מאגר" של תאריכים.');
 });
+
+/* ================= tab 2: annotation -> analysis (XPath demo) ================= */
+const XQUERIES = {
+  all: '//body//persName | //body//placeName | //body//title | //body//date',
+  persName: '//body//persName',
+  placeName: '//body//placeName',
+  title: '//body//title',
+  date: '//body//date'
+};
+let xqCurrent = 'all';
+function xqUpdateExpr() { document.getElementById('xq-expr').textContent = XQUERIES[xqCurrent]; }
+document.getElementById('xq-seg').addEventListener('click', e => {
+  const q = e.target.dataset && e.target.dataset.q;
+  if (!q) return;
+  xqCurrent = q;
+  document.querySelectorAll('#xq-seg button').forEach(b => b.classList.toggle('active', b.dataset.q === q));
+  xqUpdateExpr();
+});
+xqUpdateExpr();
+function xqRun() {
+  const out = document.getElementById('xq-out');
+  document.getElementById('xq-pane').style.display = '';
+  /* the displayed XPath runs verbatim: the namespace is stripped from this
+     parse so the classroom query needs no prefixes */
+  const doc = new DOMParser().parseFromString(TEI.replace(/\sxmlns="[^"]*"/, ''), 'text/xml');
+  if (doc.querySelector('parsererror')) { out.innerHTML = '<span class="hint">ה־XML אינו תקין — תקנו בלשונית 1.</span>'; return; }
+  const res = doc.evaluate(XQUERIES[xqCurrent], doc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+  const counts = new Map();
+  for (let i = 0; i < res.snapshotLength; i++) {
+    const el = res.snapshotItem(i);
+    const key = el.localName + '|' + el.textContent.replace(/\s+/g, ' ').trim();
+    counts.set(key, (counts.get(key) || 0) + 1);
+  }
+  const rows = [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  if (!rows.length) {
+    out.innerHTML = '<span class="hint">אפס תוצאות — בגוף המכתב עדיין אין תגיות כאלה. חזרו לשלב 1, סמנו, והריצו שוב: שאילתה טובה רק כמו התיוג שמתחתיה.</span>';
+    document.getElementById('xq-count').textContent = '';
+    return;
+  }
+  out.innerHTML = rows.map(([k, c]) => {
+    const tag = k.slice(0, k.indexOf('|')), text = k.slice(k.indexOf('|') + 1);
+    const type = TAG2TYPE[tag] || 'org';
+    return '<span class="ent-chip"><span class="dot dot-' + type + '"></span>' + escapeHtml(text) + ' <span class="cnt">×' + c + '</span></span>';
+  }).join('');
+  document.getElementById('xq-count').textContent = res.snapshotLength + ' תגיות · ' + rows.length + ' ערכים שונים · ממוין לפי שכיחות';
+}
+document.getElementById('xq-run').addEventListener('click', xqRun);
 
 /* ================= tab 2: dictionary suggester ================= */
 function heb(s) { return /[֐-׿]/.test(s); }
