@@ -67,6 +67,29 @@
   .subtitle { font-size: 15px; color: var(--muted); margin-top: 4px; }
   .wrap { max-width: 1200px; width: 100%; }
 
+  footer.colophon {
+    max-width: 1200px;
+    width: 100%;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font-size: 14px;
+    color: var(--muted);
+    text-align: center;
+  }
+  footer.colophon a { color: var(--teal); text-decoration: none; }
+  footer.colophon a:hover { text-decoration: underline; }
+  .banner {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    margin-bottom: 14px;
+  }
+  footer.colophon p { margin: 0 0 4px; }
+  footer.colophon .sub { font-size: 13px; }
+
   /* ---- tabs ---- */
   .tabs { display: flex; gap: 6px; margin-bottom: 0; flex-wrap: wrap; }
   .tab-btn {
@@ -515,6 +538,7 @@
 </head>
 <body>
   <header class="page">
+    <img class="banner" src="../assets/banner.jpg" alt="">
     <div class="crumbs"><a href="../">→ חזרה לדף הסדנה</a></div>
     <h1>מן התיוג אל המחקר — ישויות, קישור ונתונים פתוחים</h1>
     <div class="subtitle">מפגש שני · מ־TEI דרך זיהוי ישויות (NER) אל נתונים מקושרים (Linked Open Data)</div>
@@ -895,6 +919,10 @@
       <div class="status" id="lod-status"></div>
     </section>
   </div>
+
+  <footer class="colophon">
+    <p>סיני רוסינק · <a href="https://github.com/sinairusinek/E-GERET">גיטהאב</a></p>
+  </footer>
 
 <!-- ================= preloaded sample: the Kovner letter, TEI from session 1 ================= -->
 <script type="text/plain" id="sample-tei"><?xml version="1.0" encoding="UTF-8"?>

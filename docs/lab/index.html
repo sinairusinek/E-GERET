@@ -55,6 +55,29 @@
   }
   .wrap { max-width: 1200px; width: 100%; }
 
+  footer.colophon {
+    max-width: 1200px;
+    width: 100%;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font-size: 14px;
+    color: var(--muted);
+    text-align: center;
+  }
+  footer.colophon a { color: var(--teal); text-decoration: none; }
+  footer.colophon a:hover { text-decoration: underline; }
+  .banner {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    margin-bottom: 14px;
+  }
+  footer.colophon p { margin: 0 0 4px; }
+  footer.colophon .sub { font-size: 13px; }
+
   /* ---- top tabs ---- */
   .tabs {
     display: flex;
@@ -510,6 +533,7 @@
 </head>
 <body>
   <header class="page">
+    <img class="banner" src="../assets/banner.jpg" alt="">
     <!-- deliberately no back-link: the session-1 URL is shared on its own,
          and must not lead students to the landing page (which links to session 2) -->
     <h1>הסדנה לתיוג הטקסט</h1>
@@ -761,6 +785,10 @@
       </div>
     </section>
   </div>
+
+  <footer class="colophon">
+    <p>סיני רוסינק · <a href="https://github.com/sinairusinek/E-GERET">גיטהאב</a></p>
+  </footer>
 
 <!-- built-in sample: a shortened, real Ben Yehuda file (Kovner to Brainin, 1904) -->
 <script type="text/plain" id="sample-by-html"><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="he" lang="he" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>א. קובנר לר. בריינין</title>
