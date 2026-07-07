@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>מעבדת תיוג וסימון טקסט</title>
+<title>הסדנה לתיוג הטקסט</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;800;900&family=Heebo:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -107,6 +107,7 @@
     border-radius: 3px;
   }
   .explain b { color: var(--ink); }
+  .explain a, .msg a { color: var(--teal); font-weight: 600; }
   .explain code {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 13px;
@@ -511,7 +512,7 @@
   <header class="page">
     <!-- deliberately no back-link: the session-1 URL is shared on its own,
          and must not lead students to the landing page (which links to session 2) -->
-    <h1>מעבדת תיוג וסימון טקסט</h1>
+    <h1>הסדנה לתיוג הטקסט</h1>
   </header>
 
   <div class="wrap">
@@ -526,16 +527,7 @@
     <!-- TAB 1: plain text + markdown                                 -->
     <!-- ============================================================ -->
     <section class="tab-panel active" id="panel-md">
-      <div class="explain">
-        <b>מטקסט פשוט לטקסט מעוצב — עם סימנים בלבד.</b>
-        בעורך שמימין יושב טקסט פשוט: רצף של תווים, בלי שום עיצוב. <b>Markdown</b> היא מוסכמת סימון קלה:
-        מוסיפים סימנים לטקסט, והמחשב מפרש אותם לעיצוב — שתראו מיד בצד שמאל.
-        נסו על הטקסט: <code>#</code> בתחילת שורה = כותרת · <code>**מילה**</code> = הדגשה ·
-        <code>*מילה*</code> = הטיה · <code>-</code> בתחילת שורה = פריט רשימה · <code>&gt;</code> = ציטוט ·
-        <code>---</code> בשורה משלה = קו מפריד · <code>[טקסט](כתובת)</code> = קישור.
-        <br>שימו לב — תופעה של כתיבה דו־כיוונית: במקלדת עברית תווי הסוגריים מתהפכים, וסימנים כמו
-        <code>&gt;</code> מוצגים במראָה. המעבדה סלחנית לזה; כלים אחרים בעולם — לא תמיד.
-      </div>
+      <div class="explain"><b>מטקסט פשוט לטקסט מעוצב — עם סימנים בלבד.</b> בעורך הטקסט שבצד ימין נמצא טקסט פשוט: רצף של תווים, ללא עיצוב. <b>Markdown</b> היא דרך מוסכמת קלה לסימון טקסט לצורך עיצובו: מוסיפים סימנים לטקסט עצמו, והמחשב מפרש אותם. את התוצאה — הטקסט המעוצב, נראה מיד עם השינוי בצד שמאל. <br>נסו לעצב את הטקסט באמצעות התיוג: <br><code>#</code> בתחילת שורה = כותרת<br> · <code>**מילה**</code> = הדגשה <br>· <code>*מילה*</code> = הטיה <br>· <code>-</code> בתחילת שורה = פריט רשימה<br> · <code>&gt;</code> = ציטוט <br>· <code>---</code> בשורה משלה = קו מפריד <br>· <code>[טקסט](כתובת)</code> = קישור. <br><br> שימו לב — שפות כמו שלנו הנכתבות מימין לשמאל מציבות את האתגר של כתיבה דו־כיוונית: במקלדת עברית תווי הסוגריים מתהפכים, וסימנים כמו <code>&gt;</code> מוצגים בסדר הפוך, כמראָה. הממשק הנוכחי סלחני לזה; כלים אחרים בעולם — לא תמיד.</div>
 
       <div class="toolbar">
         <label class="upload btn">
@@ -546,7 +538,7 @@
         <button class="btn small" id="md-download">הורדה כ־Markdown ⤓</button>
         <button class="btn small" id="md-download-html">הורדה כ־HTML ⤓</button>
         <span class="spacer"></span>
-        <span class="hint">התצוגה מתעדכנת תוך כדי הקלדה</span>
+        <span class="hint">התצוגה תתעדכן תוך כדי הקלדה</span>
       </div>
 
       <div class="split">
@@ -561,15 +553,7 @@
           <div class="pane-body" id="md-out"></div>
         </div>
       </div>
-      <div class="explain" style="margin-top:16px; border-inline-start-color: var(--teal)">
-        <b>ניסוי: אותו קובץ, שלושה מפרשים.</b>
-        <ol style="margin:8px 0 0; padding-inline-start:22px">
-          <li>הורידו את העבודה שלכם כ־<code>.md</code> והעלו את הקובץ ל־Google Drive.</li>
-          <li>לחצו עליו לחיצה כפולה — <b>תצוגה מקדימה</b>: מה רואים? טקסט פשוט, הסימנים גלויים. Drive מציג, לא מפרש.</li>
-          <li>עכשיו קליק ימני ← <b>פתיחה באמצעות ← Google Docs</b>: הסימנים הפכו לעיצוב! אבל בדקו את הכיוון והיישור — Docs רק <i>מנחש</i> שהטקסט עברי, כי ל־Markdown אין דרך להגיד "אני ימין־לשמאל". (תיקון ידני ב־Docs: File ← Language ← עברית, לסמן הכול ולהפוך כיוון פסקה.)</li>
-          <li>הורידו מכאן גם את גרסת ה־<code>.html</code>, העלו ופתחו גם אותה עם Docs — הפעם הכיוון נכון מעצמו. למה? חזרו לתצוגה המקדימה של Drive, שמציגה את הקובץ כטקסט פשוט, ומצאו את התשובה: <code>dir="rtl"</code>. זו בדיוק היכולת ש־HTML מוסיף על Markdown — לא רק לעצב, אלא להצהיר.</li>
-        </ol>
-      </div>
+      <div class="explain" style="margin-top:16px; border-inline-start-color: var(--teal)"><b>ניסוי: אותה אגרת בשינוי אדרת </b> <ol style="margin:8px 0 0; padding-inline-start:22px"> <li>הורידו את העבודה שלכם כקובץ markdown : הקובץ יופיע עם הסיומת <code>.md</code> . העלו אותו ל־Google Drive.</li> <li>לחצו עליו לחיצה כפולה — <b>תצוגה מקדימה</b>: מה רואים? טקסט פשוט, הסימנים גלויים. התצוגה המקדימה של כונן הגוגל מציגה, ולא מתרגמת את הסימנים לעיצוב.</li> <li>לחצו על הלחצן הימני בעכבר ← <b>פתחו באמצעות ← Google Docs</b>: הסימנים הפכו לעיצוב, אבל הכיוון והיישור פגומים. (קל לתקן זאת על ידי פקודת שינוי כיוון: ב־Docs: File ← Language ← עברית, סמנו הכל והפכו את כיוון הפסקה.)</li> <li>הורידו מכאן גם את גרסת ה־<code>.html</code>, העלו ופתחו גם אותה עם Docs — הפעם הכיוון נכון מלכתחילה. כיצד? חזרו לתצוגה המקדימה של Drive, שמציגה את הקובץ כטקסט פשוט, ומצאו את התשובה: <code>dir="rtl"</code>. זוהי שורת הצהרה המבהירה לכלי התצוגה את כיוון הטקסט.</li> </ol></div>
       <div class="tab-next">
         <button class="btn primary" data-next="html">המשך: HTML ←</button>
       </div>
@@ -579,13 +563,7 @@
     <!-- TAB 2: html drill                                            -->
     <!-- ============================================================ -->
     <section class="tab-panel" id="panel-html">
-      <div class="explain">
-        <b>מסימנים לתגיות.</b>
-        את ה־Markdown מהתרגיל הקודם המחשב מתרגם ל־<b>HTML</b> — שפת הסימון של כל דף אינטרנט.
-        כאן הסימון גלוי: כל קטע עטוף ב<b>תגית</b> שנפתחת (<code>&lt;h1&gt;</code>) ונסגרת (<code>&lt;/h1&gt;</code>),
-        והדפדפן מפרש אותה לעיצוב. ערכו את הקוד שמימין — בהקלדה חופשית, או בסימון קטע ובחירת תגית
-        מהרשימה — וראו את התוצאה משמאל.
-      </div>
+      <div class="explain"><b>מסימנים לתגיות.</b> את קובץ ה־Markdown מהתרגיל הקודם תרגמנו עבורכם ל־<b>HTML</b> — שפת התיוג שבה כתוב כל דף אינטרנט. תיוג זה קצת יותר מורכב לקריאה אנושית: מרבית התיוגים מורכבים מ<b>תגית</b> שנפתחת (<code>&lt;h1&gt;</code>) לפני הטקסט המסומן ונסגרת (<code>&lt;/h1&gt;</code>) אחריו, והדפדפן מפרש אותה לעיצוב. <br>ערכו את הקוד שמימין — בהקלדה חופשית, או בבחירת תגית מהרשימה וסימון קטע בטקסט — וראו את התוצאה משמאל.</div>
 
       <div class="toolbar">
         <label class="upload btn">
@@ -623,9 +601,7 @@
         </div>
       </div>
       <p class="hint" style="margin-top:12px">
-        שימו לב: התגיות, התכונות והערכים — תמיד באנגלית (<code>&lt;h1&gt;</code>, <code>dir="rtl"</code>);
-        התוכן שביניהן — בכל שפה. נסו למחוק תגית סוגרת וראו מה קורה לתצוגה.
-      </p>
+        שימו לב: התגיות, התכונות והערכים — תמיד באנגלית (<code>&lt;h1&gt;</code>, <code>dir="rtl"</code>); התוכן שביניהן — בכל שפה.</p>
 
       <div class="toolbar" style="margin-top:16px">
         <button class="btn" id="html-theme">החלפת לבוש ⇄</button>
@@ -648,28 +624,18 @@
     <!-- TAB 2: HTML -> XML                                           -->
     <!-- ============================================================ -->
     <section class="tab-panel" id="panel-xml">
-      <div class="explain">
-        <b>מסימון מעצב לסימון מתאר.</b>
-        קובצי ה־HTML של פרויקט בן־יהודה אומרים לדפדפן <i>איך להציג</i>: <code>&lt;strong&gt;</code> = הדגש,
-        <code>&lt;h2&gt;</code> = כותרת גדולה. XML מתאר <i>מה הדבר הוא</i>: <code>&lt;emph&gt;</code> = מילה מוטעמת,
-        <code>&lt;div type="section"&gt;</code> = יחידת טקסט מסוג מסוים, <code>&lt;note&gt;</code> = הערת שוליים.
-        נמיר קובץ אמיתי, נראה בדיוק אילו החלטות ההמרה קיבלה — ואז <b>תמציאו תגיות משלכם</b> ותסמנו כל מה
-        שנראה לכם ראוי לסימון: אנשים, מקומות, תאריכים, רגשות, טענות. אין רשימה נכונה — השם בידיכם.
-      </div>
+      <div class="explain"><b>בין תיוג מעצב לתיוג מתאר:</b> Markdown ו־HTML הן דרכים להנחות את הדפדפן <i>כיצד יש להציג</i> את הטקסט:<code>&lt;strong&gt;</code> = הדגש, <code>&lt;h2&gt;</code> = כותרת גדולה. לעומתם, XML מתאר את הטקסט עצמו כדי לחשוף בו את המבנה והמשמעות ולהפוך אותם ממובלעים בטקסט למפורשים. כך, במקום לעצב כותרת בלבד, נשתמש בתגית כמו <code>&lt;div type="section"&gt;</code> לסמן יחידת טקסט מסוג מסוים, או נסמן שם של מטבע בתגית <code>&lt;currency&gt;</code>. <br> בחלק זה נמיר קובץ html אמיתי מhtml ל-xml, נראה בדיוק אילו החלטות ההמרה קיבלה — ואז <b>תמציאו תגיות משלכם</b> ותסמנו שמות אנשים, מקומות וכל מה שנראה לכם ראוי לסימון.</div>
 
       <div class="anatomy">
         <div class="an-title">רגע של דקדוק: תגית, תכונה, ערך</div>
         <div class="an-code">&lt;<span class="an-tag">book</span> <span class="an-attr">genre</span>=<span class="an-val">"play"</span> <span class="an-attr">lang</span>=<span class="an-val">"he"</span>&gt;<span class="an-cnt">בחוץ</span>&lt;/<span class="an-tag">book</span>&gt;</div>
         <ul>
-          <li><span class="swatch" style="background:var(--teal)"></span><b>תגית (tag)</b> — אומרת <i>מה הדבר</i>: book. נפתחת ונסגרת, והסוגרת מקבלת לוכסן.</li>
+          <li><span class="swatch" style="background:var(--teal)"></span><b>תגית (tag)</b> — אומרת <i>מהו הדבר</i>: book. נפתחת ונסגרת, והסוגרת מקבלת לוכסן.</li>
           <li><span class="swatch" style="background:var(--gold)"></span><b>תכונה (attribute)</b> — פרט נוסף <i>על</i> הדבר: genre, lang. יושבת תמיד בתוך התגית הפותחת, ואפשר לצרף כמה שרוצים.</li>
           <li><span class="swatch" style="background:var(--brick)"></span><b>ערך (value)</b> — התשובה של התכונה, תמיד בין מרכאות: "play".</li>
           <li><span class="swatch" style="background:#f3ecd9;border:1px solid var(--rule)"></span><b>תוכן</b> — הטקסט עצמו, בין הפותחת לסוגרת: בחוץ. שימו לב לחלוקה: תגיות, תכונות וערכים — באנגלית; התוכן — בשפת המסמך.</li>
         </ul>
-        <p style="margin:10px 0 0; font-size:14.5px; color:var(--ink-soft)">
-          בשביל מה תכונות? כדי לדייק בלי להמציא תגית חדשה לכל מקרה: <code>&lt;date calendar="hebrew"&gt;ט״ו בשבט תרס״ד&lt;/date&gt;</code>
-          לעומת <code>&lt;date calendar="gregorian"&gt;1904&lt;/date&gt;</code> — אותה תגית, הבחנה אחרת. שימו לב אליהן בהמרה שתיכף נריץ: <code>type="section"</code> היא בדיוק כזאת.
-        </p>
+        <p style="margin:10px 0 0; font-size:14.5px; color:var(--ink-soft)">לשם מה יש תכונות? כדי לאפשר להעמיק ברבדים של סיווג ותיאור מבלי שיהיה צורך בתגית חדשה לכל מקרה: <code>&lt;date calendar="hebrew"&gt;ט״ו בשבט תרס״ד&lt;/date&gt;</code> לעומת <code>&lt;date calendar="gregorian"&gt;1904&lt;/date&gt;</code> — אותה תגית, הבחנה אחרת. שימו לב אליהן בהמרה שתיכף נריץ: <code>type="section"</code> היא בדיוק כזאת.</p>
       </div>
 
       <div class="stepline"><span class="stepnum">1</span>בחרו קובץ HTML מפרויקט בן־יהודה</div>
@@ -693,7 +659,7 @@
         </div>
       </div>
 
-      <div class="stepline"><span class="stepnum">2</span>המרה ל־XML מתאר</div>
+      <div class="stepline"><span class="stepnum">2</span>המרה ל־XML תיאורי</div>
       <div class="toolbar">
         <button class="btn primary" id="by-convert" disabled>המרה ל־XML ←</button>
         <span class="hint">ההמרה מפרקת את הרצף לפי כותרות ל־<span style="direction:ltr;unicode-bidi:embed;font-family:'IBM Plex Mono',monospace;font-size:12.5px">&lt;div type="…"&gt;</span>, וממפה כל תגית מעצבת לתגית מתארת</span>
@@ -711,7 +677,7 @@
         <button class="btn small" id="xml-check">בדיקת תקינות ✓</button>
       </div>
       <div class="toolbar">
-        <span class="hint">מה לתייג? מה שחשוב <i>לכם</i>: אנשים, מקומות, תאריכים, ציטוטים, לעג, טרוניה… שמות התגיות — באנגלית, בלי רווחים (קו תחתון מותר); התוכן שביניהן נשאר עברית. התגיות שכבר השתמשתם בהן יופיעו כאן ככפתורים.</span>
+        <span class="hint">שימו לב: שמות התגיות צריכים להיות באנגלית, בלי רווחים (אפשר להפריד עם קו תחתון); התוכן שביניהן נשאר בעברית. התגיות המוצעות יופיעו כאן ככפתורים.</span>
         <span class="spacer"></span>
         <input type="text" class="txt" id="annotator-name" placeholder="שם המתייג/ת — ייכתב בקובץ">
         <button class="btn small" id="xml-download">הורדת ה־XML ⤓</button>
@@ -730,18 +696,13 @@
       </div>
       <div class="status" id="xml-status"></div>
 
-      <div class="stepline" id="step-compare"><span class="stepnum">4</span>אוספים ומשווים — האם כולנו תייגנו אותו דבר?</div>
-      <div class="explain">
-        כל אחד ואחת הורידו קובץ XML עם התגיות שהמציאו. שלחו את הקבצים למנחה (מייל, WhatsApp, AirDrop —
-        כל דרך טובה), והמנחה יעלה כאן את <b>כולם בבת אחת</b>. הטבלה שתתקבל מראה מי המציא אילו תגיות —
-        וכמה שמות שונים נולדו בחדר אחד לאותו רעיון בדיוק. זו בדיוק הבעיה שלשמה הומצא תקן משותף.
-      </div>
+      <div class="stepline" id="step-compare"><span class="stepnum">4</span>נאסוף ונשווה — האם כולנו תייגנו באותו אופן?</div>
+      <div class="explain">כל אחד ואחת הורידו קובץ XML עם התיוג ושלחו את הקובץ לקבוצת ה-WhatsApp</div>
       <div class="toolbar">
         <label class="upload btn">
           העלאת קובצי ה־XML של הקבוצה…
           <input type="file" id="cmp-files" accept=".xml,text/xml,application/xml" multiple>
         </label>
-        <span class="hint">אפשר (ורצוי) לבחור את כל הקבצים בבת אחת</span>
       </div>
       <div id="cmp-out"></div>
       <div class="tab-next">
@@ -753,16 +714,7 @@
     <!-- TAB 3: TEI wizard                                            -->
     <!-- ============================================================ -->
     <section class="tab-panel" id="panel-tei">
-      <div class="explain">
-        <b>עכשיו באמת.</b>
-        בשלב ההשוואה ראינו: חדר אחד, טקסט אחד — ועשרות שמות תגיות שונים לאותם רעיונות.
-        <b>TEI</b> (Text Encoding Initiative) היא התשובה של קהילת מדעי הרוח הדיגיטליים לבעיה הזו, מאז 1987:
-        אוצר מילים מוסכם ומתועד של מאות תגיות. מי שכתב <code>person_name</code> חשב בדיוק כמו מי שקבע
-        <code>&lt;persName&gt;</code> — ההבדל היחיד הוא ההסכמה.
-        כאן נקודד מסמך שלם לפי התקן, בליווי צמוד: המדריך בצ׳אט יוביל אתכם בשלושה שלבים —
-        מילוי תעודת הזהות (<code>teiHeader</code>), בניית המבנה, ותיוג לפי הפרק הרלוונטי בתקן:
-        <b>התכתבות</b> או <b>דרמה</b>.
-      </div>
+      <div class="explain"><b>יוזמת תיוג הטקסט <a href="https://tei-c.org/" target="_blank" rel="noopener">TEI</a></b> (Text Encoding Initiative) היא התשובה של קהילת מדעי הרוח הדיגיטליים לבעית הגיוון בדרכי התיוג. מאז 1987 מתפתח אוצר מילים מוסכם ומתועד של מאות תגיות — כולו פרוש ב<a href="https://tei-c.org/release/doc/tei-p5-doc/en/html/index.html" target="_blank" rel="noopener">הנחיות (Guidelines)</a>, פרק לכל סוגה. כעת נקודד מסמך שלם לפי התקן, בליווי צמוד. המדריך בצ׳אט יוביל אתכם בשלושה שלבים: <br> מילוי המטא-דאטה (<code>teiHeader</code>) של המסמך, בניית המבנה, ותיוג לפי הפרק הרלוונטי בהנחיות הTEI: <b>התכתבות</b> או <b>דרמה</b>.</div>
 
       <div class="toolbar">
         <label class="upload btn">
@@ -802,9 +754,7 @@
       <div class="status" id="tei-status"></div>
 
       <div class="pane" style="margin-top:16px">
-        <div class="pane-head">
-          תצוגת קריאה — מה שהקידוד מאפשר להציג (בהשראת TEI Publisher)
-          <span class="spacer"></span>
+        <div class="pane-head">תצוגת קריאה — מה שהקידוד מאפשר להציג<span class="spacer"></span>
           <span class="hint">מתעדכן מן העורך; דורש XML תקין</span>
         </div>
         <div class="pane-body tei-preview" id="tei-preview" dir="rtl"></div>
@@ -1662,7 +1612,7 @@ function startWizard() {
   document.getElementById('tei-file-name').textContent = '';
   Object.assign(W, { type: null, html: null, meta: {}, found: {}, qi: 0, onText: null, stageQueue: [], pidMap: new Map() });
   renderPreview();
-  bot('שלום! אני אלווה אתכם בקידוד מסמך שלם לפי תקן <b>TEI</b>, בשלושה שלבים: <b>1)</b> תעודת הזהות של הקובץ — ה־<code>teiHeader</code> · <b>2)</b> מבנה הטקסט · <b>3)</b> תיוג לפי הפרק המתאים בתקן.<br>במה נעבוד?');
+  bot('שלום! אני אלווה אתכם בקידוד מסמך שלם לפי תקן <b>TEI</b>, בשלושה שלבים: <b>1)</b> תעודת הזהות של הקובץ — ה־<code>teiHeader</code> · <b>2)</b> מבנה הטקסט · <b>3)</b> תיוג לפי הפרק המתאים בתקן.<br>על מה נעבוד?');
   setQuick([
     { label: 'מכתב — עם קובץ הדוגמה 📜', fn: () => loadTei(document.getElementById('sample-by-html').textContent, 'letter', 'קובץ הדוגמה: א. קובנר לר. בריינין') },
     { label: 'מחזה — עם קובץ הדוגמה 🎭', fn: () => loadTei(document.getElementById('sample-by-drama').textContent, 'drama', 'קובץ הדוגמה: בחוץ / י״ל פרץ') },
@@ -1695,8 +1645,44 @@ function loadTei(html, type, label) {
   document.getElementById('tei-file-name').textContent = label;
   teiEditor.value = buildTeiSkeleton();
   renderPreview();
-  bot('בניתי בעורך <b>שלד TEI</b>: שורש <code>&lt;TEI&gt;</code> עם מרחב השמות של התקן, <code>&lt;teiHeader&gt;</code> עדיין מלא בהערות-ממתינות, והטקסט עצמו כבר יושב בתוך <code>&lt;text&gt;&lt;body&gt;</code>. עכשיו נמלא את תעודת הזהות.');
-  askNext();
+  bot('בניתי בעורך <b>את השלד של קובץ TEI</b>: שורש <code>&lt;TEI&gt;</code> עם מרחב השמות של התקן, <code>&lt;teiHeader&gt;</code> עדיין מלא בהערות-ממתינות, והטקסט עצמו כבר יושב בתוך <code>&lt;text&gt;&lt;body&gt;</code>. אבל רגע לפני שממלאים — סיור קצר בשלד.');
+  beginAnatomy();
+}
+
+/* ---- step 1a: anatomy of the skeleton (declaration, root, the two wings) ---- */
+function beginAnatomy() {
+  bot('הביטו בשתי השורות הראשונות שבעורך.<br>' +
+    '<b>שורה 1</b> — <code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;</code> — איננה תגית כלל, אלא <b>הצהרה</b> (declaration): הוראת פתיחה למחשב שיקרא את הקובץ — זהו XML, גרסה 1.0, בקידוד UTF-8 (שיודע עברית).<br>' +
+    '<b>שורה 2</b> — <code>&lt;TEI xmlns="http://www.tei-c.org/ns/1.0"&gt;</code> — תגית <b>השורש</b> (root): לכל מסמך XML יש שורש אחד ויחיד, והכול שוכן בתוכו. התכונה <code>xmlns</code> מכריזה באיזה אוצר תגיות מדבר הקובץ — אוצר ה־TEI, המתועד כולו <a href="https://tei-c.org/release/doc/tei-p5-doc/en/html/index.html" target="_blank" rel="noopener">בהנחיות</a>.<br>' +
+    'והשורש הוא תגית ככל התגיות. גללו עד סוף המסמך שבעורך — מה כתוב בשורה האחרונה?');
+  const correct = () => {
+    bot('בדיוק: <code>&lt;/TEI&gt;</code> — תגית הסוגרת של השורש, החובקת את הקובץ כולו.');
+    anatomyWings();
+  };
+  setQuick([
+    { label: '</TEI>', mono: true, fn: correct },
+    { label: '<TEI/>', mono: true, fn: () => bot('לא בדיוק — <code>&lt;TEI/&gt;</code> היא צורת קיצור לתגית <i>ריקה</i>, בלי תוכן. הביטו שוב בשורה האחרונה שבעורך.') },
+    { label: '</body>', mono: true, fn: () => bot('קרוב — <code>&lt;/body&gt;</code> אכן שם, אבל היא איננה השורה האחרונה. גללו עוד שורה או שתיים.') }
+  ]);
+  W.onText = v => { if (/\/\s*tei/i.test(v)) correct(); else bot('העתיקו לכאן את מה שכתוב בשורה האחרונה ממש של העורך.'); };
+}
+function anatomyWings() {
+  bot('בין הפותחת לסוגרת של השורש שוכנים <b>שני אגפים</b> — וגם כל אחד מהם נפתח בתגית ונסגר בתגית משלו. מצאו בעורך את האגף הראשון, תעודת הזהות של הקובץ. מה שמו?');
+  const correct = () => {
+    bot('נכון: <code>&lt;teiHeader&gt;…&lt;/teiHeader&gt;</code> — כל מה ש<i>על</i> הטקסט. והאגף השני — <code>&lt;text&gt;</code>, ובתוכו <code>&lt;body&gt;</code>: הטקסט עצמו. מצאו רגע גם את הסוגרות שלהם, סמוך לסוף הקובץ.');
+    if (W.type === 'letter') {
+      bot('ועוד ייחוד למכתבים: התקן מקצה להם, בתוך ה־header, מבנה ייעודי — <code>&lt;correspDesc&gt;</code>, תיאור ההתכתבות — ובו <b>השולח</b>, <b>הנמען</b>, מקום הכתיבה והתאריך: הפרטים שהופכים מכתב בודד לצומת ברשת התכתבויות. אלה בדיוק השדות שנמלא עכשיו; מי שרוצה להעמיק — <a href="https://tei-c.org/release/doc/tei-p5-doc/en/html/HD.html#HD44CD" target="_blank" rel="noopener">זה הפרק בהנחיות</a>. נתחיל בתעודת הזהות.');
+    } else {
+      bot('עכשיו נמלא את תעודת הזהות.');
+    }
+    askNext();
+  };
+  setQuick([
+    { label: '<teiHeader>', mono: true, fn: correct },
+    { label: '<title>', mono: true, fn: () => bot('<code>&lt;title&gt;</code> אכן יושב שם — אבל הוא פרט אחד בתוך אגף גדול ממנו. איזו תגית עוטפת את תעודת הזהות כולה?') },
+    { label: '<body>', mono: true, fn: () => bot('<code>&lt;body&gt;</code> שייך דווקא לאגף השני — הטקסט עצמו. חפשו את האגף שבראש הקובץ.') }
+  ]);
+  W.onText = v => { if (/header/i.test(v)) correct(); else bot('רמז: האגף נפתח בשורה שמיד אחרי שורת השורש. העתיקו לכאן את שם התגית.'); };
 }
 
 const QUESTIONS = {

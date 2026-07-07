@@ -2,82 +2,82 @@
 "LAB1-001": {
 "file": "docs/lab/index.html",
 "kind": "strip",
-"exact": "\n        <b>מטקסט פשוט לטקסט מעוצב — עם סימנים בלבד.</b>\n        בעורך שמימין יושב טקסט פשוט: רצף של תווים, בלי שום עיצוב. <b>Markdown</b> היא מוסכמת סימון קלה:\n        מוסיפים סימנים לטקסט, והמחשב מפרש אותם לעיצוב — שתראו מיד בצד שמאל.\n        נסו על הטקסט: <code>#</code> בתחילת שורה = כותרת · <code>**מילה**</code> = הדגשה ·\n        <code>*מילה*</code> = הטיה · <code>-</code> בתחילת שורה = פריט רשימה · <code>&gt;</code> = ציטוט ·\n        <code>---</code> בשורה משלה = קו מפריד · <code>[טקסט](כתובת)</code> = קישור.\n        <br>שימו לב — תופעה של כתיבה דו־כיוונית: במקלדת עברית תווי הסוגריים מתהפכים, וסימנים כמו\n        <code>&gt;</code> מוצגים במראָה. המעבדה סלחנית לזה; כלים אחרים בעולם — לא תמיד.\n      "
+"exact": "<b>מטקסט פשוט לטקסט מעוצב — עם סימנים בלבד.</b> בעורך הטקסט שבצד ימין נמצא טקסט פשוט: רצף של תווים, ללא עיצוב. <b>Markdown</b> היא דרך מוסכמת קלה לסימון טקסט לצורך עיצובו: מוסיפים סימנים לטקסט עצמו, והמחשב מפרש אותם. את התוצאה — הטקסט המעוצב, נראה מיד עם השינוי בצד שמאל. <br>נסו לעצב את הטקסט באמצעות התיוג: <br><code>#</code> בתחילת שורה = כותרת<br> · <code>**מילה**</code> = הדגשה <br>· <code>*מילה*</code> = הטיה <br>· <code>-</code> בתחילת שורה = פריט רשימה<br> · <code>&gt;</code> = ציטוט <br>· <code>---</code> בשורה משלה = קו מפריד <br>· <code>[טקסט](כתובת)</code> = קישור. <br><br> שימו לב — שפות כמו שלנו הנכתבות מימין לשמאל מציבות את האתגר של כתיבה דו־כיוונית: במקלדת עברית תווי הסוגריים מתהפכים, וסימנים כמו <code>&gt;</code> מוצגים בסדר הפוך, כמראָה. הממשק הנוכחי סלחני לזה; כלים אחרים בעולם — לא תמיד."
 },
 "LAB1-002": {
 "file": "docs/lab/index.html",
 "kind": "strip",
-"exact": "\n        <b>ניסוי: אותו קובץ, שלושה מפרשים.</b>\n        <ol style=\"margin:8px 0 0; padding-inline-start:22px\">\n          <li>הורידו את העבודה שלכם כ־<code>.md</code> והעלו את הקובץ ל־Google Drive.</li>\n          <li>לחצו עליו לחיצה כפולה — <b>תצוגה מקדימה</b>: מה רואים? טקסט פשוט, הסימנים גלויים. Drive מציג, לא מפרש.</li>\n          <li>עכשיו קליק ימני ← <b>פתיחה באמצעות ← Google Docs</b>: הסימנים הפכו לעיצוב! אבל בדקו את הכיוון והיישור — Docs רק <i>מנחש</i> שהטקסט עברי, כי ל־Markdown אין דרך להגיד \"אני ימין־לשמאל\". (תיקון ידני ב־Docs: File ← Language ← עברית, לסמן הכול ולהפוך כיוון פסקה.)</li>\n          <li>הורידו מכאן גם את גרסת ה־<code>.html</code>, העלו ופתחו גם אותה עם Docs — הפעם הכיוון נכון מעצמו. למה? חזרו לתצוגה המקדימה של Drive, שמציגה את הקובץ כטקסט פשוט, ומצאו את התשובה: <code>dir=\"rtl\"</code>. זו בדיוק היכולת ש־HTML מוסיף על Markdown — לא רק לעצב, אלא להצהיר.</li>\n        </ol>\n      "
+"exact": "<b>ניסוי: אותה אגרת בשינוי אדרת </b> <ol style=\"margin:8px 0 0; padding-inline-start:22px\"> <li>הורידו את העבודה שלכם כקובץ markdown : הקובץ יופיע עם הסיומת <code>.md</code> . העלו אותו ל־Google Drive.</li> <li>לחצו עליו לחיצה כפולה — <b>תצוגה מקדימה</b>: מה רואים? טקסט פשוט, הסימנים גלויים. התצוגה המקדימה של כונן הגוגל מציגה, ולא מתרגמת את הסימנים לעיצוב.</li> <li>לחצו על הלחצן הימני בעכבר ← <b>פתחו באמצעות ← Google Docs</b>: הסימנים הפכו לעיצוב, אבל הכיוון והיישור פגומים. (קל לתקן זאת על ידי פקודת שינוי כיוון: ב־Docs: File ← Language ← עברית, סמנו הכל והפכו את כיוון הפסקה.)</li> <li>הורידו מכאן גם את גרסת ה־<code>.html</code>, העלו ופתחו גם אותה עם Docs — הפעם הכיוון נכון מלכתחילה. כיצד? חזרו לתצוגה המקדימה של Drive, שמציגה את הקובץ כטקסט פשוט, ומצאו את התשובה: <code>dir=\"rtl\"</code>. זוהי שורת הצהרה המבהירה לכלי התצוגה את כיוון הטקסט.</li> </ol>"
 },
 "LAB1-003": {
 "file": "docs/lab/index.html",
 "kind": "strip",
-"exact": "\n        <b>מסימנים לתגיות.</b>\n        את ה־Markdown מהתרגיל הקודם המחשב מתרגם ל־<b>HTML</b> — שפת הסימון של כל דף אינטרנט.\n        כאן הסימון גלוי: כל קטע עטוף ב<b>תגית</b> שנפתחת (<code>&lt;h1&gt;</code>) ונסגרת (<code>&lt;/h1&gt;</code>),\n        והדפדפן מפרש אותה לעיצוב. ערכו את הקוד שמימין — בהקלדה חופשית, או בסימון קטע ובחירת תגית\n        מהרשימה — וראו את התוצאה משמאל.\n      "
+"exact": "<b>מסימנים לתגיות.</b> את קובץ ה־Markdown מהתרגיל הקודם תרגמנו עבורכם ל־<b>HTML</b> — שפת התיוג שבה כתוב כל דף אינטרנט. תיוג זה קצת יותר מורכב לקריאה אנושית: מרבית התיוגים מורכבים מ<b>תגית</b> שנפתחת (<code>&lt;h1&gt;</code>) לפני הטקסט המסומן ונסגרת (<code>&lt;/h1&gt;</code>) אחריו, והדפדפן מפרש אותה לעיצוב. <br>ערכו את הקוד שמימין — בהקלדה חופשית, או בבחירת תגית מהרשימה וסימון קטע בטקסט — וראו את התוצאה משמאל."
 },
 "LAB1-004": {
 "file": "docs/lab/index.html",
 "kind": "strip",
-"exact": "\n        <b>מסימון מעצב לסימון מתאר.</b>\n        קובצי ה־HTML של פרויקט בן־יהודה אומרים לדפדפן <i>איך להציג</i>: <code>&lt;strong&gt;</code> = הדגש,\n        <code>&lt;h2&gt;</code> = כותרת גדולה. XML מתאר <i>מה הדבר הוא</i>: <code>&lt;emph&gt;</code> = מילה מוטעמת,\n        <code>&lt;div type=\"section\"&gt;</code> = יחידת טקסט מסוג מסוים, <code>&lt;note&gt;</code> = הערת שוליים.\n        נמיר קובץ אמיתי, נראה בדיוק אילו החלטות ההמרה קיבלה — ואז <b>תמציאו תגיות משלכם</b> ותסמנו כל מה\n        שנראה לכם ראוי לסימון: אנשים, מקומות, תאריכים, רגשות, טענות. אין רשימה נכונה — השם בידיכם.\n      "
+"exact": "\n        <b>אותו סימון — לבוש אחר.</b>\n        לחצו על ״החלפת לבוש״ והתבוננו היטב: הקוד שמימין לא השתנה באות אחת — ובכל זאת הטקסט\n        שמשמאל מחליף את פניו. זו חלוקת העבודה שביסוד הרשת כולה: הסימון (HTML) אומר <i>מה</i>\n        יש כאן — כותרת, ציטוט, הדגשה; העיצוב (CSS, ״גיליון הסגנון״) קובע <i>איך</i> זה ייראה.\n        אותה כותרת בדיוק יכולה ללבוש צורת ספר, עיתון או מכונת כתיבה — והסימון נשאר אחד.\n        מי שמסמן היטב את <i>המבנה</i>, מקבל את כל הלבושים בחינם.\n      "
 },
 "LAB1-005": {
 "file": "docs/lab/index.html",
 "kind": "strip",
-"exact": "\n        כל אחד ואחת הורידו קובץ XML עם התגיות שהמציאו. שלחו את הקבצים למנחה (מייל, WhatsApp, AirDrop —\n        כל דרך טובה), והמנחה יעלה כאן את <b>כולם בבת אחת</b>. הטבלה שתתקבל מראה מי המציא אילו תגיות —\n        וכמה שמות שונים נולדו בחדר אחד לאותו רעיון בדיוק. זו בדיוק הבעיה שלשמה הומצא תקן משותף.\n      "
+"exact": "<b>בין תיוג מעצב לתיוג מתאר:</b> Markdown ו־HTML הן דרכים להנחות את הדפדפן <i>כיצד יש להציג</i> את הטקסט:<code>&lt;strong&gt;</code> = הדגש, <code>&lt;h2&gt;</code> = כותרת גדולה. לעומתם, XML מתאר את הטקסט עצמו כדי לחשוף בו את המבנה והמשמעות ולהפוך אותם ממובלעים בטקסט למפורשים. כך, במקום לעצב כותרת בלבד, נשתמש בתגית כמו <code>&lt;div type=\"section\"&gt;</code> לסמן יחידת טקסט מסוג מסוים, או נסמן שם של מטבע בתגית <code>&lt;currency&gt;</code>. <br> בחלק זה נמיר קובץ html אמיתי מhtml ל-xml, נראה בדיוק אילו החלטות ההמרה קיבלה — ואז <b>תמציאו תגיות משלכם</b> ותסמנו שמות אנשים, מקומות וכל מה שנראה לכם ראוי לסימון."
 },
 "LAB1-006": {
 "file": "docs/lab/index.html",
 "kind": "strip",
-"exact": "\n        <b>עכשיו באמת.</b>\n        בשלב ההשוואה ראינו: חדר אחד, טקסט אחד — ועשרות שמות תגיות שונים לאותם רעיונות.\n        <b>TEI</b> (Text Encoding Initiative) היא התשובה של קהילת מדעי הרוח הדיגיטליים לבעיה הזו, מאז 1987:\n        אוצר מילים מוסכם ומתועד של מאות תגיות. מי שכתב <code>person_name</code> חשב בדיוק כמו מי שקבע\n        <code>&lt;persName&gt;</code> — ההבדל היחיד הוא ההסכמה.\n        כאן נקודד מסמך שלם לפי התקן, בליווי צמוד: המדריך בצ׳אט יוביל אתכם בשלושה שלבים —\n        מילוי תעודת הזהות (<code>teiHeader</code>), בניית המבנה, ותיוג לפי הפרק הרלוונטי בתקן:\n        <b>התכתבות</b> או <b>דרמה</b>.\n      "
+"exact": "כל אחד ואחת הורידו קובץ XML עם התיוג ושלחו את הקובץ לקבוצת ה-WhatsApp"
 },
 "LAB1-007": {
 "file": "docs/lab/index.html",
-"kind": "anatomy",
-"exact": "<span class=\"swatch\" style=\"background:var(--teal)\"></span><b>תגית (tag)</b> — אומרת <i>מה הדבר</i>: book. נפתחת ונסגרת, והסוגרת מקבלת לוכסן."
+"kind": "strip",
+"exact": "<b>יוזמת תיוג הטקסט <a href=\"https://tei-c.org/\" target=\"_blank\" rel=\"noopener\">TEI</a></b> (Text Encoding Initiative) היא התשובה של קהילת מדעי הרוח הדיגיטליים לבעית הגיוון בדרכי התיוג. מאז 1987 מתפתח אוצר מילים מוסכם ומתועד של מאות תגיות — כולו פרוש ב<a href=\"https://tei-c.org/release/doc/tei-p5-doc/en/html/index.html\" target=\"_blank\" rel=\"noopener\">הנחיות (Guidelines)</a>, פרק לכל סוגה. כעת נקודד מסמך שלם לפי התקן, בליווי צמוד. המדריך בצ׳אט יוביל אתכם בשלושה שלבים: <br> מילוי המטא-דאטה (<code>teiHeader</code>) של המסמך, בניית המבנה, ותיוג לפי הפרק הרלוונטי בהנחיות הTEI: <b>התכתבות</b> או <b>דרמה</b>."
 },
 "LAB1-008": {
 "file": "docs/lab/index.html",
 "kind": "anatomy",
-"exact": "<span class=\"swatch\" style=\"background:var(--gold)\"></span><b>תכונה (attribute)</b> — פרט נוסף <i>על</i> הדבר: genre, lang. יושבת תמיד בתוך התגית הפותחת, ואפשר לצרף כמה שרוצים."
+"exact": "<span class=\"swatch\" style=\"background:var(--teal)\"></span><b>תגית (tag)</b> — אומרת <i>מהו הדבר</i>: book. נפתחת ונסגרת, והסוגרת מקבלת לוכסן."
 },
 "LAB1-009": {
 "file": "docs/lab/index.html",
 "kind": "anatomy",
-"exact": "<span class=\"swatch\" style=\"background:var(--brick)\"></span><b>ערך (value)</b> — התשובה של התכונה, תמיד בין מרכאות: \"play\"."
+"exact": "<span class=\"swatch\" style=\"background:var(--gold)\"></span><b>תכונה (attribute)</b> — פרט נוסף <i>על</i> הדבר: genre, lang. יושבת תמיד בתוך התגית הפותחת, ואפשר לצרף כמה שרוצים."
 },
 "LAB1-010": {
 "file": "docs/lab/index.html",
 "kind": "anatomy",
-"exact": "<span class=\"swatch\" style=\"background:#f3ecd9;border:1px solid var(--rule)\"></span><b>תוכן</b> — הטקסט עצמו, בין הפותחת לסוגרת: בחוץ. שימו לב לחלוקה: תגיות, תכונות וערכים — באנגלית; התוכן — בשפת המסמך."
+"exact": "<span class=\"swatch\" style=\"background:var(--brick)\"></span><b>ערך (value)</b> — התשובה של התכונה, תמיד בין מרכאות: \"play\"."
 },
 "LAB1-011": {
 "file": "docs/lab/index.html",
 "kind": "anatomy",
-"exact": "\n          בשביל מה תכונות? כדי לדייק בלי להמציא תגית חדשה לכל מקרה: <code>&lt;date calendar=\"hebrew\"&gt;ט״ו בשבט תרס״ד&lt;/date&gt;</code>\n          לעומת <code>&lt;date calendar=\"gregorian\"&gt;1904&lt;/date&gt;</code> — אותה תגית, הבחנה אחרת. שימו לב אליהן בהמרה שתיכף נריץ: <code>type=\"section\"</code> היא בדיוק כזאת.\n        "
+"exact": "<span class=\"swatch\" style=\"background:#f3ecd9;border:1px solid var(--rule)\"></span><b>תוכן</b> — הטקסט עצמו, בין הפותחת לסוגרת: בחוץ. שימו לב לחלוקה: תגיות, תכונות וערכים — באנגלית; התוכן — בשפת המסמך."
 },
 "LAB1-012": {
 "file": "docs/lab/index.html",
 "kind": "anatomy",
-"exact": "רגע של דקדוק: תגית, תכונה, ערך"
+"exact": "לשם מה יש תכונות? כדי לאפשר להעמיק ברבדים של סיווג ותיאור מבלי שיהיה צורך בתגית חדשה לכל מקרה: <code>&lt;date calendar=\"hebrew\"&gt;ט״ו בשבט תרס״ד&lt;/date&gt;</code> לעומת <code>&lt;date calendar=\"gregorian\"&gt;1904&lt;/date&gt;</code> — אותה תגית, הבחנה אחרת. שימו לב אליהן בהמרה שתיכף נריץ: <code>type=\"section\"</code> היא בדיוק כזאת."
 },
 "LAB1-013": {
 "file": "docs/lab/index.html",
-"kind": "attr:placeholder",
-"exact": "placeholder=\"שם המתייג/ת — ייכתב בקובץ\""
+"kind": "anatomy",
+"exact": "רגע של דקדוק: תגית, תכונה, ערך"
 },
 "LAB1-014": {
 "file": "docs/lab/index.html",
 "kind": "attr:placeholder",
-"exact": "placeholder=\"כתבו תשובה…\""
+"exact": "placeholder=\"שם המתייג/ת — ייכתב בקובץ\""
 },
 "LAB1-015": {
 "file": "docs/lab/index.html",
-"kind": "text",
-"exact": ">מעבדת תיוג וסימון טקסט<"
+"kind": "attr:placeholder",
+"exact": "placeholder=\"כתבו תשובה…\""
 },
 "LAB1-016": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">→ חזרה לדף הסדנה<"
+"exact": ">הסדנה לתיוג הטקסט<"
 },
 "LAB1-017": {
 "file": "docs/lab/index.html",
@@ -117,7 +117,7 @@
 "LAB1-024": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">התצוגה מתעדכנת תוך כדי הקלדה<"
+"exact": ">התצוגה תתעדכן תוך כדי הקלדה<"
 },
 "LAB1-025": {
 "file": "docs/lab/index.html",
@@ -132,1009 +132,1134 @@
 "LAB1-027": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">\n          העלאת קובץ HTML…\n          <"
+"exact": ">המשך: HTML ←<"
 },
 "LAB1-028": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">ייבוא: ה־Markdown שלי כ־HTML ←<"
+"exact": ">\n          העלאת קובץ HTML…\n          <"
 },
 "LAB1-029": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">h1 — כותרת ראשית<"
+"exact": ">ייבוא: ה־Markdown שלי כ־HTML ←<"
 },
 "LAB1-030": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">h2 — כותרת משנית<"
+"exact": ">h1 — כותרת ראשית<"
 },
 "LAB1-031": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">p — פסקה<"
+"exact": ">h2 — כותרת משנית<"
 },
 "LAB1-032": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">strong — הדגשה<"
+"exact": ">p — פסקה<"
 },
 "LAB1-033": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">em — הטיה<"
+"exact": ">strong — הדגשה<"
 },
 "LAB1-034": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">mark — סימון בצהוב<"
+"exact": ">em — הטיה<"
 },
 "LAB1-035": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">u — קו תחתון<"
+"exact": ">mark — סימון בצהוב<"
 },
 "LAB1-036": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">blockquote — ציטוט<"
+"exact": ">u — קו תחתון<"
 },
 "LAB1-037": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">li — פריט רשימה<"
+"exact": ">blockquote — ציטוט<"
 },
 "LAB1-038": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">code — קוד/מכונת כתיבה<"
+"exact": ">li — פריט רשימה<"
 },
 "LAB1-039": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">עטפו את הבחירה<"
+"exact": ">code — קוד/מכונת כתיבה<"
 },
 "LAB1-040": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">הקוד — HTML<"
+"exact": ">✂ הסרת תגית<"
 },
 "LAB1-041": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">כך מציג זאת הדפדפן<"
+"exact": ">הקוד — HTML<"
 },
 "LAB1-042": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">\n        שימו לב: התגיות, התכונות והערכים — תמיד באנגלית (<"
+"exact": ">כך מציג זאת הדפדפן<"
 },
 "LAB1-043": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">);\n        התוכן שביניהן — בכל שפה. נסו למחוק תגית סוגרת וראו מה קורה לתצוגה.\n      <"
+"exact": ">\n        שימו לב: התגיות, התכונות והערכים — תמיד באנגלית (<"
 },
 "LAB1-044": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">בחרו קובץ HTML מפרויקט בן־יהודה<"
+"exact": ">); התוכן שביניהן — בכל שפה.<"
 },
 "LAB1-045": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">טעינת קובץ הדוגמה (מכתב מא״א קובנר)<"
+"exact": ">החלפת לבוש ⇄<"
 },
 "LAB1-046": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">קוד המקור — HTML<"
+"exact": ">הלבוש הנוכחי: ספר<"
 },
 "LAB1-047": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">כך זה נראה בדפדפן (סימון מעצב בפעולה)<"
+"exact": ">המשך: מ־HTML ל־XML ←<"
 },
 "LAB1-048": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">המרה ל־XML מתאר<"
+"exact": ">בחרו קובץ HTML מפרויקט בן־יהודה<"
 },
 "LAB1-049": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">המרה ל־XML ←<"
+"exact": ">טעינת קובץ הדוגמה (מכתב מא״א קובנר)<"
 },
 "LAB1-050": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">ההמרה מפרקת את הרצף לפי כותרות ל־<"
+"exact": ">קוד המקור — HTML<"
 },
 "LAB1-051": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">, וממפה כל תגית מעצבת לתגית מתארת<"
+"exact": ">כך זה נראה בדפדפן (סימון מעצב בפעולה)<"
 },
 "LAB1-052": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">המציאו תגיות משלכם<"
+"exact": ">המרה ל־XML תיאורי<"
 },
 "LAB1-053": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">סמנו קטע טקסט בעורך, תנו שם לתגית —<"
+"exact": ">המרה ל־XML ←<"
 },
 "LAB1-054": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">כיוון עורך ⇄<"
+"exact": ">ההמרה מפרקת את הרצף לפי כותרות ל־<"
 },
 "LAB1-055": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">בדיקת תקינות ✓<"
+"exact": ">, וממפה כל תגית מעצבת לתגית מתארת<"
 },
 "LAB1-056": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">מה לתייג? מה שחשוב <"
+"exact": ">המציאו תגיות משלכם<"
 },
 "LAB1-057": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">לכם<"
+"exact": ">סמנו קטע טקסט בעורך, תנו שם לתגית —<"
 },
 "LAB1-058": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">: אנשים, מקומות, תאריכים, ציטוטים, לעג, טרוניה… שמות התגיות — באנגלית, בלי רווחים (קו תחתון מותר); התוכן שביניהן נשאר עברית. התגיות שכבר השתמשתם בהן יופיעו כאן ככפתורים.<"
+"exact": ">עטפו את הבחירה<"
 },
 "LAB1-059": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">הורדת ה־XML ⤓<"
+"exact": ">כיוון עורך ⇄<"
 },
 "LAB1-060": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">עורך ה־XML<"
+"exact": ">בדיקת תקינות ✓<"
 },
 "LAB1-061": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">מבנה המסמך — כפי שמנתח אותו המחשב<"
+"exact": ">שימו לב: שמות התגיות צריכים להיות באנגלית, בלי רווחים (אפשר להפריד עם קו תחתון); התוכן שביניהן נשאר בעברית. התגיות המוצעות יופיעו כאן ככפתורים.<"
 },
 "LAB1-062": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">אוספים ומשווים — האם כולנו תייגנו אותו דבר?<"
+"exact": ">הורדת ה־XML ⤓<"
 },
 "LAB1-063": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">\n          העלאת קובצי ה־XML של הקבוצה…\n          <"
+"exact": ">עורך ה־XML<"
 },
 "LAB1-064": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">אפשר (ורצוי) לבחור את כל הקבצים בבת אחת<"
+"exact": ">מבנה המסמך — כפי שמנתח אותו המחשב<"
 },
 "LAB1-065": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">\n          העלאת קובץ HTML מפרויקט בן־יהודה…\n          <"
+"exact": ">נאסוף ונשווה — האם כולנו תייגנו באותו אופן?<"
 },
 "LAB1-066": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">התחלה מחדש ↺<"
+"exact": ">\n          העלאת קובצי ה־XML של הקבוצה…\n          <"
 },
 "LAB1-067": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">המדריך לקידוד TEI<"
+"exact": ">המשך: לקראת TEI ←<"
 },
 "LAB1-068": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">שליחה<"
+"exact": ">\n          העלאת קובץ HTML מפרויקט בן־יהודה…\n          <"
 },
 "LAB1-069": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">\n            מסמך ה־TEI\n            <"
+"exact": ">התחלה מחדש ↺<"
 },
 "LAB1-070": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">כיוון ⇄<"
+"exact": ">המדריך לקידוד TEI<"
 },
 "LAB1-071": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">הורדה ⤓<"
+"exact": ">שליחה<"
 },
 "LAB1-072": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">\n          תצוגת קריאה — מה שהקידוד מאפשר להציג (בהשראת TEI Publisher)\n          <"
+"exact": ">\n            מסמך ה־TEI\n            <"
 },
 "LAB1-073": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">מתעדכן מן העורך; דורש XML תקין<"
+"exact": ">כיוון ⇄<"
 },
 "LAB1-074": {
 "file": "docs/lab/index.html",
-"kind": "js",
-"exact": "'קובץ הדוגמה: א. קובנר לר. בריינין (m40830)'"
+"kind": "text",
+"exact": ">הורדה ⤓<"
 },
 "LAB1-075": {
 "file": "docs/lab/index.html",
-"kind": "js",
-"exact": "'<source>פרויקט בן־יהודה</source>'"
+"kind": "text",
+"exact": ">תצוגת קריאה — מה שהקידוד מאפשר להציג<"
 },
 "LAB1-076": {
 "file": "docs/lab/index.html",
-"kind": "js",
-"exact": "'<h2>כותרת</h2>'"
+"kind": "text",
+"exact": ">מתעדכן מן העורך; דורש XML תקין<"
 },
 "LAB1-077": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'כותרת חזותית הופכת לגבול של יחידת טקסט מוגדרת'"
+"exact": "'ספר'"
 },
 "LAB1-078": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'פסקה נשארת פסקה — אבל עכשיו בתוך מבנה'"
+"exact": "'עיתון'"
 },
 "LAB1-079": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'במקום \"איך זה נראה\" (מודגש/נטוי) — \"מה זה\" (מוטעם)'"
+"exact": "'מכונת כתיבה'"
 },
 "LAB1-080": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'קישור עיצובי הופך להצבעה מפורשת על הערה'"
+"exact": "'הלבוש הנוכחי: '"
 },
 "LAB1-081": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'פריט רשימה חזותי הופך להערה בעלת זהות'"
+"exact": "'קובץ הדוגמה: א. קובנר לר. בריינין (m40830)'"
 },
 "LAB1-082": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'קישור חיצוני נשמר כהפניה'"
+"exact": "'<source>פרויקט בן־יהודה</source>'"
 },
 "LAB1-083": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'שבירת שורה נרשמת כאירוע במסמך'"
+"exact": "'<h2>כותרת</h2>'"
 },
 "LAB1-084": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'חיצי חזרה (reversefootnote)'"
+"exact": "'כותרת חזותית הופכת לגבול של יחידת טקסט מוגדרת'"
 },
 "LAB1-085": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'— הוסרו —'"
+"exact": "'פסקה נשארת פסקה — אבל עכשיו בתוך מבנה'"
 },
 "LAB1-086": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'ניווט הוא עניין של תצוגה, לא של תוכן'"
+"exact": "'במקום \"איך זה נראה\" (מודגש/נטוי) — \"מה זה\" (מוטעם)'"
 },
 "LAB1-087": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'שורת הקרדיט של האתר'"
+"exact": "'קישור עיצובי הופך להצבעה מפורשת על הערה'"
 },
 "LAB1-088": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'— הוסרה —'"
+"exact": "'פריט רשימה חזותי הופך להערה בעלת זהות'"
 },
 "LAB1-089": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'מעטפת של האתר, לא חלק מן המכתב'"
+"exact": "'קישור חיצוני נשמר כהפניה'"
 },
 "LAB1-090": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<table><tr><th>ב־HTML היה</th><th></th><th>ב־XML נהיה</th><th></th><th>למה</th></tr>'"
+"exact": "'שבירת שורה נרשמת כאירוע במסמך'"
 },
 "LAB1-091": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<b>שם תגית לא חוקי.</b> שם תגית נכתב באנגלית, מתחיל באות, בלי רווחים — מחברים מילים בקו תחתון: <code>person_name</code>'"
+"exact": "'חיצי חזרה (reversefootnote)'"
 },
 "LAB1-092": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<b>ה־XML אינו תקין (not well-formed).</b> המחשב לא מצליח לפרש את המסמך — בדקו תגית שלא נסגרה או גרשיים חסרים.<br><code>'"
+"exact": "'— הוסרו —'"
 },
 "LAB1-093": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<span style=\"color:var(--err);font-family:Heebo,sans-serif;direction:rtl;display:block\">אי אפשר לבנות עץ ממסמך שאינו תקין — תקנו את השגיאה משמאל.</span>'"
+"exact": "'ניווט הוא עניין של תצוגה, לא של תוכן'"
 },
 "LAB1-094": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<b>תקין!</b> המסמך well-formed — כל תגית נפתחת נסגרת, והמחשב מצליח לבנות ממנו עץ.'"
+"exact": "'שורת הקרדיט של האתר'"
 },
 "LAB1-095": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "' מתייגים · <b>'"
+"exact": "'— הוסרה —'"
 },
 "LAB1-096": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "' שמות תגיות שונים</b>'"
+"exact": "'מעטפת של האתר, לא חלק מן המכתב'"
 },
 "LAB1-097": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "' · רק '"
+"exact": "'<table><tr><th>ב־HTML היה</th><th></th><th>ב־XML נהיה</th><th></th><th>למה</th></tr>'"
 },
 "LAB1-098": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "' מהם משותפים ליותר ממתייג אחד, ו־'"
+"exact": "'<b>שם תגית לא חוקי.</b> שם תגית נכתב באנגלית, מתחיל באות, בלי רווחים — מחברים מילים בקו תחתון: <code>person_name</code>'"
 },
 "LAB1-099": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "' הומצאו על־ידי אדם אחד בלבד'"
+"exact": "'<b>ה־XML אינו תקין (not well-formed).</b> המחשב לא מצליח לפרש את המסמך — בדקו תגית שלא נסגרה או גרשיים חסרים.<br><code>'"
 },
 "LAB1-100": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<tr><th>התגית</th>'"
+"exact": "'<span style=\"color:var(--err);font-family:Heebo,sans-serif;direction:rtl;display:block\">אי אפשר לבנות עץ ממסמך שאינו תקין — תקנו את השגיאה משמאל.</span>'"
 },
 "LAB1-101": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<th>דוגמאות למה שנעטף</th></tr>'"
+"exact": "'<b>תקין!</b> המסמך well-formed — כל תגית נפתחת נסגרת, והמחשב מצליח לבנות ממנו עץ.'"
 },
 "LAB1-102": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<p style=\"font-size:15px;color:var(--ink-soft)\">עכשיו דמיינו לא חדר אחד אלא אלף חוקרים במאה ארכיונים: בלי אוצר תגיות מוסכם, אף מחשב לא יוכל לחפש את כל \"שמות האנשים\" בכל הקבצים יחד. זה בדיוק הפער ש־TEI בא לסגור — עברו ללשונית 3.</p>'"
+"exact": "' מתייגים · <b>'"
 },
 "LAB1-103": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<p class=\"hint\">לא נמצאו תגיות שהומצאו — הקבצים מכילים רק את תגיות ההמרה האוטומטית.</p>'"
+"exact": "' שמות תגיות שונים</b>'"
 },
 "LAB1-104": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<p style=\"font-size:14px;color:var(--err)\">קבצים שאינם well-formed ולא נכנסו להשוואה (גם זה שיעור!): '"
+"exact": "' · רק '"
 },
 "LAB1-105": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'כרגע עדיף להשתמש בכפתורים שמתחת לשיחה 🙂'"
+"exact": "' מהם משותפים ליותר ממתייג אחד, ו־'"
 },
 "LAB1-106": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'הכותרת תמולא בשיחה'"
+"exact": "' הומצאו על־ידי אדם אחד בלבד'"
 },
 "LAB1-107": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'המחבר/ת'"
+"exact": "'<tr><th>התגית</th>'"
 },
 "LAB1-108": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'        <p>קידוד תרגול — סדנת אגרת</p>'"
+"exact": "'<th>דוגמאות למה שנעטף</th></tr>'"
 },
 "LAB1-109": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'המקור'"
+"exact": "'<p style=\"font-size:15px;color:var(--ink-soft)\">עכשיו דמיינו לא חדר אחד אלא אלף חוקרים במאה ארכיונים: בלי אוצר תגיות מוסכם, אף מחשב לא יוכל לחפש את כל \"שמות האנשים\" בכל הקבצים יחד. זה בדיוק הפער ש־TEI בא לסגור — עברו ללשונית 3.</p>'"
 },
 "LAB1-110": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'השולח/ת'"
+"exact": "'<p class=\"hint\">לא נמצאו תגיות שהומצאו — הקבצים מכילים רק את תגיות ההמרה האוטומטית.</p>'"
 },
 "LAB1-111": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'מקום הכתיבה'"
+"exact": "'<p style=\"font-size:14px;color:var(--err)\">קבצים שאינם well-formed ולא נכנסו להשוואה (גם זה שיעור!): '"
 },
 "LAB1-112": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<!-- תאריך המשלוח -->'"
+"exact": "'כרגע עדיף להשתמש בכפתורים שמתחת לשיחה 🙂'"
 },
 "LAB1-113": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'הנמען/ת'"
+"exact": "'הכותרת תמולא בשיחה'"
 },
 "LAB1-114": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<!-- שנת החיבור -->'"
+"exact": "'המחבר/ת'"
 },
 "LAB1-115": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'        <listPerson><!-- הדמויות יתווספו בשלב המבנה --></listPerson>'"
+"exact": "'        <p>קידוד תרגול — סדנת אגרת</p>'"
 },
 "LAB1-116": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'    <p><!-- לא זוהה תוכן --></p>'"
+"exact": "'המקור'"
 },
 "LAB1-117": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'פרויקט בן־יהודה, '"
+"exact": "'השולח/ת'"
 },
 "LAB1-118": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'שלום! אני אלווה אתכם בקידוד מסמך שלם לפי תקן <b>TEI</b>, בשלושה שלבים: <b>1)</b> תעודת הזהות של הקובץ — ה־<code>teiHeader</code> · <b>2)</b> מבנה הטקסט · <b>3)</b> תיוג לפי הפרק המתאים בתקן.<br>במה נעבוד?'"
+"exact": "'מקום הכתיבה'"
 },
 "LAB1-119": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'מכתב — עם קובץ הדוגמה 📜'"
+"exact": "'<!-- תאריך המשלוח -->'"
 },
 "LAB1-120": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'קובץ הדוגמה: א. קובנר לר. בריינין'"
+"exact": "'הנמען/ת'"
 },
 "LAB1-121": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'מחזה — עם קובץ הדוגמה 🎭'"
+"exact": "'<!-- שנת החיבור -->'"
 },
 "LAB1-122": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'קובץ הדוגמה: בחוץ / י״ל פרץ'"
+"exact": "'        <listPerson><!-- הדמויות יתווספו בשלב המבנה --></listPerson>'"
 },
 "LAB1-123": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'אעלה קובץ משלי'"
+"exact": "'    <p><!-- לא זוהה תוכן --></p>'"
 },
 "LAB1-124": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'מצוין — העלו קובץ HTML של פרויקט בן־יהודה בכפתור שמעל לחלון השיחה, ואז נמשיך.'"
+"exact": "'פרויקט בן־יהודה, '"
 },
 "LAB1-125": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'העליתי את '"
+"exact": "'שלום! אני אלווה אתכם בקידוד מסמך שלם לפי תקן <b>TEI</b>, בשלושה שלבים: <b>1)</b> תעודת הזהות של הקובץ — ה־<code>teiHeader</code> · <b>2)</b> מבנה הטקסט · <b>3)</b> תיוג לפי הפרק המתאים בתקן.<br>על מה נעבוד?'"
 },
 "LAB1-126": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'קיבלתי את <b>'"
+"exact": "'מכתב — עם קובץ הדוגמה 📜'"
 },
 "LAB1-127": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'</b>. מה יש לנו כאן?'"
+"exact": "'קובץ הדוגמה: א. קובנר לר. בריינין'"
 },
 "LAB1-128": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'מכתב 📜'"
+"exact": "'מחזה — עם קובץ הדוגמה 🎭'"
 },
 "LAB1-129": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'מחזה 🎭'"
+"exact": "'קובץ הדוגמה: בחוץ / י״ל פרץ'"
 },
 "LAB1-130": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'בניתי בעורך <b>שלד TEI</b>: שורש <code>&lt;TEI&gt;</code> עם מרחב השמות של התקן, <code>&lt;teiHeader&gt;</code> עדיין מלא בהערות-ממתינות, והטקסט עצמו כבר יושב בתוך <code>&lt;text&gt;&lt;body&gt;</code>. עכשיו נמלא את תעודת הזהות.'"
+"exact": "'אעלה קובץ משלי'"
 },
 "LAB1-131": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'מה כותרת המסמך? היא תשב ב־<code>&lt;title&gt;</code> שבתוך ה־header.'"
+"exact": "'מצוין — העלו קובץ HTML של פרויקט בן־יהודה בכפתור שמעל לחלון השיחה, ואז נמשיך.'"
 },
 "LAB1-132": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'מי כתב את המכתב? התשובה תמלא גם את <code>&lt;author&gt;</code> וגם את השולח ב־<code>correspAction type=\"sent\"</code>.'"
+"exact": "'העליתי את '"
 },
 "LAB1-133": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'מי הנמען? זה המידע שהופך קובץ בודד לחלק מרשת התכתבויות — <code>correspAction type=\"received\"</code>.'"
+"exact": "'קיבלתי את <b>'"
 },
 "LAB1-134": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'מאיזה מקום נכתב המכתב? רמז: אצל קובנר המקום מסתתר בשורה הראשונה של המכתב, בכתיב יידי.'"
+"exact": "'</b>. מה יש לנו כאן?'"
 },
 "LAB1-135": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'מתי נכתב? כתבו בפורמט קריא-למכונה: <code>YYYY-MM-DD</code>, או רק שנה. כך אלפי מכתבים נכנסים לציר זמן אחד.'"
+"exact": "'מכתב 📜'"
 },
 "LAB1-136": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'כמעט — בשביל מכונה צריך למשל <code>1904-02-27</code> או <code>1904</code>. נסו שוב:'"
+"exact": "'מחזה 🎭'"
 },
 "LAB1-137": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'ולסיום ה־header: מהיכן לקחנו את הטקסט? (<code>&lt;sourceDesc&gt;</code> — כדי שקוראים עתידיים ידעו על מה הקידוד מבוסס)'"
+"exact": "'בניתי בעורך <b>את השלד של קובץ TEI</b>: שורש <code>&lt;TEI&gt;</code> עם מרחב השמות של התקן, <code>&lt;teiHeader&gt;</code> עדיין מלא בהערות-ממתינות, והטקסט עצמו כבר יושב בתוך <code>&lt;text&gt;&lt;body&gt;</code>. אבל רגע לפני שממלאים — סיור קצר בשלד.'"
 },
 "LAB1-138": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'מה שם המחזה? הוא יישב ב־<code>&lt;title&gt;</code> שבתוך ה־header.'"
+"exact": "'הביטו בשתי השורות הראשונות שבעורך.<br>'"
 },
 "LAB1-139": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'מי המחבר/ת?'"
+"exact": "'<b>שורה 1</b> — <code>&lt;?xml version=\"1.0\" encoding=\"UTF-8\"?&gt;</code> — איננה תגית כלל, אלא <b>הצהרה</b> (declaration): הוראת פתיחה למחשב שיקרא את הקובץ — זהו XML, גרסה 1.0, בקידוד UTF-8 (שיודע עברית).<br>'"
 },
 "LAB1-140": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'באיזו שנה חובר או פורסם? (<code>YYYY</code>; אם אינכם בטוחים — הערכה סבירה, אפשר גם לדלג)'"
+"exact": "'<b>שורה 2</b> — <code>&lt;TEI xmlns=\"http://www.tei-c.org/ns/1.0\"&gt;</code> — תגית <b>השורש</b> (root): לכל מסמך XML יש שורש אחד ויחיד, והכול שוכן בתוכו. התכונה <code>xmlns</code> מכריזה באיזה אוצר תגיות מדבר הקובץ — אוצר ה־TEI, המתועד כולו <a href=\"https://tei-c.org/release/doc/tei-p5-doc/en/html/index.html\" target=\"_blank\" rel=\"noopener\">בהנחיות</a>.<br>'"
 },
 "LAB1-141": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'שנה בת ארבע ספרות, למשל <code>1906</code>. נסו שוב:'"
+"exact": "'והשורש הוא תגית ככל התגיות. גללו עד סוף המסמך שבעורך — מה כתוב בשורה האחרונה?'"
 },
 "LAB1-142": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'ומהיכן הטקסט? (<code>&lt;sourceDesc&gt;</code>)'"
+"exact": "'בדיוק: <code>&lt;/TEI&gt;</code> — תגית הסוגרת של השורש, החובקת את הקובץ כולו.'"
 },
 "LAB1-143": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<br>מצאתי בקובץ: <b>«'"
+"exact": "'לא בדיוק — <code>&lt;TEI/&gt;</code> היא צורת קיצור לתגית <i>ריקה</i>, בלי תוכן. הביטו שוב בשורה האחרונה שבעורך.'"
 },
 "LAB1-144": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'»</b> — להשתמש בזה?'"
+"exact": "'קרוב — <code>&lt;/body&gt;</code> אכן שם, אבל היא איננה השורה האחרונה. גללו עוד שורה או שתיים.'"
 },
 "LAB1-145": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'✓ עודכן בעורך.'"
+"exact": "'העתיקו לכאן את מה שכתוב בשורה האחרונה ממש של העורך.'"
 },
 "LAB1-146": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'כן, להשתמש בזה'"
+"exact": "'בין הפותחת לסוגרת של השורש שוכנים <b>שני אגפים</b> — וגם כל אחד מהם נפתח בתגית ונסגר בתגית משלו. מצאו בעורך את האגף הראשון, תעודת הזהות של הקובץ. מה שמו?'"
 },
 "LAB1-147": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'דילוג'"
+"exact": "'נכון: <code>&lt;teiHeader&gt;…&lt;/teiHeader&gt;</code> — כל מה ש<i>על</i> הטקסט. והאגף השני — <code>&lt;text&gt;</code>, ובתוכו <code>&lt;body&gt;</code>: הטקסט עצמו. מצאו רגע גם את הסוגרות שלהם, סמוך לסוף הקובץ.'"
 },
 "LAB1-148": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'קודם סמנו בעורך את קטע הטקסט, ואז לחצו על התגית.'"
+"exact": "'ועוד ייחוד למכתבים: התקן מקצה להם, בתוך ה־header, מבנה ייעודי — <code>&lt;correspDesc&gt;</code>, תיאור ההתכתבות — ובו <b>השולח</b>, <b>הנמען</b>, מקום הכתיבה והתאריך: הפרטים שהופכים מכתב בודד לצומת ברשת התכתבויות. אלה בדיוק השדות שנמלא עכשיו; מי שרוצה להעמיק — <a href=\"https://tei-c.org/release/doc/tei-p5-doc/en/html/HD.html#HD44CD\" target=\"_blank\" rel=\"noopener\">זה הפרק בהנחיות</a>. נתחיל בתעודת הזהות.'"
 },
 "LAB1-149": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'✓ נעטף ב־<code>&lt;'"
+"exact": "'עכשיו נמלא את תעודת הזהות.'"
 },
 "LAB1-150": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'&gt;</code>. אפשר להמשיך לסמן, או להתקדם.'"
+"exact": "'<code>&lt;title&gt;</code> אכן יושב שם — אבל הוא פרט אחד בתוך אגף גדול ממנו. איזו תגית עוטפת את תעודת הזהות כולה?'"
 },
 "LAB1-151": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<b>שלב 2: מבנה.</b> ה־header מוכן — עכשיו הגוף. לתקן יש אוצר תגיות ייעודי למכתבים: <code>&lt;opener&gt;</code> — גוש הפתיחה; בתוכו <code>&lt;dateline&gt;</code> (מקום+תאריך) ו־<code>&lt;salute&gt;</code> (הפנייה, „אדון נכבד\"); ובסוף המכתב <code>&lt;closer&gt;</code> עם <code>&lt;signed&gt;</code> (החתימה).<br>סמנו בעורך את הטקסט המתאים ולחצו על התגית:'"
+"exact": "'<code>&lt;body&gt;</code> שייך דווקא לאגף השני — הטקסט עצמו. חפשו את האגף שבראש הקובץ.'"
 },
 "LAB1-152": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'סיימתי את המבנה ←'"
+"exact": "'רמז: האגף נפתח בשורה שמיד אחרי שורת השורש. העתיקו לכאן את שם התגית.'"
 },
 "LAB1-153": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<b>שלב 2: מבנה.</b> נקודד לפי הסכֵמה של <b>DraCor</b> — מאגר הדרמה הממוחשב שמחזיק אלפי מחזות מקודדי TEI.<br>אבל רגע — הסתכלו בטקסט שבעורך. <b>מהי יחידת היסוד שממנה בנוי מחזה?</b>'"
+"exact": "'מה כותרת המסמך? היא תשב ב־<code>&lt;title&gt;</code> שבתוך ה־header.'"
 },
 "LAB1-154": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'פסקאות, כמו בכל טקסט'"
+"exact": "'מי כתב את המכתב? התשובה תמלא גם את <code>&lt;author&gt;</code> וגם את השולח ב־<code>correspAction type=\"sent\"</code>.'"
 },
 "LAB1-155": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'הפסקה היא רק הצורה החיצונית. הסתכלו שוב: כל פסקה כאן היא בעצם מישהו ש<i>אומר</i> משהו. נסו שוב 🙂'"
+"exact": "'מי הנמען? זה המידע שהופך קובץ בודד לחלק מרשת התכתבויות — <code>correspAction type=\"received\"</code>.'"
 },
 "LAB1-156": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'רפליקות — דמות שמדברת'"
+"exact": "'מאיזה מקום נכתב המכתב? רמז: אצל קובנר המקום מסתתר בשורה הראשונה של המכתב, בכתיב יידי.'"
 },
 "LAB1-157": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'שורות שיר'"
+"exact": "'מתי נכתב? כתבו בפורמט קריא-למכונה: <code>YYYY-MM-DD</code>, או רק שנה. כך אלפי מכתבים נכנסים לציר זמן אחד.'"
 },
 "LAB1-158": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'יש מחזות שקולים (שורות ב־<code>&lt;l&gt;</code>), אבל זה לא המבנה הבסיסי כאן. הסתכלו שוב על הטקסט — מה קורה בכל פסקה?'"
+"exact": "'כמעט — בשביל מכונה צריך למשל <code>1904-02-27</code> או <code>1904</code>. נסו שוב:'"
 },
 "LAB1-159": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'בדיוק — <b>הרפליקה</b> (speech), וב־TEI היא <code>&lt;sp&gt;</code>. עכשיו הסתכלו על הרפליקה השנייה בטקסט. <b>מי הדוברת?</b> כתבו את השם בצ׳אט.'"
+"exact": "'ולסיום ה־header: מהיכן לקחנו את הטקסט? (<code>&lt;sourceDesc&gt;</code> — כדי שקוראים עתידיים ידעו על מה הקידוד מבוסס)'"
 },
 "LAB1-160": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'מלכה'"
+"exact": "'מה שם המחזה? הוא יישב ב־<code>&lt;title&gt;</code> שבתוך ה־header.'"
 },
 "LAB1-161": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'בחוץ'"
+"exact": "'מי המחבר/ת?'"
 },
 "LAB1-162": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'הסתכלו שוב בעורך — השם עומד בתחילת השורה, לפני הסוגריים והנקודתיים.'"
+"exact": "'באיזו שנה חובר או פורסם? (<code>YYYY</code>; אם אינכם בטוחים — הערכה סבירה, אפשר גם לדלג)'"
 },
 "LAB1-163": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'נכון! וכך נראית הרפליקה שלה מקודדת לפי DraCor:<br><code>&lt;sp who=\"#'"
+"exact": "'שנה בת ארבע ספרות, למשל <code>1906</code>. נסו שוב:'"
 },
 "LAB1-164": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'&lt;/speaker&gt;&lt;p&gt;…&lt;/p&gt;&lt;/sp&gt;</code><br>שימו לב לחלוקת העבודה: השם העברי נשאר <i>כתוכן</i> בתוך <code>&lt;speaker&gt;</code>, אבל המזהה הטכני — <code>who=\"#'"
+"exact": "'ומהיכן הטקסט? (<code>&lt;sourceDesc&gt;</code>)'"
 },
 "LAB1-165": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'\"</code> — באנגלית, והוא מצביע על <code>xml:id=\"'"
+"exact": "'<br>מצאתי בקובץ: <b>«'"
 },
 "LAB1-166": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'\"</code> ברשימת הדמויות שב־header. כך מחשב יודע לספור בדיוק כמה מילים יש לכל דמות, גם אם שמה נכתב בכמה צורות.<br>במחזה שלם יש מאות רפליקות. שמתם לב שיש כאן תבנית קבועה — <i>שם ( הוראת במה ): דיבור</i>? תבנית עקבית = עבודה למכונה. שאשלים את כולן?'"
+"exact": "'»</b> — להשתמש בזה?'"
 },
 "LAB1-167": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'כן — השלימו את כל הרפליקות ✨'"
+"exact": "'✓ עודכן בעורך.'"
 },
 "LAB1-168": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'עטפתי <b>'"
+"exact": "'כן, להשתמש בזה'"
 },
 "LAB1-169": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "' רפליקות</b> ב־<code>&lt;sp&gt;</code> עם <code>who=</code>, ורשמתי את הדמויות — '"
+"exact": "'דילוג'"
 },
 "LAB1-170": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "' — ב־<code>&lt;listPerson&gt;</code> עם <code>xml:id</code>. בדקו בעורך אם צדקתי (מכונות טועות!). את הוראות הבמה עטפתי ב־<code>&lt;stage&gt;</code> — אבל בכוונה השארתי אותן בלי סיווג. זה התפקיד שלכם, בשלב הבא.'"
+"exact": "'קודם סמנו בעורך את קטע הטקסט, ואז לחצו על התגית.'"
 },
 "LAB1-171": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'לשלב 3: סיווג הוראות הבמה ←'"
+"exact": "'✓ השורה הפכה ל־<code>&lt;'"
 },
 "LAB1-172": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'אעטוף כמה בעצמי קודם'"
+"exact": "'&gt;</code>. שימו לב: התגית <b>החליפה</b> את ה־<code>&lt;p&gt;</code> — בתקן, שורת פתיחה או חתימה אינה פסקה אלא יחידה משל עצמה.'"
 },
 "LAB1-173": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'מצוין — סמנו בעורך רפליקה שלמה ועטפו עם הכפתורים. כשתתעייפו, המכונה כאן.'"
+"exact": "'✓ השורות נעטפו ב־<code>&lt;'"
 },
 "LAB1-174": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'עכשיו השלימו את השאר ✨'"
+"exact": "'&gt;</code>. אפשר להמשיך לסמן, או להתקדם.'"
 },
 "LAB1-175": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'הושלם: '"
+"exact": "'✓ נעטף ב־<code>&lt;'"
 },
 "LAB1-176": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "' רפליקות נוספות, '"
+"exact": "'<b>שלב 2: מבנה.</b> ה־header מוכן — עכשיו הגוף. לתקן יש אוצר תגיות ייעודי למכתבים: <code>&lt;opener&gt;</code> — גוש הפתיחה; בתוכו <code>&lt;dateline&gt;</code> (מקום+תאריך) ו־<code>&lt;salute&gt;</code> (הפנייה, „אדון נכבד\"); ובסוף המכתב <code>&lt;closer&gt;</code> עם <code>&lt;signed&gt;</code> (החתימה).<br>סמנו בעורך את הטקסט המתאים ולחצו על התגית:'"
 },
 "LAB1-177": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "' דמויות ב־listPerson. הוראות הבמה מחכות לסיווג שלכם.'"
+"exact": "'סיימתי את המבנה ←'"
 },
 "LAB1-178": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'כניסה — דמות עולה על הבמה'"
+"exact": "'<b>שלב 2: מבנה.</b> נקודד לפי הסכֵמה של <b>DraCor</b> — מאגר הדרמה הממוחשב שמחזיק אלפי מחזות מקודדי TEI.<br>אבל רגע — הסתכלו בטקסט שבעורך. <b>מהי יחידת היסוד שממנה בנוי מחזה?</b>'"
 },
 "LAB1-179": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'יציאה — דמות עוזבת את הבמה'"
+"exact": "'פסקאות, כמו בכל טקסט'"
 },
 "LAB1-180": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'אופן אמירה — איך נאמרת הרפליקה (בצחוק, באנחה)'"
+"exact": "'הפסקה היא רק הצורה החיצונית. הסתכלו שוב: כל פסקה כאן היא בעצם מישהו ש<i>אומר</i> משהו. נסו שוב 🙂'"
 },
 "LAB1-181": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'פעולה — מעשה על הבמה (נותנת תפוח, אוחז בידה)'"
+"exact": "'רפליקות — דמות שמדברת'"
 },
 "LAB1-182": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'תפאורה/מצב — תיאור הזירה או הרגע'"
+"exact": "'שורות שיר'"
 },
 "LAB1-183": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<b>שלב 3: סיווג הוראות במה.</b> התקן מציע ערכים מוסכמים ל־<code>type=</code> של <code>&lt;stage&gt;</code>:<br>'"
+"exact": "'יש מחזות שקולים (שורות ב־<code>&lt;l&gt;</code>), אבל זה לא המבנה הבסיסי כאן. הסתכלו שוב על הטקסט — מה קורה בכל פסקה?'"
 },
 "LAB1-184": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<br>למה לסווג? כי אז אפשר לשאול את המחשב שאלות: כמה כניסות ויציאות יש במערכה? אילו רגשות מלווים את הדיבור? עכשיו אתם השופטים — אני אציג, אתם תסווגו.'"
+"exact": "'בדיוק — <b>הרפליקה</b> (speech), וב־TEI היא <code>&lt;sp&gt;</code>. עכשיו הסתכלו על הרפליקה השנייה בטקסט. <b>מי הדוברת?</b> כתבו את השם בצ׳אט.'"
 },
 "LAB1-185": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'לא מצאתי הוראות במה עטופות ב־<code>&lt;stage&gt;</code> — עטפו קודם כמה בעורך.'"
+"exact": "'מלכה'"
 },
 "LAB1-186": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'המשך ←'"
+"exact": "'בחוץ'"
 },
 "LAB1-187": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'איך תסווגו את: <b>«'"
+"exact": "'הסתכלו שוב בעורך — השם עומד בתחילת השורה, לפני הסוגריים והנקודתיים.'"
 },
 "LAB1-188": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "' (מופיעה '"
+"exact": "'נכון! וכך נראית הרפליקה שלה מקודדת לפי DraCor:<br><code>&lt;sp who=\"#'"
 },
 "LAB1-189": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "' פעמים)'"
+"exact": "'&lt;/speaker&gt;&lt;p&gt;…&lt;/p&gt;&lt;/sp&gt;</code><br>שימו לב לחלוקת העבודה: השם העברי נשאר <i>כתוכן</i> בתוך <code>&lt;speaker&gt;</code>, אבל המזהה הטכני — <code>who=\"#'"
 },
 "LAB1-190": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'דילוג על זו'"
+"exact": "'\"</code> — באנגלית, והוא מצביע על <code>xml:id=\"'"
 },
 "LAB1-191": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'מספיק, הלאה ←'"
+"exact": "'\"</code> ברשימת הדמויות שב־header. כך מחשב יודע לספור בדיוק כמה מילים יש לכל דמות, גם אם שמה נכתב בכמה צורות.<br>במחזה שלם יש מאות רפליקות. שמתם לב שיש כאן תבנית קבועה — <i>שם ( הוראת במה ): דיבור</i>? תבנית עקבית = עבודה למכונה. שאשלים את כולן?'"
 },
 "LAB1-192": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'סיווגתם <b>'"
+"exact": "'כן — השלימו את כל הרפליקות ✨'"
 },
 "LAB1-193": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'</b> הוראות במה. שימו לב שאין תשובה אחת נכונה — „( הופך פניו בנחת )\" היא גם פעולה וגם אופן; ההחלטה שלכם היא פרשנות, וזה בדיוק מה שתיוג עושה גלוי.<br>יש עוד הוראות במה שמסתתרות <i>בתוך</i> הדיבור — למשל „( נותנת לו והוא אוכל )\". אפשר לסמן ולעטוף גם אותן, או לעבור לבדיקה.'"
+"exact": "'עטפתי <b>'"
 },
 "LAB1-194": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'בדיקה אחרונה וסיכום ✓'"
+"exact": "' רפליקות</b> ב־<code>&lt;sp&gt;</code> עם <code>who=</code>, ורשמתי את הדמויות — '"
 },
 "LAB1-195": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'[\\\\u0590-\\\\u05FF][\\\\u0590-\\\\u05FF\"\\'׳״\\\\-\\\\u05BE ]{0,24}?'"
+"exact": "' — ב־<code>&lt;listPerson&gt;</code> עם <code>xml:id</code>. בדקו בעורך אם צדקתי (מכונות טועות!). את הוראות הבמה עטפתי ב־<code>&lt;stage&gt;</code> — אבל בכוונה השארתי אותן בלי סיווג. זה התפקיד שלכם, בשלב הבא.'"
 },
 "LAB1-196": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<b>שלב 3: תיוג.</b> סמנו טקסט בעורך ולחצו על תגית — אלה אותם רעיונות שסימנתם בלשונית 2, אבל הפעם בשמות שכל העולם מבין. למכתבים רלוונטיים במיוחד: אנשים, מקומות, תאריכים (עם <code>when=</code> קריא-למכונה!) ומוסדות.'"
+"exact": "'לשלב 3: סיווג הוראות הבמה ←'"
 },
 "LAB1-197": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'המסמך well-formed — כל תגית נסגרת'"
+"exact": "'אעטוף כמה בעצמי קודם'"
 },
 "LAB1-198": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'שורש <TEI> עם מרחב השמות של התקן'"
+"exact": "'מצוין — סמנו בעורך רפליקה שלמה ועטפו עם הכפתורים. כשתתעייפו, המכונה כאן.'"
 },
 "LAB1-199": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'יש כותרת ב־titleStmt'"
+"exact": "'עכשיו השלימו את השאר ✨'"
 },
 "LAB1-200": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'יש מחבר/ת'"
+"exact": "'הושלם: '"
 },
 "LAB1-201": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'יש correspDesc — המכתב שמיש לרשתות התכתבות'"
+"exact": "' רפליקות נוספות, '"
 },
 "LAB1-202": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'תאריך משלוח קריא-למכונה (when=)'"
+"exact": "' דמויות ב־listPerson. הוראות הבמה מחכות לסיווג שלכם.'"
 },
 "LAB1-203": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'יש נמען/ת'"
+"exact": "'כניסה — דמות עולה על הבמה'"
 },
 "LAB1-204": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'יש תיוג תוכן (שמות/מקומות/תאריכים)'"
+"exact": "'יציאה — דמות עוזבת את הבמה'"
 },
 "LAB1-205": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'רפליקות עטופות ב־<sp> ('"
+"exact": "'אופן אמירה — איך נאמרת הרפליקה (בצחוק, באנחה)'"
 },
 "LAB1-206": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'כל רפליקה מקושרת לדמות עם who= ('"
+"exact": "'פעולה — מעשה על הבמה (נותנת תפוח, אוחז בידה)'"
 },
 "LAB1-207": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'דוברים מסומנים ב־<speaker> ('"
+"exact": "'תפאורה/מצב — תיאור הזירה או הרגע'"
 },
 "LAB1-208": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'דמויות עם xml:id ב־listPerson ('"
+"exact": "'<b>שלב 3: סיווג הוראות במה.</b> התקן מציע ערכים מוסכמים ל־<code>type=</code> של <code>&lt;stage&gt;</code>:<br>'"
 },
 "LAB1-209": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'הוראות במה מסווגות ב־type= ('"
+"exact": "'<br>למה לסווג? כי אז אפשר לשאול את המחשב שאלות: כמה כניסות ויציאות יש במערכה? אילו רגשות מלווים את הדיבור? עכשיו אתם השופטים — אני אציג, אתם תסווגו.'"
 },
 "LAB1-210": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<b>מזל טוב — קידדתם מסמך TEI!</b> 🎉 הקובץ הזה קריא עכשיו לכל כלי שמבין את התקן: הוא יכול להצטרף ל־<b>correspSearch</b> (המאגד עשרות אלפי מכתבים היסטוריים), להיכנס למאגרי דרמה כמו DraCor, או להצטרף ל־4,721 המכתבים שכבר חולצו בפרויקט אגרת. הורידו אותו למזכרת ⤓'"
+"exact": "'לא מצאתי הוראות במה עטופות ב־<code>&lt;stage&gt;</code> — עטפו קודם כמה בעורך.'"
 },
 "LAB1-211": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'הורדת הקובץ ⤓'"
+"exact": "'המשך ←'"
 },
 "LAB1-212": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'עוד סיבוב — מהתחלה ↺'"
+"exact": "'איך תסווגו את: <b>«'"
 },
 "LAB1-213": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'יש עוד מה להשלים — תקנו בעורך (או המשיכו לתייג עם הכפתורים) ולחצו שוב על הבדיקה.'"
+"exact": "' (מופיעה '"
 },
 "LAB1-214": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'\">[הערה]</span>'"
+"exact": "' פעמים)'"
 },
 "LAB1-215": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<span class=\"pv-note\" title=\"הפניה להערה '"
+"exact": "'דילוג על זו'"
 },
 "LAB1-216": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<div class=\"pv-wait\">התצוגה ממתינה ל־XML תקין — בדקו את העורך (תגית לא סגורה?).</div>'"
+"exact": "'מספיק, הלאה ←'"
 },
 "LAB1-217": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'מאת: '"
+"exact": "'סיווגתם <b>'"
 },
 "LAB1-218": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'אל: '"
+"exact": "'</b> הוראות במה. שימו לב שאין תשובה אחת נכונה — „( הופך פניו בנחת )\" היא גם פעולה וגם אופן; ההחלטה שלכם היא פרשנות, וזה בדיוק מה שתיוג עושה גלוי.<br>יש עוד הוראות במה שמסתתרות <i>בתוך</i> הדיבור — למשל „( נותנת לו והוא אוכל )\". אפשר לסמן ולעטוף גם אותן, או לעבור לבדיקה.'"
 },
 "LAB1-219": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'מקום: '"
+"exact": "'בדיקה אחרונה וסיכום ✓'"
 },
 "LAB1-220": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'תאריך: '"
+"exact": "'[\\\\u0590-\\\\u05FF][\\\\u0590-\\\\u05FF\"\\'׳״\\\\-\\\\u05BE ]{0,24}?'"
 },
 "LAB1-221": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<div class=\"pv-cast\">הנפשות הפועלות: '"
+"exact": "'<b>שלב 3: תיוג.</b> סמנו טקסט בעורך ולחצו על תגית — אלה אותם רעיונות שסימנתם בלשונית 2, אבל הפעם בשמות שכל העולם מבין. למכתבים רלוונטיים במיוחד: אנשים, מקומות, תאריכים (עם <code>when=</code> קריא-למכונה!) ומוסדות.'"
 },
 "LAB1-222": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'שם אדם'"
+"exact": "'המסמך well-formed — כל תגית נסגרת'"
 },
 "LAB1-223": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'שם מקום'"
+"exact": "'שורש <TEI> עם מרחב השמות של התקן'"
 },
 "LAB1-224": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'מוסד'"
+"exact": "'יש כותרת ב־titleStmt'"
 },
 "LAB1-225": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'תאריך'"
+"exact": "'יש מחבר/ת'"
 },
 "LAB1-226": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<b>לא well-formed.</b> <code>'"
+"exact": "'יש correspDesc — המכתב שמיש לרשתות התכתבות'"
 },
 "LAB1-227": {
 "file": "docs/lab/index.html",
 "kind": "js",
-"exact": "'<b>תקין טכנית, אבל חסר:</b> '"
+"exact": "'תאריך משלוח קריא-למכונה (when=)'"
 },
 "LAB1-228": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'יש נמען/ת'"
+},
+"LAB1-229": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'יש תיוג תוכן (שמות/מקומות/תאריכים)'"
+},
+"LAB1-230": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'רפליקות עטופות ב־<sp> ('"
+},
+"LAB1-231": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'כל רפליקה מקושרת לדמות עם who= ('"
+},
+"LAB1-232": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'דוברים מסומנים ב־<speaker> ('"
+},
+"LAB1-233": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'דמויות עם xml:id ב־listPerson ('"
+},
+"LAB1-234": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'הוראות במה מסווגות ב־type= ('"
+},
+"LAB1-235": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'<b>מזל טוב — קידדתם מסמך TEI!</b> 🎉 הקובץ הזה קריא עכשיו לכל כלי שמבין את התקן: הוא יכול להצטרף ל־<b>correspSearch</b> (המאגד עשרות אלפי מכתבים היסטוריים), להיכנס למאגרי דרמה כמו DraCor, או להצטרף ל־4,721 המכתבים שכבר חולצו בפרויקט אגרת. הורידו אותו למזכרת ⤓'"
+},
+"LAB1-236": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'הורדת הקובץ ⤓'"
+},
+"LAB1-237": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'עוד סיבוב — מהתחלה ↺'"
+},
+"LAB1-238": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'יש עוד מה להשלים — תקנו בעורך (או המשיכו לתייג עם הכפתורים) ולחצו שוב על הבדיקה.'"
+},
+"LAB1-239": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'\">[הערה]</span>'"
+},
+"LAB1-240": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'<span class=\"pv-note\" title=\"הפניה להערה '"
+},
+"LAB1-241": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'<div class=\"pv-wait\">התצוגה ממתינה ל־XML תקין — בדקו את העורך (תגית לא סגורה?).</div>'"
+},
+"LAB1-242": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'מאת: '"
+},
+"LAB1-243": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'אל: '"
+},
+"LAB1-244": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'מקום: '"
+},
+"LAB1-245": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'תאריך: '"
+},
+"LAB1-246": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'<div class=\"pv-cast\">הנפשות הפועלות: '"
+},
+"LAB1-247": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'שם אדם'"
+},
+"LAB1-248": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'שם מקום'"
+},
+"LAB1-249": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'מוסד'"
+},
+"LAB1-250": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'תאריך'"
+},
+"LAB1-251": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'<b>לא well-formed.</b> <code>'"
+},
+"LAB1-252": {
+"file": "docs/lab/index.html",
+"kind": "js",
+"exact": "'<b>תקין טכנית, אבל חסר:</b> '"
+},
+"LAB1-253": {
 "file": "docs/lab/index.html",
 "kind": "js",
 "exact": "'<b>מצוין!</b> המסמך תקין ועומד בכל בדיקות הסדנה.'"
