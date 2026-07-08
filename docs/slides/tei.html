@@ -26,51 +26,161 @@
     background: var(--paper);
     color: var(--ink);
     font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
-    font-size: 18px;
-    line-height: 1.7;
-    min-height: 100vh;
+    line-height: 1.6;
+    height: 100vh;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 44px 32px 48px;
+    padding: 18px 32px 20px;
   }
-  .slide { max-width: 1100px; width: 100%; flex: 1; display: flex; flex-direction: column; }
+  .slide { max-width: 1100px; width: 100%; height: 100%; min-height: 0; display: flex; flex-direction: column; }
   .banner {
     display: block;
     width: 100%;
-    height: auto;
+    height: clamp(44px, 9vh, 100px);
+    object-fit: cover;
+    object-position: center top;
     border: 1.5px solid var(--rule);
     border-radius: 4px;
+    flex: none;
   }
-  header { border-bottom: 2px solid var(--rule-2); padding: 30px 0 24px; }
+  header {
+    border-bottom: 2px solid var(--rule-2);
+    padding: 14px 0 12px;
+    flex: none;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .head-text { min-width: 0; }
+  a.back {
+    flex: none;
+    font-size: clamp(14px, 2vh, 16px);
+    font-weight: 700;
+    color: #fff;
+    background: var(--brick);
+    border: 1.5px solid var(--brick);
+    border-radius: 4px;
+    padding: 8px 20px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background .12s;
+  }
+  a.back:hover { background: #6f1d13; }
   .kicker {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px;
+    font-size: clamp(11px, 1.6vh, 13px);
     letter-spacing: 1.5px;
     color: var(--gold);
     direction: ltr;
     text-align: right;
-    margin: 0 0 6px;
+    margin: 0 0 4px;
   }
   h1 {
     font-family: 'Frank Ruhl Libre', serif;
     font-weight: 800;
-    font-size: clamp(38px, 5.5vw, 64px);
-    line-height: 1.15;
+    font-size: clamp(26px, 5vh, 46px);
+    line-height: 1.12;
     margin: 0;
     color: var(--brick);
     letter-spacing: -0.5px;
     text-wrap: balance;
   }
-  main { flex: 1; padding: 32px 0; }
-  footer {
-    border-top: 1px solid var(--rule);
-    padding-top: 16px;
-    font-size: 15px;
-    color: var(--muted);
+  .subheading {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 500;
+    font-size: clamp(15px, 2.8vh, 24px);
+    color: var(--ink-soft);
+    direction: ltr;
+    text-align: right;
+    margin: 8px 0 0;
   }
-  footer a { color: var(--teal); text-decoration: none; }
-  footer a:hover { text-decoration: underline; }
+  .subheading .sep { color: var(--gold); padding: 0 9px; }
+  .subheading a { color: var(--teal); text-decoration: none; border-bottom: 1.5px solid var(--rule-2); }
+  .subheading a:hover { color: var(--brick); border-bottom-color: var(--brick); }
+
+  main { flex: 1; min-height: 0; padding: 14px 0 0; }
+  .eco {
+    height: 100%;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: minmax(0, 5fr) minmax(0, 4fr);
+    gap: 14px;
+  }
+  a.proj {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    background: var(--paper-3);
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+  }
+  a.proj:hover {
+    border-color: var(--brick);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(138, 36, 24, 0.08);
+  }
+  a.proj img {
+    display: block;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    object-fit: cover;
+    object-position: left top;
+    border-bottom: 1px solid var(--rule);
+  }
+  a.proj .cap {
+    padding: 8px 14px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    flex: none;
+  }
+  a.proj .name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(13px, 1.9vh, 15px);
+    font-weight: 500;
+    color: var(--teal);
+    direction: ltr;
+    text-align: right;
+  }
+  a.proj:hover .name { color: var(--brick); }
+  a.proj .desc { font-size: clamp(12px, 1.8vh, 14px); color: var(--muted); line-height: 1.5; }
+
+  /* the shared epigraphy box: EpiDoc + epidat side by side */
+  .duo {
+    grid-column: 1 / -1;
+    min-height: 0;
+    background: var(--paper-3);
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+  }
+  .duo a.proj {
+    border: none;
+    border-radius: 0;
+    background: none;
+  }
+  .duo a.proj:hover { transform: none; box-shadow: none; }
+  .duo a.proj:first-child { border-inline-end: 1px solid var(--rule); }
+
+  @media (max-width: 760px) {
+    body { height: auto; overflow: auto; }
+    .slide { height: auto; }
+    .eco { height: auto; grid-template-columns: 1fr; grid-template-rows: none; }
+    .duo { grid-column: auto; grid-template-columns: 1fr; }
+    .duo a.proj:first-child { border-inline-end: none; border-bottom: 1px solid var(--rule); }
+    a.proj img { max-height: 200px; }
+  }
 </style>
 </head>
 <body>
@@ -78,19 +188,48 @@
     <img class="banner" src="../assets/banner.jpg" alt='בית הספר &quot;מעבר למילים&quot; — DHSS Hub, האוניברסיטה הפתוחה'>
 
     <header>
-      <p class="kicker">Text Encoding Initiative</p>
-      <h1>TEI — יוזמת קידוד הטקסט</h1>
+      <div class="head-text">
+        <p class="kicker">Text Encoding Initiative</p>
+        <h1>TEI — יוזמת קידוד הטקסט</h1>
+        <p class="subheading"><a href="https://tei-c.org/" target="_blank" rel="noopener">TEI</a>: standard<span class="sep">·</span>guidelines<span class="sep">·</span>community<span class="sep">·</span>eco-system</p>
+      </div>
+      <a class="back" href="../lab/#tei">חזרה למדריך ה־TEI ←</a>
     </header>
 
     <main>
-      <!-- תוכן ההרחבה על TEI יתווסף כאן -->
+      <div class="eco">
+        <a class="proj" href="https://correspsearch.net/" target="_blank" rel="noopener">
+          <img src="correspsearch.jpg" alt="correspSearch — Search scholarly editions of letters">
+          <span class="cap">
+            <span class="name">correspSearch</span>
+            <span class="desc">חיפוש מאגד במהדורות מדעיות של מכתבים — נבנה על <bdi dir="ltr">correspDesc</bdi> של TEI</span>
+          </span>
+        </a>
+        <a class="proj" href="https://dracor.org/" target="_blank" rel="noopener">
+          <img src="dracor.jpg" alt="DraCor — Open Infrastructure for Drama Analysis">
+          <span class="cap">
+            <span class="name">DraCor</span>
+            <span class="desc">תשתית פתוחה לניתוח דרמה — מאות מחזות מקודדי TEI בשפות רבות</span>
+          </span>
+        </a>
+        <div class="duo">
+          <a class="proj" href="https://epidoc.stoa.org/" target="_blank" rel="noopener">
+            <img src="epidoc.jpg" alt="EpiDoc — Epigraphic Documents in TEI XML">
+            <span class="cap">
+              <span class="name">EpiDoc</span>
+              <span class="desc">הנחיות וכלים לקידוד כתובות עתיקות, פפירוסים וכתבי־יד — תת־תקן של TEI</span>
+            </span>
+          </a>
+          <a class="proj" href="https://www.steinheim-institut.de/cgi-bin/epidat" target="_blank" rel="noopener">
+            <img src="epidat.jpg" alt="epidat — epigraphische Datenbank">
+            <span class="cap">
+              <span class="name">epidat</span>
+              <span class="desc">מסד נתונים אפיגרפי של מצבות יהודיות באירופה (מכון שטיינהיים), מקודד ב־TEI/EpiDoc</span>
+            </span>
+          </a>
+        </div>
+      </div>
     </main>
-
-    <footer>
-      <a href="https://tei-c.org/" target="_blank" rel="noopener">tei-c.org</a>
-      &nbsp;·&nbsp;
-      <a href="https://tei-c.org/release/doc/tei-p5-doc/en/html/index.html" target="_blank" rel="noopener">ההנחיות (Guidelines)</a>
-    </footer>
   </div>
 </body>
 </html>

@@ -902,6 +902,11 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
   });
 });
+// #hash deep link (e.g. lab/#tei) opens the matching tab
+{
+  const hashTab = document.querySelector('.tab-btn[data-tab="' + location.hash.slice(1) + '"]');
+  if (hashTab) hashTab.click();
+}
 document.querySelectorAll('.tab-next .btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const target = document.querySelector('.tab-btn[data-tab="' + btn.dataset.next + '"]');
