@@ -32,7 +32,7 @@
 "LAB1-007": {
 "file": "docs/lab/index.html",
 "kind": "strip",
-"exact": "<b>יוזמת תיוג הטקסט <a href=\"https://tei-c.org/\" target=\"_blank\" rel=\"noopener\">TEI</a></b> (Text Encoding Initiative) היא התשובה של קהילת מדעי הרוח הדיגיטליים לבעית הגיוון בדרכי התיוג. מאז 1987 מתפתח אוצר מילים מוסכם ומתועד של מאות תגיות — כולו פרוש ב<a href=\"https://tei-c.org/release/doc/tei-p5-doc/en/html/index.html\" target=\"_blank\" rel=\"noopener\">הנחיות (Guidelines)</a>, פרק לכל סוגה. כעת נקודד מסמך שלם לפי התקן, בליווי צמוד. המדריך בצ׳אט יוביל אתכם בשלושה שלבים: <br> מילוי המטא-דאטה (<code>teiHeader</code>) של המסמך, בניית המבנה, ותיוג לפי הפרק הרלוונטי בהנחיות הTEI: <b>התכתבות</b> או <b>דרמה</b>."
+"exact": "<b>יוזמת קידוד הטקסט <a href=\"https://tei-c.org/\" target=\"_blank\" rel=\"noopener\">TEI</a></b> (Text Encoding Initiative) היא המענה של קהילת מדעי הרוח הדיגיטליים לריבוי שיטות התיוג. מאז 1987 מתפתח אוצר מילים מוסכם של מאות תגיות, המפורט ב<a href=\"https://tei-c.org/release/doc/tei-p5-doc/en/html/index.html\" target=\"_blank\" rel=\"noopener\">הנחיות (Guidelines)</a> המחולקות לפי סוגות. כעת נקודד מסמך שלם לפי התקן בליווי המדריך בצ'אט: <br> נמלא את המטא-דאטה (<code>teiHeader</code>), נגדיר את המבנה ונתייג לפי הפרק המתאים בהנחיות ה־TEI: <b>התכתבות</b> או <b>דרמה</b>."
 },
 "LAB1-008": {
 "file": "docs/lab/index.html",
@@ -72,7 +72,7 @@
 "LAB1-015": {
 "file": "docs/lab/index.html",
 "kind": "attr:placeholder",
-"exact": "placeholder=\"כתבו תשובה…\""
+"exact": "placeholder=\"הקלידו תשובה…\""
 },
 "LAB1-016": {
 "file": "docs/lab/index.html",
@@ -337,7 +337,7 @@
 "LAB1-068": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">\n          העלאת קובץ HTML מפרויקט בן־יהודה…\n          <"
+"exact": ">טעינת קובץ HTML מפרויקט בן־יהודה…<"
 },
 "LAB1-069": {
 "file": "docs/lab/index.html",
@@ -347,7 +347,7 @@
 "LAB1-070": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">המדריך לקידוד TEI<"
+"exact": ">מדריך לקידוד ב־TEI<"
 },
 "LAB1-071": {
 "file": "docs/lab/index.html",
@@ -357,12 +357,12 @@
 "LAB1-072": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">\n            מסמך ה־TEI\n            <"
+"exact": ">קובץ ה־TEI<"
 },
 "LAB1-073": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">כיוון ⇄<"
+"exact": ">שינוי כיוון ⇄<"
 },
 "LAB1-074": {
 "file": "docs/lab/index.html",
@@ -372,12 +372,12 @@
 "LAB1-075": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">תצוגת קריאה — מה שהקידוד מאפשר להציג<"
+"exact": ">תצוגת קריאה — פלט הקידוד המעובד<"
 },
 "LAB1-076": {
 "file": "docs/lab/index.html",
 "kind": "text",
-"exact": ">מתעדכן מן העורך; דורש XML תקין<"
+"exact": ">מתעדכן מהעורך; מחייב XML תקני<"
 },
 "LAB1-077": {
 "file": "docs/lab/index.html",

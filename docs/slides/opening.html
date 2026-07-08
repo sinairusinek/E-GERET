@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>אגרת — פתיחה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;800;900&family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:        #1a1a1a;
+    --ink-soft:   #3a3a3a;
+    --paper:      #f6f1e6;
+    --paper-3:    #fbf7eb;
+    --rule:       #c9bfa6;
+    --rule-2:     #a89c7e;
+    --brick:      #8a2418;
+    --teal:       #2d5a5a;
+    --muted:      #6b6354;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
+    font-size: 18px;
+    line-height: 1.7;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 44px 32px 48px;
+  }
+  .slide { max-width: 1100px; width: 100%; flex: 1; display: flex; flex-direction: column; }
+  .banner {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+  }
+  header { border-bottom: 2px solid var(--rule-2); padding: 30px 0 26px; }
+  h1 {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 800;
+    font-size: clamp(44px, 6.5vw, 76px);
+    line-height: 1.15;
+    margin: 0 0 14px;
+    color: var(--brick);
+    letter-spacing: -0.5px;
+    text-wrap: balance;
+  }
+  .byline {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 500;
+    font-size: clamp(24px, 3vw, 34px);
+    color: var(--ink-soft);
+    margin: 0;
+  }
+  main { flex: 1; padding: 36px 0; }
+  .go-row { display: flex; justify-content: flex-start; padding-top: 18px; border-top: 1px solid var(--rule); }
+  a.go {
+    font-family: 'Heebo', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--brick);
+    border: 1.5px solid var(--brick);
+    border-radius: 4px;
+    padding: 12px 34px;
+    text-decoration: none;
+    transition: background .12s;
+  }
+  a.go:hover { background: #6f1d13; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <img class="banner" src="../assets/banner.jpg" alt='בית הספר &quot;מעבר למילים&quot; — DHSS Hub, האוניברסיטה הפתוחה'>
+
+    <header>
+      <h1>הסדנה לתיוג הטקסט</h1>
+      <p class="byline">סיני רוסינק</p>
+    </header>
+
+    <main>
+      <!-- תוכן שקף הפתיחה יתווסף כאן -->
+    </main>
+
+    <div class="go-row">
+      <a class="go" href="../lab/">אל המעבדה ←</a>
+    </div>
+  </div>
+</body>
+</html>

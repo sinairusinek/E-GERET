@@ -165,6 +165,7 @@
   .btn.primary { background: var(--brick); border-color: var(--brick); color: #fff; }
   .btn.primary:hover { background: #6f1d13; }
   .btn.small { font-size: 13px; padding: 4px 12px; }
+  a.btn { text-decoration: none; display: inline-flex; align-items: center; }
   .btn.tag { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; direction: ltr; }
   .tagbtn.active { background: var(--teal); border-color: var(--teal); color: #fff; font-weight: 700; }
   .tagbtn.del { color: var(--err); }
@@ -727,6 +728,7 @@
           העלאת קובצי ה־XML של הקבוצה…
           <input type="file" id="cmp-files" accept=".xml,text/xml,application/xml" multiple>
         </label>
+        <a class="btn" href="../slides/tei.html" target="_blank" rel="noopener">TEI</a>
       </div>
       <div id="cmp-out"></div>
       <div class="tab-next">
@@ -738,12 +740,13 @@
     <!-- TAB 3: TEI wizard                                            -->
     <!-- ============================================================ -->
     <section class="tab-panel" id="panel-tei">
-      <div class="explain"><b>יוזמת תיוג הטקסט <a href="https://tei-c.org/" target="_blank" rel="noopener">TEI</a></b> (Text Encoding Initiative) היא התשובה של קהילת מדעי הרוח הדיגיטליים לבעית הגיוון בדרכי התיוג. מאז 1987 מתפתח אוצר מילים מוסכם ומתועד של מאות תגיות — כולו פרוש ב<a href="https://tei-c.org/release/doc/tei-p5-doc/en/html/index.html" target="_blank" rel="noopener">הנחיות (Guidelines)</a>, פרק לכל סוגה. כעת נקודד מסמך שלם לפי התקן, בליווי צמוד. המדריך בצ׳אט יוביל אתכם בשלושה שלבים: <br> מילוי המטא-דאטה (<code>teiHeader</code>) של המסמך, בניית המבנה, ותיוג לפי הפרק הרלוונטי בהנחיות הTEI: <b>התכתבות</b> או <b>דרמה</b>.</div>
+      <div class="toolbar" style="margin-bottom:10px">
+        <a class="btn" href="../slides/tei.html" target="_blank" rel="noopener">TEI</a>
+      </div>
+      <div class="explain"><b>יוזמת קידוד הטקסט <a href="https://tei-c.org/" target="_blank" rel="noopener">TEI</a></b> (Text Encoding Initiative) היא המענה של קהילת מדעי הרוח הדיגיטליים לריבוי שיטות התיוג. מאז 1987 מתפתח אוצר מילים מוסכם של מאות תגיות, המפורט ב<a href="https://tei-c.org/release/doc/tei-p5-doc/en/html/index.html" target="_blank" rel="noopener">הנחיות (Guidelines)</a> המחולקות לפי סוגות. כעת נקודד מסמך שלם לפי התקן בליווי המדריך בצ'אט: <br> נמלא את המטא-דאטה (<code>teiHeader</code>), נגדיר את המבנה ונתייג לפי הפרק המתאים בהנחיות ה־TEI: <b>התכתבות</b> או <b>דרמה</b>.</div>
 
       <div class="toolbar">
-        <label class="upload btn">
-          העלאת קובץ HTML מפרויקט בן־יהודה…
-          <input type="file" id="tei-file" accept=".html,.htm,text/html">
+        <label class="upload btn">טעינת קובץ HTML מפרויקט בן־יהודה…<input type="file" id="tei-file" accept=".html,.htm,text/html">
         </label>
         <span class="hint" id="tei-file-name"></span>
         <span class="spacer"></span>
@@ -752,21 +755,19 @@
 
       <div class="split">
         <div class="pane chat-pane">
-          <div class="pane-head">המדריך לקידוד TEI</div>
+          <div class="pane-head">מדריך לקידוד ב־TEI</div>
           <div class="pane-body">
             <div class="chat-log" id="chat-log"></div>
             <div class="chat-quick" id="chat-quick"></div>
             <div class="chat-inputrow">
-              <input type="text" class="txt" id="chat-input" placeholder="כתבו תשובה…" dir="rtl">
+              <input type="text" class="txt" id="chat-input" placeholder="הקלידו תשובה…" dir="rtl">
               <button class="btn" id="chat-send">שליחה</button>
             </div>
           </div>
         </div>
         <div class="pane">
-          <div class="pane-head">
-            מסמך ה־TEI
-            <span class="spacer"></span>
-            <button class="btn small" id="tei-dirbtn">כיוון ⇄</button>
+          <div class="pane-head">קובץ ה־TEI<span class="spacer"></span>
+            <button class="btn small" id="tei-dirbtn">שינוי כיוון ⇄</button>
             <button class="btn small" id="tei-check">בדיקת תקינות ✓</button>
             <button class="btn small" id="tei-download">הורדה ⤓</button>
           </div>
@@ -778,8 +779,8 @@
       <div class="status" id="tei-status"></div>
 
       <div class="pane" style="margin-top:16px">
-        <div class="pane-head">תצוגת קריאה — מה שהקידוד מאפשר להציג<span class="spacer"></span>
-          <span class="hint">מתעדכן מן העורך; דורש XML תקין</span>
+        <div class="pane-head">תצוגת קריאה — פלט הקידוד המעובד<span class="spacer"></span>
+          <span class="hint">מתעדכן מהעורך; מחייב XML תקני</span>
         </div>
         <div class="pane-body tei-preview" id="tei-preview" dir="rtl"></div>
       </div>
