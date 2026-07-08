@@ -6,7 +6,7 @@
 <title>אגרת — פתיחה</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;800;900&family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;800;900&family=Heebo:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --ink:        #1a1a1a;
@@ -17,6 +17,7 @@
     --rule-2:     #a89c7e;
     --brick:      #8a2418;
     --teal:       #2d5a5a;
+    --gold:       #a0780f;
     --muted:      #6b6354;
   }
   * { box-sizing: border-box; }
@@ -25,55 +26,172 @@
     background: var(--paper);
     color: var(--ink);
     font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
-    font-size: 18px;
-    line-height: 1.7;
-    min-height: 100vh;
+    line-height: 1.6;
+    height: 100vh;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 44px 32px 48px;
+    padding: 16px 32px 18px;
   }
-  .slide { max-width: 1100px; width: 100%; flex: 1; display: flex; flex-direction: column; }
+  .slide { max-width: 1150px; width: 100%; height: 100%; min-height: 0; display: flex; flex-direction: column; }
   .banner {
     display: block;
     width: 100%;
-    height: auto;
+    height: clamp(40px, 8vh, 96px);
+    object-fit: cover;
+    object-position: center top;
     border: 1.5px solid var(--rule);
     border-radius: 4px;
+    flex: none;
   }
-  header { border-bottom: 2px solid var(--rule-2); padding: 30px 0 26px; }
+  header {
+    border-bottom: 2px solid var(--rule-2);
+    padding: 10px 0 10px;
+    flex: none;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .head-text { display: flex; align-items: baseline; gap: 22px; min-width: 0; }
   h1 {
     font-family: 'Frank Ruhl Libre', serif;
     font-weight: 800;
-    font-size: clamp(44px, 6.5vw, 76px);
-    line-height: 1.15;
-    margin: 0 0 14px;
+    font-size: clamp(28px, 5.6vh, 52px);
+    line-height: 1.1;
+    margin: 0;
     color: var(--brick);
     letter-spacing: -0.5px;
-    text-wrap: balance;
+    white-space: nowrap;
   }
   .byline {
     font-family: 'Frank Ruhl Libre', serif;
     font-weight: 500;
-    font-size: clamp(24px, 3vw, 34px);
+    font-size: clamp(18px, 3.4vh, 30px);
     color: var(--ink-soft);
     margin: 0;
+    white-space: nowrap;
   }
-  main { flex: 1; padding: 36px 0; }
-  .go-row { display: flex; justify-content: flex-start; padding-top: 18px; border-top: 1px solid var(--rule); }
   a.go {
-    font-family: 'Heebo', sans-serif;
-    font-size: 20px;
+    flex: none;
+    font-size: clamp(14px, 2.2vh, 17px);
     font-weight: 700;
     color: #fff;
     background: var(--brick);
     border: 1.5px solid var(--brick);
     border-radius: 4px;
-    padding: 12px 34px;
+    padding: 8px 24px;
     text-decoration: none;
+    white-space: nowrap;
+    align-self: center;
     transition: background .12s;
   }
   a.go:hover { background: #6f1d13; }
+
+  /* ---- the four annotated pages ---- */
+  .imgs {
+    flex: none;
+    height: 40vh;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    padding-top: 12px;
+  }
+  .imgs figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    background: var(--paper-3);
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: zoom-in;
+    transition: border-color .15s ease;
+  }
+  .imgs figure:hover { border-color: var(--brick); }
+  .imgs img {
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    object-fit: cover;
+    object-position: center top;
+    border-bottom: 1px solid var(--rule);
+  }
+  .imgs figcaption {
+    flex: none;
+    font-size: clamp(11px, 1.7vh, 13.5px);
+    color: var(--muted);
+    padding: 5px 10px;
+    text-align: center;
+  }
+
+  /* ---- keywords: hub + pairs ---- */
+  .viz { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; }
+  .hub { display: flex; align-items: center; gap: 44px; max-width: 1020px; width: 100%; }
+  .hub .core {
+    flex: none;
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 800;
+    font-size: clamp(40px, 9.5vh, 92px);
+    color: var(--brick);
+    line-height: 1;
+    border-inline-end: 2px solid var(--rule-2);
+    padding-inline-end: 40px;
+  }
+  .hub .core small {
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400;
+    font-size: clamp(10px, 1.7vh, 14px);
+    color: var(--gold);
+    letter-spacing: 1px;
+    direction: ltr;
+    text-align: right;
+    margin-top: 8px;
+  }
+  .axes { flex: 1; display: flex; flex-direction: column; gap: clamp(6px, 1.9vh, 18px); min-width: 0; }
+  .axis {
+    font-size: clamp(15px, 2.7vh, 22px);
+    font-weight: 500;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+  .axis .sl { color: var(--rule-2); font-weight: 300; padding: 0 12px; }
+  .axis b { color: var(--teal); font-weight: 700; }
+
+  /* ---- lightbox ---- */
+  #lightbox {
+    position: fixed; inset: 0;
+    background: rgba(26, 22, 14, .88);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 50;
+    cursor: zoom-out;
+    padding: 28px;
+  }
+  #lightbox.on { display: flex; }
+  #lightbox img {
+    max-width: 96%; max-height: 96%;
+    object-fit: contain;
+    border: 2px solid var(--paper-3);
+    border-radius: 3px;
+    box-shadow: 0 12px 50px rgba(0, 0, 0, .5);
+  }
+
+  @media (max-width: 820px) {
+    body { height: auto; overflow: auto; }
+    .slide { height: auto; }
+    header { flex-wrap: wrap; }
+    .head-text { flex-wrap: wrap; gap: 4px 18px; }
+    h1, .byline { white-space: normal; }
+    .imgs { height: auto; grid-template-columns: 1fr 1fr; }
+    .imgs img { max-height: 200px; }
+    .hub { flex-direction: column; align-items: flex-start; gap: 18px; }
+    .hub .core { border-inline-end: none; padding-inline-end: 0; }
+    .axis { white-space: normal; }
+  }
 </style>
 </head>
 <body>
@@ -81,17 +199,57 @@
     <img class="banner" src="../assets/banner.jpg" alt='בית הספר &quot;מעבר למילים&quot; — DHSS Hub, האוניברסיטה הפתוחה'>
 
     <header>
-      <h1>הסדנה לתיוג הטקסט</h1>
-      <p class="byline">סיני רוסינק</p>
+      <div class="head-text">
+        <h1>הסדנה לתיוג הטקסט</h1>
+        <p class="byline">סיני רוסינק</p>
+      </div>
+      <a class="go" href="../lab/">אל המעבדה ←</a>
     </header>
 
-    <main>
-      <!-- תוכן שקף הפתיחה יתווסף כאן -->
-    </main>
+    <div class="imgs">
+      <figure>
+        <img src="virgil.jpg" alt="כתב־יד של וירגיליוס עם גלוסות בין השורות ובשוליים">
+        <figcaption>גלוסות על כתב־יד — וירגיליוס</figcaption>
+      </figure>
+      <figure>
+        <img src="proust.jpg" style="object-fit:contain;background:#fff" alt="יריעת הגהה של פרוסט מכוסה תיקונים בכתב ידו">
+        <figcaption>תיקוני המחבר — פרוסט</figcaption>
+      </figure>
+      <figure>
+        <img src="proof.jpg" alt="עמוד הגהה עם סימני מגיה למדפיס">
+        <figcaption>הוראות למדפיס</figcaption>
+      </figure>
+      <figure>
+        <img src="benjamin.jpg" style="object-position:right top" alt="מהדורה ביקורתית של מסעות בנימין מטודלה עם סוגריים מרובעים ואפראט">
+        <figcaption>מהדורה ביקורתית — מסעות בנימין מטודלה</figcaption>
+      </figure>
+    </div>
 
-    <div class="go-row">
-      <a class="go" href="../lab/">אל המעבדה ←</a>
+    <div class="viz">
+      <div class="hub">
+        <div class="core">תיוג<small>tagging · annotation · markup</small></div>
+        <div class="axes">
+          <div class="axis">טקסט<span class="sl">/</span>דאטה<span class="sl">/</span><b>מטא-דאטה</b></div>
+          <div class="axis">דאטה<span class="sl">/</span>קאפטה</div>
+          <div class="axis">דאטאפיקציה<span class="sl">/</span>אופרציונליזציה</div>
+          <div class="axis">לא-מובנה<span class="sl">/</span>חצי-מובנה<span class="sl">/</span><b>מובנה</b></div>
+          <div class="axis">קריאה צמודה<span class="sl">/</span><b>קריאה מרחוק</b></div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <div id="lightbox"><img alt=""></div>
+  <script>
+    const lb = document.getElementById('lightbox');
+    document.querySelectorAll('.imgs figure').forEach(fig => {
+      fig.addEventListener('click', () => {
+        lb.querySelector('img').src = fig.querySelector('img').src;
+        lb.classList.add('on');
+      });
+    });
+    lb.addEventListener('click', () => lb.classList.remove('on'));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('on'); });
+  </script>
 </body>
 </html>
